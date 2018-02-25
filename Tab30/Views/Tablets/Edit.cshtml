@@ -1,0 +1,132 @@
+﻿@model Tab30.Models.Tablet
+
+@{
+    ViewBag.Title = "Edit Tablet";
+}
+
+<h2 class="my-5">Edit Tablet</h2>
+
+
+
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="container">
+            <h4>Tablet: <span class="text-primary">@Html.DisplayFor(model => model.TabletName)</span></h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.ID)
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TabletName, htmlAttributes: new { @class = "control-label " })
+                        <div class="">
+                            @Html.EditorFor(model => model.TabletName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.TabletName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Make, htmlAttributes: new { @class = "control-label " })
+                        <div class="">
+                            @Html.EditorFor(model => model.Make, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Model, htmlAttributes: new { @class = "control-label " })
+                        <div class="">
+                            @Html.EditorFor(model => model.Model, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SerialNo, htmlAttributes: new { @class = "control-label " })
+                        <div class="">
+                            @Html.EditorFor(model => model.SerialNo, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.SerialNo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AssetTag, htmlAttributes: new { @class = "control-label " })
+                        <div class="">
+                            @Html.EditorFor(model => model.AssetTag, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.AssetTag, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.WarrantyExpiresOn, htmlAttributes: new { @class = "control-label " })
+                        <div class="">
+                            @Html.EditorFor(model => model.WarrantyExpiresOn, new { htmlAttributes = new { @class = "form-control" } })
+                            
+                            @Html.ValidationMessageFor(model => model.WarrantyExpiresOn, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @*
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ADPEnabled, htmlAttributes: new { @class = "control-label " })
+                            <div class="">
+                                <div class="checkbox">
+                                    @Html.EditorFor(model => model.ADPEnabled)
+                                    @Html.ValidationMessageFor(model => model.ADPEnabled, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    *@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ADPEnabled, htmlAttributes: new { @class = "control-label" })
+
+                        <div class="form-group">
+                            @Html.RadioButtonFor(model => model.ADPEnabled, "true", new { id = "Yes" })
+                            @Html.Label("Yes", "Yes")
+
+                            @Html.RadioButtonFor(model => model.ADPEnabled, "false", new { id = "No" })
+                            @Html.Label("No", "No")
+
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LocationID, "Location:", htmlAttributes: new { @class = "control-label" })
+                        <div class="">
+                            @Html.DropDownList("LocationID", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.LocationID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.UserID, "Assigned User:", htmlAttributes: new { @class = "control-label" })
+                        <div class="">
+                            @Html.DropDownList("UserID", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="float-right">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,138 @@
+﻿@model Tab30.Models.Repair
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Repair</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Tablet.TabletName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tablet.TabletName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tech.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tech.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RepairType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RepairType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VendorCaseNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VendorCaseNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RepairDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RepairDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsComplete)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsComplete)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RepairCreated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RepairCreated)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RepairClosed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RepairClosed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsBoxRequested)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsBoxRequested)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BoxRequestedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BoxRequestedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsShipped)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsShipped)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShippedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShippedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReturnedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReturnedOn)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Tab30.ViewModels.TabletAssignments>
+@{
+    ViewBag.Title = "Class Of Statistics";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<table>
+    <tr>
+        <th>
+            Class Of
+        </th>
+        <th>
+            Users
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassOf)
+            </td>
+            <td>
+                @item.UserCount
+            </td>
+        </tr>
+
+    }
+</table>

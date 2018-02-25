@@ -1,0 +1,117 @@
+﻿@model IEnumerable<Tab30.Models.Repair>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Tablet.TabletName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tech.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RepairType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VendorCaseNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RepairDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Comment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsComplete)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RepairCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RepairClosed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsBoxRequested)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BoxRequestedOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsShipped)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShippedOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReturnedOn)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tablet.TabletName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tech.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RepairType)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VendorCaseNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RepairDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Comment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsComplete)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RepairCreated)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedOn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RepairClosed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsBoxRequested)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BoxRequestedOn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsShipped)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShippedOn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReturnedOn)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

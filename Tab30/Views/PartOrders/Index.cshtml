@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Tab30.Models.PartOrder>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Part.PartNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderedOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsPartReceived)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReceivedOn)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RepairID)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Part.PartNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderedOn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsPartReceived)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReceivedOn)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RepairID)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

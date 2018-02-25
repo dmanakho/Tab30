@@ -1,0 +1,79 @@
+﻿@model Tab30.Models.User
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>User Details</h2>
+
+<div>
+    <h4>
+        <span class="text-primary">@Html.DisplayFor(model => model.FullName)</span>
+        <span class="text-muted text-lowercase">
+            (@Html.DisplayNameFor(model => model.CreatedOn)  @Html.DisplayFor(model => model.CreatedOn);
+            @Html.DisplayNameFor(model => model.UpdatedOn) @Html.DisplayFor(model => model.UpdatedOn))
+        </span>
+    </h4>
+    <hr />
+    <div class="row">
+        <dl class="dl-horizontal col-6">
+            <dt>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
+        </dl>
+
+
+        <dl class="dl-horizontal col-6">
+            <dt>
+                @Html.DisplayNameFor(model => model.UserName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UserName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ClassOf)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ClassOf)
+            </dd>
+        </dl>
+    </div>
+
+    <table class="table table-condensed table-striped">
+        <tr>
+            <th>Tablet(s) Assigned:</th>
+            <th>Location</th>
+        </tr>
+        @foreach (var item in Model.Tablets)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(@Html.DisplayFor(modelItem => item.TabletName).ToString(), "Details", "Tablets", new { id = item.ID }, null)
+                </td>
+                <td>
+                    @Html.ActionLink(@Html.DisplayFor(modelItem => item.Location.ShortDescription).ToString(), "Details", "Locations", new { id = item.LocationID }, null)
+                </td>
+            </tr>
+        }
+    </table>
+
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class="btn btn-primary"}) |
+    @Html.ActionLink("Back to List", "Index", null, new { @class="btn btn-outline-primary"})
+</p>

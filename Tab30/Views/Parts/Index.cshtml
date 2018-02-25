@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Tab30.Models.Part>
+
+@{
+    ViewBag.Title = "Part List";
+}
+<div class="row">
+    <div class="my-5 offset-sm-1 col-sm-1">
+        <h2 class="text-primary">Part List</h2>
+    </div>
+    <div>
+        @Html.ActionLink("Create New", "Create", null, new { @class = "col-12 my-5 btn btn-outline-primary" })
+    </div>
+</div>
+
+<table id="parts" class="table table-striped table-light" cellpadding="2">
+    <thead class="thead-light">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PartNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RefundRate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PartNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RefundRate)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-outline-primary btn-sm" }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-outline-primary btn-sm" }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-outline-primary btn-sm" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#parts").DataTable(
+                {
+                   // check onenote for explanation and link on how to format DataTable dom with Bootstrap
+                    "dom":
+                    "<'row'<'col-sm-2 text-primary'l><'col-sm-2 text-primary'f><'col-sm-3 text-center'B><'col-sm-5'p>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-7 text-success'i><'col-sm-5'p>>",
+                    //buttons are extension of Datatables and require additional JS and CSS includes. Check bundles file and OneNote for info. also:https://datatables.net/download/
+                    buttons: [
+                        'copy',
+                        'excel',
+                        'pdf'
+                    ],
+                    "columnDefs": [
+                        { "orderable": false, "targets": 3 }
+                    ],
+                    "pagingType": "full_numbers",
+
+                }
+            );
+        });
+    </script>
+}

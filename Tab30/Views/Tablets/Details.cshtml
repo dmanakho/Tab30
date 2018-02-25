@@ -1,0 +1,165 @@
+﻿@model Tab30.Models.Tablet
+
+@{
+    ViewBag.Title = "Tablet Details";
+}
+
+<h2 class="text-primary my-5">Tablet Details</h2>
+
+<div class="container">
+
+    <h4>
+        <span class="text-primary">@Html.DisplayFor(model => model.TabletName)</span>
+        <span class="text-muted text-lowercase">
+            (@Html.DisplayNameFor(model => model.CreatedOn)  @Html.DisplayFor(model => model.CreatedOn);
+            @Html.DisplayNameFor(model => model.UpdatedOn) @Html.DisplayFor(model => model.UpdatedOn))
+        </span>
+    </h4>
+    <hr />
+    <div class="row">
+        <dl class="dl-horizontal col-6">
+            <dt>
+                @Html.DisplayNameFor(model => model.TabletName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TabletName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Make)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Make)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Model)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Model)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SerialNo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SerialNo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.AssetTag)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.AssetTag)
+            </dd>
+
+        </dl>
+        <dl class="dl-horizontal col-6">
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.WarrantyExpiresOn)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.WarrantyExpiresOn)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ADPEnabled)
+            </dt>
+            <dd>
+                @{
+                    string yesNo;
+                    if (Model.ADPEnabled.HasValue)
+                    {
+                        yesNo = (Model.ADPEnabled == true ? "Yes" : "No");
+                    }
+                    else
+                    {
+                        yesNo = "No";
+                    }
+                }
+                <text>@yesNo</text>
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Location.ShortDescription)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Location.ShortDescription)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.User.FullName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.User.FullName)
+            </dd>
+            @*  <dd>
+                    @Html.DisplayFor(model => model.ADPEnabled)
+                </dd>
+            *@
+
+        </dl>
+
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-primary" }) |
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-outline-primary" })
+</p>
+<div class="modal-header">
+    <h4 class="text-primary">
+        Repair History
+        @Html.ActionLink("Add Repair", "Save", "Repairs", new { TabletID = Model.ID }, new { @class = "btn btn-sm btn-outline-primary" })
+    </h4>
+</div>
+
+@{ var repair = Model.Repairs.FirstOrDefault(); }
+
+<table class="table table-condensed table-striped">
+    <tr>
+        <th> @Html.DisplayNameFor(r => repair.ID)</th>
+        <th> @Html.DisplayNameFor(r => repair.RepairDescription)</th>
+        <th> @Html.DisplayNameFor(r => repair.RepairType)</th>
+        <th> @Html.DisplayNameFor(r => repair.IsComplete)</th>
+        <th> @Html.DisplayNameFor(r => repair.RepairCreated)</th>
+        <th> @Html.DisplayNameFor(r => repair.RepairClosed)</th>
+    </tr>
+    @foreach (var item in Model.Repairs)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(@Html.DisplayFor(r => item.ID).ToString(), "Details", "Repairs", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-primary" })
+            </td>
+            <td>
+                @Html.DisplayFor(r => item.RepairDescription)
+
+            </td>
+            <td>
+                @Html.DisplayFor(r => item.RepairType)
+            </td>
+            <td>
+                @Html.DisplayFor(r => item.IsComplete)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RepairCreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RepairClosed)
+            </td>
+        </tr>
+    }
+</table>
+
+<p>
+
+</p>

@@ -1,0 +1,64 @@
+﻿@model Tab30.Models.PartOrder
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>PartOrder</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Part.PartNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Part.PartNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrderedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsPartReceived)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsPartReceived)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceivedOn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceivedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RepaidID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RepaidID)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
