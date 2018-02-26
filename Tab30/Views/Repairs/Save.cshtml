@@ -149,14 +149,13 @@
                         <th>
                             @Html.DisplayNameFor(r => partOrders.OrderedOn)
                         </th>
+                        <th>
+                            
+                        </th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                <tbody id="addedOrderedParts">
+                    
                 </tbody>
             </table>
         }
@@ -191,7 +190,7 @@
     <div>
         @Html.ActionLink("Back to Tablet", "Details", "Tablets", new { id = Model.TabletID }, new { @class = "btn btn-sm btn-outline-primary" }) |
         @Html.ActionLink("Back to Tablet List", "Index", "Tablets", null, new { @class = "btn btn-sm btn-outline-primary" })
-
+        
     </div>
 </div>
 
@@ -199,6 +198,7 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
+        var selectedParts;
         $(document).ready(
             function () {
                 var tableParts = $("#parts").DataTable(
@@ -207,9 +207,19 @@
                         buttons: [
                             {
                                 text: "Add Parts to Order",
-                                className: "btn btn-outline-primary",
                                 action: function () {
-                                    console.log("hello");
+                                    selectedParts = tableParts.rows({ selected: true }).data();
+                                    //console.log(selectedParts.toArray()[0]);
+
+                                    var html = "";
+                                    for (var row = 0; row < selectedParts.length; row++) {
+                                        html += "<tr>";
+                                        html += "<td>" + selectedParts[row][2] + "</td><td>No</td><td>" + getToday() +"</td>" ;
+                                        html += "<td><input type=\"button\" value=\"Remove\" class = \"btn btn-secondary\" onClick=\"$(this).closest('tr').remove();\"/></td>"
+                                        html += "</tr>";
+
+                                    }
+                                    $("#addedOrderedParts").append(html);
                                 }
                             }
                         ],
@@ -222,7 +232,8 @@
                         "paging": false,
                         "info": true
                     }
-                );
+               );
+                
 
                 $('#parts input:checkbox').click(function () {
                     if ($(this).closest('tr').hasClass('text-success')) {
@@ -240,7 +251,7 @@
                         .find("input[type='checkbox']")
 
                     checkBoxPartsSelected.prop('checked', !checkBoxPartsSelected.prop('checked'));
-                    console.log($(this).children(':checkbox').prop('checked', true));
+                    //console.log($(this).children(':checkbox').prop('checked', true));
                 });
 
                 $("#IsBoxRequested").click(function () {
