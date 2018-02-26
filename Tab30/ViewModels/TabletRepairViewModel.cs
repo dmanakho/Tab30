@@ -14,7 +14,8 @@ namespace Tab30.ViewModels
         private TabDBContext db = new TabDBContext();
         public TabletRepairViewModel()
         {
-            Parts = db.Parts.ToList();
+            Parts = db.Parts.OrderBy(p=>p.Description).ToList();
+            PartOrders = new List<PartOrder>();
         }
         public Tab30.TabDB_Code.TabDBEnums.RepairType RepairType { get; set; }
 
@@ -68,7 +69,7 @@ namespace Tab30.ViewModels
         public int TechID { get; set; }
         public string TechName { get; set; }
 
-        public virtual ICollection<PartOrder> PartOrders { get; set; }
+        public List<PartOrder> PartOrders { get; set; }
 
         public List<Part> Parts { get; set; }
 
@@ -88,7 +89,7 @@ namespace Tab30.ViewModels
                 ReturnedOn = repair.ReturnedOn,
                 TabletID = repair.TabletID,
                 TechID = repair.TechID,
-                PartOrders = repair.PartOrders,
+                PartOrders = repair.PartOrders.ToList(),
                 IsUnitReturned = repair.IsUnitReturned
 
             };

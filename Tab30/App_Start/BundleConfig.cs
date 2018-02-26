@@ -9,7 +9,8 @@ namespace Tab30
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-{version}.js"));
+                        "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery.unobtrusive-ajax.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
             "~/Scripts/DataTables/jquery.dataTables.js",
@@ -19,7 +20,9 @@ namespace Tab30
             "~/Scripts/DataTables/JSZip/jszip.js",
             "~/Scripts/DataTables/pdfmake/pdfmake.js",
             "~/Scripts/DataTables/pdfmake/vfs_fonts.js",
-            "~/Scripts/DataTables/buttons.bootstrap4.js"));
+            "~/Scripts/DataTables/buttons.bootstrap4.js",
+            "~/Scripts/DataTables/Select/js/dataTables.select.js"
+            ));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -40,6 +43,8 @@ namespace Tab30
                       "~/Content/bootstrap-spacelab.css",
                       "~/Content/DataTables/css/dataTables.bootstrap4.css",
                       "~/Content/DataTables/css/buttons.bootstrap4.css",
+                      "~/Content/DataTables/Select/css/select.dataTables.css",
+                      "~/Content/DataTables/Select/css/select.bootstrap4.css",
                       "~/Content/site.css"));
         }
     }

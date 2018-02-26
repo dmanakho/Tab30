@@ -116,6 +116,12 @@ namespace Tab30.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public JsonResult AjaxPartList(Part parts)
+        {
+            parts = db.Parts.FirstOrDefault();
+            return Json(parts);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

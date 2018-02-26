@@ -62,6 +62,7 @@ namespace Tab30.Controllers
                 repair.UpdatedOn = DateTime.Now;
                 repair.RepairCreated = DateTime.Now;
                 repair.IsComplete = tabletRepair.IsComplete;
+                repair.TechID = 2; //this is temporary until Auth and Oauth is implemented;
                 db.Repairs.Add(repair);
                 db.SaveChanges();
                 return RedirectToAction("Details", "Tablets", new { id = repair.TabletID });
