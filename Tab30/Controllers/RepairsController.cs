@@ -19,7 +19,7 @@ namespace Tab30.Controllers
         // GET: Repairs
         public ActionResult Index()
         {
-            var repairs = db.Repairs.Include(r => r.Tablet).Include(r => r.Tech);
+            var repairs = db.Repairs.Include(r => r.Tablet).Include(r => r.Tech) ;
             return View(repairs.ToList());
         }
 
@@ -38,8 +38,21 @@ namespace Tab30.Controllers
             return View(repair);
         }
 
+        public ActionResult NewRepair(int? tabletID)
+        {
+            if (!tabletID.HasValue)
+            {
+                return RedirectToAction("Index", "Tablets");
+            }
+            return View();
+        }
+
         public ActionResult Save(int? tabletID)
         {
+            if (!tabletID.HasValue)
+            {
+                return RedirectToAction("Index", "Tablets");
+            }
             var tablet = db.Tablets.Find(tabletID);
             var tech = db.Teches.Find(2); //magic number but will be replaces with Tech's info later;
             var tabletRepair = new TabletRepairViewModel
@@ -49,6 +62,7 @@ namespace Tab30.Controllers
                 TechID = 2, //Kevin
                 TechName = tech.FullName
             };
+            
             return View(tabletRepair);
         }
         [HttpPost]

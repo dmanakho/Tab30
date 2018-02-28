@@ -232,6 +232,35 @@ namespace Tab30.Migrations
             parts.ForEach(t => context.Parts.AddOrUpdate(i => i.PartNo));
             //parts.ForEach(t => context.Parts.Add(t));
             context.SaveChanges();
+
+            var problems = new List<ProblemArea>
+            {
+                new ProblemArea{ProblemDescription = "Display"},
+                new ProblemArea{ProblemDescription = "Keyboard"},
+                new ProblemArea{ProblemDescription = "TrackPoint/TrackPad"},
+                new ProblemArea{ProblemDescription = "Touch Screen"},
+                new ProblemArea{ProblemDescription = "Keyboard Bezel"},
+                new ProblemArea{ProblemDescription = "Bottom Cover"},
+                new ProblemArea{ProblemDescription = "Display Cover"},
+                new ProblemArea{ProblemDescription = "Motherboard"},
+                new ProblemArea{ProblemDescription = "Stylus Input"}
+
+            };
+            //problems.ForEach(t => context.ProblemAreas.Add(t));
+            problems.ForEach(t => context.ProblemAreas.AddOrUpdate(p=>p.ProblemDescription));
+            context.SaveChanges();
+
+            var repairTypes = new List<RepairType>
+            {
+                new RepairType{RepairTypeDescription = "Warranty"},
+                new RepairType{RepairTypeDescription = "Out of Warranty"},
+                new RepairType{RepairTypeDescription = "ADP"},
+                new RepairType{RepairTypeDescription = "Not Covered"},
+                new RepairType{RepairTypeDescription = "Declined"}
+            };
+            repairTypes.ForEach(t => context.RepairTypes.Add(t));
+            //repairTypes.ForEach(t => context.RepairTypes.AddOrUpdate(p => p.RepairTypeDescription));
+            context.SaveChanges();
         }
     }
 }

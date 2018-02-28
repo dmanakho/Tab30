@@ -13,13 +13,10 @@ namespace Tab30.Models
 
         public int ID { get; set; }
 
-
-        public TabDBEnums.RepairType RepairType { get; set; }
-
-
         [DisplayName("Vendor Case#"), StringLength(50)]
         public string VendorCaseNo { get; set; }
 
+        
         [DisplayName("Description"), StringLength(250)]
         public string RepairDescription { get; set; }
 
@@ -70,10 +67,16 @@ namespace Tab30.Models
         public int TabletID { get; set; }
         public virtual Tablet Tablet { get; set; }
 
+        public int RepairTypeID { get; set; }
+        public virtual RepairType RepairType { get; set; }
+
         public int TechID { get; set; }
         public virtual Tech Tech { get; set; }
 
         public virtual ICollection<PartOrder> PartOrders { get; set; }
+
+        public virtual ICollection<ProblemArea> ProblemAreas { get; set; }
+
 
 
     }

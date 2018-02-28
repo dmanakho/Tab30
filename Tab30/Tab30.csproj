@@ -307,11 +307,49 @@
     <Compile Include="Migrations\201802251815021_RepairIDTypoFixedinPartOrderModel.Designer.cs">
       <DependentUpon>201802251815021_RepairIDTypoFixedinPartOrderModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802281822086_ProblemAreaModelAdded.cs" />
+    <Compile Include="Migrations\201802281822086_ProblemAreaModelAdded.Designer.cs">
+      <DependentUpon>201802281822086_ProblemAreaModelAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802281933500_SeedProblemAreasOnly.cs" />
+    <Compile Include="Migrations\201802281933500_SeedProblemAreasOnly.Designer.cs">
+      <DependentUpon>201802281933500_SeedProblemAreasOnly.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802281939095_ProblemAreaFullDescriptionAdded.cs" />
+    <Compile Include="Migrations\201802281939095_ProblemAreaFullDescriptionAdded.Designer.cs">
+      <DependentUpon>201802281939095_ProblemAreaFullDescriptionAdded.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802281940505_ProblemAreaFullDescriptionRemoved.cs" />
+    <Compile Include="Migrations\201802281940505_ProblemAreaFullDescriptionRemoved.Designer.cs">
+      <DependentUpon>201802281940505_ProblemAreaFullDescriptionRemoved.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802281944119_SeedProblemAreasOnlyV2.cs" />
+    <Compile Include="Migrations\201802281944119_SeedProblemAreasOnlyV2.Designer.cs">
+      <DependentUpon>201802281944119_SeedProblemAreasOnlyV2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802281957359_IncreasedLengthProblemAreas.cs" />
+    <Compile Include="Migrations\201802281957359_IncreasedLengthProblemAreas.Designer.cs">
+      <DependentUpon>201802281957359_IncreasedLengthProblemAreas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802282004042_IncreasedLengthProblemAreasTo75.cs" />
+    <Compile Include="Migrations\201802282004042_IncreasedLengthProblemAreasTo75.Designer.cs">
+      <DependentUpon>201802282004042_IncreasedLengthProblemAreasTo75.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802282005220_AddedFullDescriptionproblemarea.cs" />
+    <Compile Include="Migrations\201802282005220_AddedFullDescriptionproblemarea.Designer.cs">
+      <DependentUpon>201802282005220_AddedFullDescriptionproblemarea.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802282104268_RepairTypesModeladded.cs" />
+    <Compile Include="Migrations\201802282104268_RepairTypesModeladded.Designer.cs">
+      <DependentUpon>201802282104268_RepairTypesModeladded.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Part.cs" />
     <Compile Include="Models\PartOrder.cs" />
+    <Compile Include="Models\ProblemArea.cs" />
     <Compile Include="Models\Repair.cs" />
+    <Compile Include="Models\RepairType.cs" />
     <Compile Include="Models\Tablet.cs" />
     <Compile Include="Models\Tech.cs" />
     <Compile Include="Models\User.cs" />
@@ -717,6 +755,33 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802251815021_RepairIDTypoFixedinPartOrderModel.resx">
       <DependentUpon>201802251815021_RepairIDTypoFixedinPartOrderModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802281822086_ProblemAreaModelAdded.resx">
+      <DependentUpon>201802281822086_ProblemAreaModelAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802281933500_SeedProblemAreasOnly.resx">
+      <DependentUpon>201802281933500_SeedProblemAreasOnly.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802281939095_ProblemAreaFullDescriptionAdded.resx">
+      <DependentUpon>201802281939095_ProblemAreaFullDescriptionAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802281940505_ProblemAreaFullDescriptionRemoved.resx">
+      <DependentUpon>201802281940505_ProblemAreaFullDescriptionRemoved.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802281944119_SeedProblemAreasOnlyV2.resx">
+      <DependentUpon>201802281944119_SeedProblemAreasOnlyV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802281957359_IncreasedLengthProblemAreas.resx">
+      <DependentUpon>201802281957359_IncreasedLengthProblemAreas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802282004042_IncreasedLengthProblemAreasTo75.resx">
+      <DependentUpon>201802282004042_IncreasedLengthProblemAreasTo75.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802282005220_AddedFullDescriptionproblemarea.resx">
+      <DependentUpon>201802282005220_AddedFullDescriptionproblemarea.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802282104268_RepairTypesModeladded.resx">
+      <DependentUpon>201802282104268_RepairTypesModeladded.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

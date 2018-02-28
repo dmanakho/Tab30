@@ -14,8 +14,9 @@ namespace Tab30.ViewModels
         private TabDBContext db = new TabDBContext();
         public TabletRepairViewModel()
         {
-            Parts = db.Parts.OrderBy(p=>p.Description).ToList();
+            Parts = db.Parts.OrderBy(p => p.Description).ToList();
             PartOrders = new List<PartOrder>();
+            ProblemAreas = db.ProblemAreas.OrderBy(p => p.ProblemDescription).ToList();
         }
         public Tab30.TabDB_Code.TabDBEnums.RepairType RepairType { get; set; }
 
@@ -72,6 +73,8 @@ namespace Tab30.ViewModels
         public List<PartOrder> PartOrders { get; set; }
 
         public List<Part> Parts { get; set; }
+
+        public IList<ProblemArea> ProblemAreas {get;set;}
 
         public static implicit operator TabletRepairViewModel(Repair repair)
         {
