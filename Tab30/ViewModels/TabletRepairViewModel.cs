@@ -16,8 +16,8 @@ namespace Tab30.ViewModels
         public TabletRepairViewModel()
         {
             RepairTypes = db.RepairTypes.ToList();
-            //Parts = db.Parts.OrderBy(p => p.Description).ToList();
-            //PartOrders = new List<PartOrder>();
+            Parts = db.Parts.OrderBy(p => p.Description).ToList();
+            PartOrders = new List<PartOrder>();
             //ProblemAreas = db.ProblemAreas.OrderBy(p => p.ProblemDescription).ToList();
         }
         
