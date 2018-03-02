@@ -163,21 +163,21 @@
         <table id="parts" class="table">
             <thead>
                 <tr>
-                    <th>Select</th>
+                    @*<th>Select</th>*@
                     <th>
                         @Html.DisplayNameFor(r => part.PartNo)
                     </th>
                     <th>
                         @Html.DisplayNameFor(r => part.Description)
                     </th>
-                    <th></th>
+                    <th>Hidden ID Field Header</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var p in Model.Parts)
                 {
                     <tr>
-                        <td>@Html.CheckBox(p.ID.ToString(), false, new { id = @p.ID.ToString() })</td>
+                        @*<td>@Html.CheckBox(p.ID.ToString(), false, new { id = @p.ID.ToString() })</td>*@
 
 
                         <td>@Html.DisplayFor(r => p.PartNo)</td>
@@ -215,47 +215,51 @@
                             {
                                 text: "Add Parts to Order",
                                 action: function () {
+
                                     selectedParts = tableParts.rows({ selected: true }).data();
-                                    for (var row = 0; row < selectedParts.length; row++) {
-                                        if (($.inArray(selectedParts[row][3], partIDs) == -1)) {
-                                            partIDs.push(selectedParts[row][3]);
-                                            parts.push({ ID: selectedParts[row][3], PartNo: selectedParts[row][1], Description: selectedParts[row][2] });
+                                    if (selectedParts.length > 0) {
+
+
+                                        for (var row = 0; row < selectedParts.length; row++) {
+                                            if (($.inArray(selectedParts[row][2], partIDs) == -1)) {
+                                                partIDs.push(selectedParts[row][2]);
+                                                parts.push({ ID: selectedParts[row][2], PartNo: selectedParts[row][01], Description: selectedParts[row][1] });
+                                            }
+                                            //var checkBoxPartsSelected = $(this).children('td')
+                                            //    .find("input[type='checkbox']")
+                                            //checkBoxPartsSelected.prop('checked', false);
                                         }
-                                        var checkBoxPartsSelected = $(this).children('td')
-                                            .find("input[type='checkbox']")
-                                        checkBoxPartsSelected.prop('checked', false);
+                                        //this line will clear ordered parts table and repopulate it using array
+                                        $("#addedOrderedParts").find("tr").remove();
+                                        var html = "";
+                                        parts.forEach(function (value) {
+                                            //console.log(value.Description);
+                                            html += "<tr>";
+                                            html += "<td>" + value.Description + "</td><td>No</td><td>" + getToday() + "</td>";
+                                            //html += "<td><input type=\"button\" value=\"Remove\" class = \"btn btn-secondary\" onClick=\"$(this).closest('tr').remove();\"/></td>"
+                                            //html += "<td><input type=\"button\" value=\"Remove\" class = \"btn btn-secondary\" onClick=\"function() {$(this).closest('tr').remove();\"}/></td>";
+                                            html += "<td><a href=\"" + value.ID + "\" class = \"btn btn-sm btn-secondary\">Remove</a></td>"
+                                            html += "</tr>";
+                                        })
+                                        //console.log(html);
+                                        $("#addedOrderedParts").append(html);
+
+                                        var greenRows = tableParts.rows('.selected')
+                                            .nodes()
+                                            .to$().removeClass('text-success');
+                                        tableParts.rows({ selected: true }).deselect();
                                     }
-                                    //this line will clear ordered parts table and repopulate it using array
-                                    $("#addedOrderedParts").find("tr").remove();
-                                    var html = "";
-                                    parts.forEach(function (value) {
-                                        //console.log(value.Description);
-                                        html += "<tr>";
-                                        html += "<td>" + value.Description + "</td><td>No</td><td>" + getToday() + "</td>";
-                                        //html += "<td><input type=\"button\" value=\"Remove\" class = \"btn btn-secondary\" onClick=\"$(this).closest('tr').remove();\"/></td>"
-                                        //html += "<td><input type=\"button\" value=\"Remove\" class = \"btn btn-secondary\" onClick=\"function() {$(this).closest('tr').remove();\"}/></td>";
-                                        html += "<td><a href=\"" + value.ID+ "\" class = \"btn btn-sm btn-secondary\">Remove</a></td>"
-                                        html += "</tr>";
-                                    })
-                                    //console.log(html);
-                                    $("#addedOrderedParts").append(html);
-
-                                    var greenRows = tableParts.rows('.selected')
-                                        .nodes()
-                                        .to$().removeClass('text-success');
-                                    tableParts.rows({ selected: true }).deselect();
-
                                 }
                             }
                         ],
                         select: { style: 'multi' },
                         "columnDefs": [
+                            //{
+                            //    "targets": [0],
+                            //    "orderable": false
+                            //},
                             {
-                                "targets": [0],
-                                "orderable": false
-                            },
-                            {
-                                "targets": [3],
+                                "targets": [2],
                                 "visible": false,
                                 "searchable": false
                             },
@@ -270,20 +274,19 @@
                 $("#addedOrderedParts").on('click', 'tr a', function (e) {
                     e.preventDefault();
                     //console.log($(this).attr("href"));
-                    
+
                     var removedPartID = $(this).attr("href");
                     partIDs.splice($.inArray(removedPartID, partIDs), 1);
 
-                    
+
                     for (var i = 0; i < parts.length; i++) {
                         if (parts[i].ID = removedPartID) {
                             parts.splice(i, 1);
                         }
                     }
                     $(this).parents('tr').remove();
-                   
-                });
 
+                });
                 $('#parts input:checkbox').click(function () {
                     //if ($(this).closest('tr').hasClass('text-success')) {
                     //    $(this).prop('checked', true);
