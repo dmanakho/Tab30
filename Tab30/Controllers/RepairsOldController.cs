@@ -12,14 +12,14 @@ using Tab30.ViewModels;
 
 namespace Tab30.Controllers
 {
-    public class RepairsController : Controller
+    public class RepairsOldController : Controller
     {
         private TabDBContext db = new TabDBContext();
 
         // GET: Repairs
         public ActionResult Index()
         {
-            var repairs = db.Repairs.Include(r => r.RepairType).Include(r => r.Tablet).Include(r => r.Tech);
+            var repairs = db.Repairs.Include(r => r.Tablet).Include(r => r.Tech) ;
             return View(repairs.ToList());
         }
 
@@ -38,27 +38,36 @@ namespace Tab30.Controllers
             return View(repair);
         }
 
-        // GET: Repairs/Create
-        public ActionResult Create()
+        public ActionResult NewRepair(int? tabletID)
         {
-            ViewBag.RepairTypeID = new SelectList(db.RepairTypes, "ID", "RepairTypeDescription");
-            ViewBag.TabletID = new SelectList(db.Tablets, "ID", "TabletName");
-            ViewBag.TechID = new SelectList(db.Teches, "ID", "FirstName");
+            if (!tabletID.HasValue)
+            {
+                return RedirectToAction("Index", "Tablets");
+            }
             return View();
         }
+
         public ActionResult Save(int? tabletID)
         {
             if (!tabletID.HasValue)
             {
                 return RedirectToAction("Index", "Tablets");
             }
-            var tabletRepair = GetTabletRepairVM(tabletID.Value);
-
+            var tablet = db.Tablets.Find(tabletID);
+            var tech = db.Teches.Find(2); //magic number but will be replaces with Tech's info later;
+            var tabletRepair = new TabletRepairViewModel
+            {
+                TabletID = tablet.ID,
+                TabletName = tablet.TabletName,
+                TechID = 2, //Kevin
+                TechName = tech.FullName
+            };
+            
             return View(tabletRepair);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Save(TabletRepairViewModel tabletRepair)
+        public ActionResult Save([Bind(Include = "ID,RepairType,VendorCaseNo,RepairDescription,Comment,IsComplete,RepairClosed,IsBoxRequested,BoxRequestedOn,IsShipped,ShippedOn,ReturnedOn,TabletID,TechID")] TabletRepairViewModel tabletRepair)
         {
             if (ModelState.IsValid)
             {
@@ -68,42 +77,40 @@ namespace Tab30.Controllers
                 repair.RepairCreated = DateTime.Now;
                 repair.IsComplete = tabletRepair.IsComplete;
                 repair.TechID = 2; //this is temporary until Auth and Oauth is implemented;
-
-                if (tabletRepair.Problems != null)
-                {
-                    foreach (var problem in tabletRepair.Problems)
-                    {
-                        if (problem.Assigned)
-                        {
-                            var problemArea = new ProblemArea { ID = problem.ProblemAreaID };
-
-                            db.ProblemAreas.Attach(problemArea);
-                            repair.ProblemAreas.Add(problemArea);
-                        }
-                    }
-                }
                 db.Repairs.Add(repair);
                 db.SaveChanges();
                 return RedirectToAction("Details", "Tablets", new { id = repair.TabletID });
             }
-            var t = tabletRepair;
+
             return View(tabletRepair);
         }
+
+        // GET: Repairs/Create
+        public ActionResult Create(int? TabletID)
+        {
+            var tablet = db.Tablets.Find(TabletID);
+            ViewBag.Tablet = db.Tablets.Find(TabletID);
+            ViewBag.TechID = new SelectList(db.Teches, "ID", "FullName");
+            return View();
+        }
+
         // POST: Repairs/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,VendorCaseNo,RepairDescription,Comment,IsComplete,RepairCreated,UpdatedOn,RepairClosed,IsBoxRequested,BoxRequestedOn,IsShipped,ShippedOn,IsUnitReturned,ReturnedOn,TabletID,RepairTypeID,TechID")] Repair repair)
+        public ActionResult Create([Bind(Include = "ID,RepairType,VendorCaseNo,RepairDescription,Comment,IsComplete,RepairCreated,UpdatedOn,RepairClosed,IsBoxRequested,BoxRequestedOn,IsShipped,ShippedOn,ReturnedOn,TabletID,TechID")] Repair repair)
         {
             if (ModelState.IsValid)
             {
+                repair.UpdatedOn = DateTime.Now;
+                repair.RepairCreated = DateTime.Now;
+                repair.IsComplete = false;
                 db.Repairs.Add(repair);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.RepairTypeID = new SelectList(db.RepairTypes, "ID", "RepairTypeDescription", repair.RepairTypeID);
             ViewBag.TabletID = new SelectList(db.Tablets, "ID", "TabletName", repair.TabletID);
             ViewBag.TechID = new SelectList(db.Teches, "ID", "FirstName", repair.TechID);
             return View(repair);
@@ -121,7 +128,6 @@ namespace Tab30.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.RepairTypeID = new SelectList(db.RepairTypes, "ID", "RepairTypeDescription", repair.RepairTypeID);
             ViewBag.TabletID = new SelectList(db.Tablets, "ID", "TabletName", repair.TabletID);
             ViewBag.TechID = new SelectList(db.Teches, "ID", "FirstName", repair.TechID);
             return View(repair);
@@ -132,7 +138,7 @@ namespace Tab30.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,VendorCaseNo,RepairDescription,Comment,IsComplete,RepairCreated,UpdatedOn,RepairClosed,IsBoxRequested,BoxRequestedOn,IsShipped,ShippedOn,IsUnitReturned,ReturnedOn,TabletID,RepairTypeID,TechID")] Repair repair)
+        public ActionResult Edit([Bind(Include = "ID,RepairType,VendorCaseNo,RepairDescription,Comment,IsComplete,RepairCreated,UpdatedOn,RepairClosed,IsBoxRequested,BoxRequestedOn,IsShipped,ShippedOn,ReturnedOn,TabletID,TechID")] Repair repair)
         {
             if (ModelState.IsValid)
             {
@@ -140,7 +146,6 @@ namespace Tab30.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.RepairTypeID = new SelectList(db.RepairTypes, "ID", "RepairTypeDescription", repair.RepairTypeID);
             ViewBag.TabletID = new SelectList(db.Tablets, "ID", "TabletName", repair.TabletID);
             ViewBag.TechID = new SelectList(db.Teches, "ID", "FirstName", repair.TechID);
             return View(repair);
@@ -179,37 +184,6 @@ namespace Tab30.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
-
-        private TabletRepairViewModel GetTabletRepairVM(int tabletID)
-        {
-            var tablet = db.Tablets.Find(tabletID);
-            var tech = db.Teches.Find(2); //magic number but will be replaces with Tech's info later;
-            
-
-            var tabletRepair = new TabletRepairViewModel()
-            {
-                TabletID = tablet.ID,
-                TabletName = tablet.TabletName,
-                TechID = 2, //Kevin
-                TechName = tech.FullName,
-                 
-            };
-
-            var assignedProblems = new List<AssignedProblemAreas>();
-
-            foreach (var problemArea in db.ProblemAreas)
-            {
-                assignedProblems.Add(new AssignedProblemAreas
-                {
-                    ProblemAreaID = problemArea.ID,
-                    ProblemDescription = problemArea.ProblemDescription,
-                    Assigned = false
-                }
-                    );
-            }
-            tabletRepair.Problems = assignedProblems;
-            return tabletRepair;
         }
     }
 }

@@ -11,6 +11,14 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.RepairType.RepairTypeDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RepairType.RepairTypeDescription)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Tablet.TabletName)
         </dt>
 
@@ -24,14 +32,6 @@
 
         <dd>
             @Html.DisplayFor(model => model.Tech.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.RepairType)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.RepairType)
         </dd>
 
         <dt>
@@ -120,6 +120,14 @@
 
         <dd>
             @Html.DisplayFor(model => model.ShippedOn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsUnitReturned)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsUnitReturned)
         </dd>
 
         <dt>

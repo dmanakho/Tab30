@@ -2,19 +2,28 @@
 
 @{
     ViewBag.Title = "Create";
+    var tbl = (Tab30.Models.Tablet)ViewBag.Tablet;
 }
 
-<h2>Create</h2>
+<h2 class="text-primary my-5">Repair Started for @tbl.TabletName</h2>
+<p class="text-muted">Started on: @DateTime.Now.ToLongDateString()</p>
 
-
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>Repair</h4>
+        
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.RepairType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EnumDropDownListFor(model => model.RepairType, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RepairType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.VendorCaseNo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -49,29 +58,7 @@
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.RepairCreated, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RepairCreated, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RepairCreated, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.UpdatedOn, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.UpdatedOn, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.UpdatedOn, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.RepairClosed, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RepairClosed, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RepairClosed, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.IsBoxRequested, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -110,38 +97,24 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsUnitReturned, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <div class="checkbox">
-                    @Html.EditorFor(model => model.IsUnitReturned)
-                    @Html.ValidationMessageFor(model => model.IsUnitReturned, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(model => model.ReturnedOn, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ReturnedOn, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ReturnedOn, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
-            @Html.LabelFor(model => model.TabletID, "TabletID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("TabletID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.TabletID, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            @Html.LabelFor(model => model.TabletID, "Tablet ID", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label(tbl.TabletName)
+       </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.RepairTypeID, "RepairTypeID", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("RepairTypeID", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.RepairTypeID, "", new { @class = "text-danger" })
-            </div>
-        </div>
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.TabletID, "TabletID", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("TabletID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TabletID, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.TechID, "TechID", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -159,9 +132,10 @@
     </div>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
+    <div>
+        @Html.ActionLink("Back to Tablet", "Details", "Tablets", new { id = tbl.ID }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Back to List", "Index")
+    </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

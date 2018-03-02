@@ -258,8 +258,8 @@ namespace Tab30.Migrations
                 new RepairType{RepairTypeDescription = "Not Covered"},
                 new RepairType{RepairTypeDescription = "Declined"}
             };
-            repairTypes.ForEach(t => context.RepairTypes.Add(t));
-            //repairTypes.ForEach(t => context.RepairTypes.AddOrUpdate(p => p.RepairTypeDescription));
+            //repairTypes.ForEach(t => context.RepairTypes.Add(t));
+            repairTypes.ForEach(t => context.RepairTypes.AddOrUpdate(p => p.RepairTypeDescription));
             context.SaveChanges();
         }
     }

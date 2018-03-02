@@ -12,13 +12,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.RepairType.RepairTypeDescription)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Tablet.TabletName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Tech.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RepairType)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.VendorCaseNo)
@@ -54,9 +54,6 @@
             @Html.DisplayNameFor(model => model.ShippedOn)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.IsUnitReturned)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.ReturnedOn)
         </th>
         <th></th>
@@ -65,13 +62,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.RepairType.RepairTypeDescription)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Tablet.TabletName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Tech.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RepairType)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.VendorCaseNo)
@@ -105,9 +102,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ShippedOn)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsUnitReturned)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ReturnedOn)

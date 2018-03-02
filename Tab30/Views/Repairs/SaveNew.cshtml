@@ -1,0 +1,107 @@
+﻿@model Tab30.ViewModels.TabletRepairViewModel
+
+<div class="form-row">
+
+    <div class="col-6">
+        <div class="form-row">
+            <div class="form-group col-12">
+                @Html.LabelFor(model => model.VendorCaseNo, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.VendorCaseNo, new { htmlAttributes = new { @class = "form-control d-inline-block col-9" } })
+                @Html.ValidationMessageFor(model => model.VendorCaseNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-12">
+                @Html.LabelFor(model => model.RepairTypes, htmlAttributes: new { @class = "control-label" })
+                @Html.DropDownListFor(m => m.RepairTypeID, new SelectList(Model.RepairTypes, "ID", "RepairTypeDescription"), "--select--", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RepairTypeID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*The form-group below uses Editor Template.*@
+
+        <div class="form-group">
+            @Html.DisplayNameFor(m => m.Problems)
+            @Html.EditorFor(m => m.Problems)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RepairDescription, htmlAttributes: new { @class = "control-label" })
+
+            @Html.EditorFor(model => model.RepairDescription, new { htmlAttributes = new { @class = "form-control col-12" } })
+            @Html.ValidationMessageFor(model => model.RepairDescription, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Comment, htmlAttributes: new { @class = "control-label" })
+            <div class="">
+                @Html.EditorFor(model => model.Comment, new { htmlAttributes = new { @class = "form-control col-12" } })
+                @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+    </div>
+    <div class="col-6">
+        <div class="form-row">
+            <div class="form-group col-6">
+                <div class="checkbox d-inline-block">
+                    @Html.EditorFor(model => model.IsBoxRequested)
+                    @Html.ValidationMessageFor(model => model.IsBoxRequested, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.IsBoxRequested, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="form-group col-6">
+                @Html.LabelFor(model => model.BoxRequestedOn, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.BoxRequestedOn, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.BoxRequestedOn, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-6">
+                <div class="checkbox d-inline-block text-right">
+                    @Html.EditorFor(model => model.IsShipped)
+                    @Html.ValidationMessageFor(model => model.IsShipped, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.IsShipped, htmlAttributes: new { @class = "control-label" })
+            </div>
+
+            <div class="form-group col-6">
+                @Html.LabelFor(model => model.ShippedOn, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.ShippedOn, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ShippedOn, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-6">
+                <div class="checkbox d-inline-block">
+                    @Html.EditorFor(model => model.IsUnitReturned)
+                    @Html.ValidationMessageFor(model => model.IsUnitReturned, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.IsUnitReturned, htmlAttributes: new { @class = "control-label" })
+            </div>
+            <div class="form-group col-6">
+                @Html.LabelFor(model => model.ReturnedOn, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.ReturnedOn, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ReturnedOn, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-6">
+                <div class="checkbox d-inline-block text-right">
+                    @Html.EditorFor(model => model.IsComplete)
+                    @Html.ValidationMessageFor(model => model.IsComplete, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.IsComplete, htmlAttributes: new { @class = "control-label text-success" })
+            </div>
+            <div class="form-group col-6">
+                @Html.LabelFor(model => model.RepairClosed, htmlAttributes: new { @class = "control-label text-success" })
+                @Html.EditorFor(model => model.RepairClosed, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RepairClosed, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -223,6 +223,7 @@
     <Compile Include="Controllers\PartOrdersController.cs" />
     <Compile Include="Controllers\PartsController.cs" />
     <Compile Include="Controllers\RepairsController.cs" />
+    <Compile Include="Controllers\RepairsOldController.cs" />
     <Compile Include="Controllers\TabletsController.cs" />
     <Compile Include="Controllers\TechesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -343,6 +344,14 @@
     <Compile Include="Migrations\201802282104268_RepairTypesModeladded.Designer.cs">
       <DependentUpon>201802282104268_RepairTypesModeladded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802282334231_NotSureWhatHappened.cs" />
+    <Compile Include="Migrations\201802282334231_NotSureWhatHappened.Designer.cs">
+      <DependentUpon>201802282334231_NotSureWhatHappened.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803012251227_AddedRequiredFieldsRepairModel.cs" />
+    <Compile Include="Migrations\201803012251227_AddedRequiredFieldsRepairModel.Designer.cs">
+      <DependentUpon>201803012251227_AddedRequiredFieldsRepairModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Part.cs" />
@@ -355,6 +364,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TabDB_Code\TabDBEnums.cs" />
+    <Compile Include="ViewModels\AssignedProblemAreas.cs" />
     <Compile Include="ViewModels\TabletAssignments.cs" />
     <Compile Include="ViewModels\TabletRepairViewModel.cs" />
   </ItemGroup>
@@ -658,17 +668,17 @@
     <Content Include="Views\Locations\Edit.cshtml" />
     <Content Include="Views\Locations\Index.cshtml" />
     <Content Include="Views\Users\UsersTablets.cshtml" />
-    <Content Include="Views\Repairs\Create.cshtml" />
-    <Content Include="Views\Repairs\Delete.cshtml" />
-    <Content Include="Views\Repairs\Details.cshtml" />
-    <Content Include="Views\Repairs\Edit.cshtml" />
-    <Content Include="Views\Repairs\Index.cshtml" />
+    <Content Include="Views\RepairsOld\Create.cshtml" />
+    <Content Include="Views\RepairsOld\Delete.cshtml" />
+    <Content Include="Views\RepairsOld\Details.cshtml" />
+    <Content Include="Views\RepairsOld\Edit.cshtml" />
+    <Content Include="Views\RepairsOld\Index.cshtml" />
     <Content Include="Views\Teches\Create.cshtml" />
     <Content Include="Views\Teches\Delete.cshtml" />
     <Content Include="Views\Teches\Details.cshtml" />
     <Content Include="Views\Teches\Edit.cshtml" />
     <Content Include="Views\Teches\Index.cshtml" />
-    <Content Include="Views\Repairs\Save.cshtml" />
+    <Content Include="Views\RepairsOld\Save.cshtml" />
     <Content Include="Views\Parts\Create.cshtml" />
     <Content Include="Views\Parts\Delete.cshtml" />
     <Content Include="Views\Parts\Details.cshtml" />
@@ -679,11 +689,19 @@
     <Content Include="Views\PartOrders\Details.cshtml" />
     <Content Include="Views\PartOrders\Edit.cshtml" />
     <Content Include="Views\PartOrders\Index.cshtml" />
+    <Content Include="Views\Repairs\Create.cshtml" />
+    <Content Include="Views\Repairs\Delete.cshtml" />
+    <Content Include="Views\Repairs\Details.cshtml" />
+    <Content Include="Views\Repairs\Edit.cshtml" />
+    <Content Include="Views\Repairs\Index.cshtml" />
+    <Content Include="Views\Repairs\Save.cshtml" />
+    <Content Include="Views\Repairs\Save1.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\AssignedProblemAreas.cshtml" />
+    <Content Include="Views\Repairs\SaveNew.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
-    <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -782,6 +800,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802282104268_RepairTypesModeladded.resx">
       <DependentUpon>201802282104268_RepairTypesModeladded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802282334231_NotSureWhatHappened.resx">
+      <DependentUpon>201802282334231_NotSureWhatHappened.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803012251227_AddedRequiredFieldsRepairModel.resx">
+      <DependentUpon>201803012251227_AddedRequiredFieldsRepairModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

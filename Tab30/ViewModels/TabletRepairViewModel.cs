@@ -12,19 +12,21 @@ namespace Tab30.ViewModels
     public class TabletRepairViewModel
     {
         private TabDBContext db = new TabDBContext();
+
         public TabletRepairViewModel()
         {
-            Parts = db.Parts.OrderBy(p => p.Description).ToList();
-            PartOrders = new List<PartOrder>();
-            ProblemAreas = db.ProblemAreas.OrderBy(p => p.ProblemDescription).ToList();
+            RepairTypes = db.RepairTypes.ToList();
+            //Parts = db.Parts.OrderBy(p => p.Description).ToList();
+            //PartOrders = new List<PartOrder>();
+            //ProblemAreas = db.ProblemAreas.OrderBy(p => p.ProblemDescription).ToList();
         }
-        public Tab30.TabDB_Code.TabDBEnums.RepairType RepairType { get; set; }
-
-
+        
         [DisplayName("Vendor Case#"), StringLength(50)]
         public string VendorCaseNo { get; set; }
 
+        [Required]
         [DisplayName("Description"), StringLength(250)]
+        [DataType(DataType.MultilineText)]
         public string RepairDescription { get; set; }
 
         [DataType(DataType.MultilineText)]
@@ -74,7 +76,14 @@ namespace Tab30.ViewModels
 
         public List<Part> Parts { get; set; }
 
-        public IList<ProblemArea> ProblemAreas {get;set;}
+        public int RepairTypeID { get; set; }
+
+        [DisplayName("Repair Types")]
+        public IList<RepairType> RepairTypes { get; set; }
+
+        //i think i'll only need one of the two lines below.
+        //public IList<ProblemArea> ProblemAreas {get;set;}
+        public IList<AssignedProblemAreas> Problems { get; set; }
 
         public static implicit operator TabletRepairViewModel(Repair repair)
         {
@@ -93,8 +102,9 @@ namespace Tab30.ViewModels
                 TabletID = repair.TabletID,
                 TechID = repair.TechID,
                 PartOrders = repair.PartOrders.ToList(),
-                IsUnitReturned = repair.IsUnitReturned
-
+                IsUnitReturned = repair.IsUnitReturned,
+                RepairTypeID = repair.RepairTypeID
+                
             };
         }
 
@@ -115,7 +125,8 @@ namespace Tab30.ViewModels
                 TabletID = repairTablet.TabletID,
                 TechID = repairTablet.TechID,
                 PartOrders = repairTablet.PartOrders,
-                IsUnitReturned = repairTablet.IsUnitReturned
+                IsUnitReturned = repairTablet.IsUnitReturned,
+                RepairTypeID = repairTablet.RepairTypeID
             };
         }
     }
