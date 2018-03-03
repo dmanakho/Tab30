@@ -50,6 +50,7 @@ namespace Tab30.Controllers
         {
             if (!tabletID.HasValue)
             {
+                //redirect to the tablet list if this page was accessed by accident without providing a valid tablet ID
                 return RedirectToAction("Index", "Tablets");
             }
             var tabletRepair = GetTabletRepairVM(tabletID.Value);
@@ -86,7 +87,7 @@ namespace Tab30.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Details", "Tablets", new { id = repair.TabletID });
             }
-            var t = tabletRepair;
+            tabletRepair.Problems = GetAssignedProblemsList();
             return View(tabletRepair);
         }
         // POST: Repairs/Create
@@ -181,6 +182,7 @@ namespace Tab30.Controllers
             base.Dispose(disposing);
         }
 
+        [NonAction]
         private TabletRepairViewModel GetTabletRepairVM(int tabletID)
         {
             var tablet = db.Tablets.Find(tabletID);
@@ -195,9 +197,25 @@ namespace Tab30.Controllers
                 TechName = tech.FullName,
                  
             };
+            //var assignedProblems = new List<AssignedProblemAreas>();
+            //foreach (var problemArea in db.ProblemAreas)
+            //{
+            //    assignedProblems.Add(new AssignedProblemAreas
+            //    {
+            //        ProblemAreaID = problemArea.ID,
+            //        ProblemDescription = problemArea.ProblemDescription,
+            //        Assigned = false
+            //    }
+            //        );
+            //}
+            tabletRepair.Problems = GetAssignedProblemsList();
+            return tabletRepair;
+        }
 
+        [NonAction]
+        private List<AssignedProblemAreas> GetAssignedProblemsList()
+        {
             var assignedProblems = new List<AssignedProblemAreas>();
-
             foreach (var problemArea in db.ProblemAreas)
             {
                 assignedProblems.Add(new AssignedProblemAreas
@@ -208,8 +226,7 @@ namespace Tab30.Controllers
                 }
                     );
             }
-            tabletRepair.Problems = assignedProblems;
-            return tabletRepair;
+            return assignedProblems;
         }
     }
 }

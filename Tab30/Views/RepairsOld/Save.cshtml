@@ -112,7 +112,7 @@
         }
     </div>
     <div class="col-7">
-        @{ var part = Model.Parts.FirstOrDefault();}
+
         @{ var partOrders = new Tab30.Models.PartOrder();}
 
         @*<h4 class="text-primary">Part Orders:</h4>
@@ -159,6 +159,11 @@
             </table>
         }
 
+        @{
+            //this line is used to make HTML.DisplayFor to pull property names from the model.
+            //if i can find better solution, I'll update this.
+            var part = Model.Parts.FirstOrDefault();
+        }
         <h5 class="text-primary">Select Parts to Order:</h5>
         <table id="parts" class="table">
             <thead>

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using Tab30.DAL;
 using Tab30.Models;
 
@@ -15,7 +16,7 @@ namespace Tab30.ViewModels
 
         public TabletRepairViewModel()
         {
-            RepairTypes = db.RepairTypes.ToList();
+            RepairTypes = new SelectList(db.RepairTypes, "ID", "RepairTypeDescription");
             Parts = db.Parts.OrderBy(p => p.Description).ToList();
             PartOrders = new List<PartOrder>();
             //ProblemAreas = db.ProblemAreas.OrderBy(p => p.ProblemDescription).ToList();
@@ -74,15 +75,17 @@ namespace Tab30.ViewModels
 
         public List<PartOrder> PartOrders { get; set; }
 
+        public List<int> OrderedPartIDs { get; set; }
+
         public List<Part> Parts { get; set; }
 
         public int RepairTypeID { get; set; }
 
-        [DisplayName("Repair Types")]
-        public IList<RepairType> RepairTypes { get; set; }
+        public SelectList RepairTypes { get; set; }
+        //I set line below for the drop down box.
+        //found a better solution here : https://stackoverflow.com/questions/11509831/values-of-dropdown-lists-are-not-passed-back-to-the-controller
+        //public IList<RepairType> RepairTypes { get; set; }
 
-        //i think i'll only need one of the two lines below.
-        //public IList<ProblemArea> ProblemAreas {get;set;}
         public IList<AssignedProblemAreas> Problems { get; set; }
 
         public static implicit operator TabletRepairViewModel(Repair repair)

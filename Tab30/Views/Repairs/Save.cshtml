@@ -18,9 +18,9 @@
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            @Html.Partial("SaveNew", @Model)
+            @*@Html.Partial("SaveNew", @Model)*@
 
-            @*<div class="form-row">
+            <div class="form-row">
 
                 <div class="col-6">
                     <div class="form-row">
@@ -33,97 +33,111 @@
 
                     <div class="form-row">
                         <div class="form-group col-12">
-                            @Html.LabelFor(model => model.RepairTypes, htmlAttributes: new { @class = "control-label" })
-                            @Html.DropDownListFor(m => m.RepairTypeID, new SelectList(Model.RepairTypes, "ID", "RepairTypeDescription"), "--select--", new { @class = "form-control" })
+                            @*Getting error message when form is posted Model.RepairTypes the name Model does not exist in the current context*@
+                            @*@Html.LabelFor(model => model.RepairTypes, htmlAttributes: new { @class = "control-label" })
+                                @Html.DropDownListFor(m => m.RepairTypeID, new SelectList(Model.RepairTypes, "ID", "RepairTypeDescription"), "--select--", new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.RepairTypeID, "", new { @class = "text-danger" })*@
+                            @Html.DropDownListFor(m => m.RepairTypeID, Model.RepairTypes, "---select--", new { @class = "form-control" })
                             @Html.ValidationMessageFor(model => model.RepairTypeID, "", new { @class = "text-danger" })
                         </div>
-                    </div>*@
+                    </div>
 
-            @*The form-group below uses Editor Template.*@
+                    @*The form-group below uses Editor Template.*@
 
-            @*<div class="form-group">
-                            @Html.DisplayNameFor(m => m.Problems)
-                            @Html.EditorFor(m => m.Problems)
-                        </div>
+                    <div class="form-group">
+                        @Html.DisplayNameFor(m => m.Problems)
+                        @Html.EditorFor(m => m.Problems)
+                    </div>
 
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.RepairDescription, htmlAttributes: new { @class = "control-label" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RepairDescription, htmlAttributes: new { @class = "control-label" })
 
-                            @Html.EditorFor(model => model.RepairDescription, new { htmlAttributes = new { @class = "form-control col-12" } })
-                            @Html.ValidationMessageFor(model => model.RepairDescription, "", new { @class = "text-danger" })
-
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Comment, htmlAttributes: new { @class = "control-label" })
-                            <div class="">
-                                @Html.EditorFor(model => model.Comment, new { htmlAttributes = new { @class = "form-control col-12" } })
-                                @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
+                        @Html.EditorFor(model => model.RepairDescription, new { htmlAttributes = new { @class = "form-control col-12" } })
+                        @Html.ValidationMessageFor(model => model.RepairDescription, "", new { @class = "text-danger" })
 
                     </div>
-                    <div class="col-6">
-                        <div class="form-row">
-                            <div class="form-group col-6">
-                                <div class="checkbox d-inline-block">
-                                    @Html.EditorFor(model => model.IsBoxRequested)
-                                    @Html.ValidationMessageFor(model => model.IsBoxRequested, "", new { @class = "text-danger" })
-                                </div>
-                                @Html.LabelFor(model => model.IsBoxRequested, htmlAttributes: new { @class = "control-label" })
-                            </div>
-                            <div class="form-group col-6">
-                                @Html.LabelFor(model => model.BoxRequestedOn, htmlAttributes: new { @class = "control-label" })
-                                @Html.EditorFor(model => model.BoxRequestedOn, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.BoxRequestedOn, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-6">
-                                <div class="checkbox d-inline-block text-right">
-                                    @Html.EditorFor(model => model.IsShipped)
-                                    @Html.ValidationMessageFor(model => model.IsShipped, "", new { @class = "text-danger" })
-                                </div>
-                                @Html.LabelFor(model => model.IsShipped, htmlAttributes: new { @class = "control-label" })
-                            </div>
 
-                            <div class="form-group col-6">
-                                @Html.LabelFor(model => model.ShippedOn, htmlAttributes: new { @class = "control-label" })
-                                @Html.EditorFor(model => model.ShippedOn, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.ShippedOn, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-6">
-                                <div class="checkbox d-inline-block">
-                                    @Html.EditorFor(model => model.IsUnitReturned)
-                                    @Html.ValidationMessageFor(model => model.IsUnitReturned, "", new { @class = "text-danger" })
-                                </div>
-                                @Html.LabelFor(model => model.IsUnitReturned, htmlAttributes: new { @class = "control-label" })
-                            </div>
-                            <div class="form-group col-6">
-                                @Html.LabelFor(model => model.ReturnedOn, htmlAttributes: new { @class = "control-label" })
-                                @Html.EditorFor(model => model.ReturnedOn, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.ReturnedOn, "", new { @class = "text-danger" })
-
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-6">
-                                <div class="checkbox d-inline-block text-right">
-                                    @Html.EditorFor(model => model.IsComplete)
-                                    @Html.ValidationMessageFor(model => model.IsComplete, "", new { @class = "text-danger" })
-                                </div>
-                                @Html.LabelFor(model => model.IsComplete, htmlAttributes: new { @class = "control-label text-success" })
-                            </div>
-                            <div class="form-group col-6">
-                                @Html.LabelFor(model => model.RepairClosed, htmlAttributes: new { @class = "control-label text-success" })
-                                @Html.EditorFor(model => model.RepairClosed, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.RepairClosed, "", new { @class = "text-danger" })
-                            </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Comment, htmlAttributes: new { @class = "control-label" })
+                        <div class="">
+                            @Html.EditorFor(model => model.Comment, new { htmlAttributes = new { @class = "form-control col-12" } })
+                            @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                </div>*@
+
+                </div>
+                <div class="col-6">
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <div class="checkbox d-inline-block">
+                                @Html.EditorFor(model => model.IsBoxRequested)
+                                @Html.ValidationMessageFor(model => model.IsBoxRequested, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.IsBoxRequested, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="form-group col-6">
+                            @Html.LabelFor(model => model.BoxRequestedOn, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.BoxRequestedOn, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.BoxRequestedOn, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <div class="checkbox d-inline-block text-right">
+                                @Html.EditorFor(model => model.IsShipped)
+                                @Html.ValidationMessageFor(model => model.IsShipped, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.IsShipped, htmlAttributes: new { @class = "control-label" })
+                        </div>
+
+                        <div class="form-group col-6">
+                            @Html.LabelFor(model => model.ShippedOn, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.ShippedOn, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ShippedOn, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <div class="checkbox d-inline-block">
+                                @Html.EditorFor(model => model.IsUnitReturned)
+                                @Html.ValidationMessageFor(model => model.IsUnitReturned, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.IsUnitReturned, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        <div class="form-group col-6">
+                            @Html.LabelFor(model => model.ReturnedOn, htmlAttributes: new { @class = "control-label" })
+                            @Html.EditorFor(model => model.ReturnedOn, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ReturnedOn, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <div class="checkbox d-inline-block text-right">
+                                @Html.EditorFor(model => model.IsComplete)
+                                @Html.ValidationMessageFor(model => model.IsComplete, "", new { @class = "text-danger" })
+                            </div>
+                            @Html.LabelFor(model => model.IsComplete, htmlAttributes: new { @class = "control-label text-success" })
+                        </div>
+                        <div class="form-group col-6">
+                            @Html.LabelFor(model => model.RepairClosed, htmlAttributes: new { @class = "control-label text-success" })
+                            @Html.EditorFor(model => model.RepairClosed, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.RepairClosed, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group hiddenPartIDs">
+                @Html.HiddenFor(p => p.OrderedPartIDs)
+
+                @*@{
+                        for (int i = 0; i < Model.OrderedPartIDs.Count; i++)
+                        {
+                            @Html.HiddenFor(p => p.OrderedPartIDs[i])
+                        }
+                    }*@
+                @*@Html.HiddenFor(po=>po.PartOrders)*@
+            </div>
             <div class="form-group">
                 <div class="">
                     <input type="submit" value="Save&Exit" class="btn btn-primary" />
@@ -131,9 +145,256 @@
             </div>
         }
     </div>
-</div>
-<div>
-    @Html.ActionLink("Back to Tablet", "Details", "Tablets", new { id = Model.TabletID }, new { @class = "btn btn-sm btn-outline-primary" }) |
-    @Html.ActionLink("Back to Tablet List", "Index", "Tablets", null, new { @class = "btn btn-sm btn-outline-primary" })
+
+    <div class="col-7">
+
+        @{ var partOrders = new Tab30.Models.PartOrder();}
+
+        <h5 class="text-primary">Parts Ordered:</h5>
+        @if (Model.PartOrders == null)
+        {
+
+            <p>Clean record!</p>
+
+        }
+        else
+        {
+            <table id="partsOrders" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(r => partOrders.Part.Description)
+
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(r => partOrders.IsPartReceived)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(r => partOrders.OrderedOn)
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>
+                <tbody id="addedOrderedParts"></tbody>
+            </table>
+        }
+
+        @{
+            //this line is used to make HTML.DisplayFor to pull property names from the model.
+            //if i can find better solution, I'll update this.
+            //var part = Model.Parts.FirstOrDefault();
+            var part = new Tab30.Models.Part();
+        }
+        <h5 class="text-primary">Select Parts to Order:</h5>
+        <table id="parts" class="table">
+            <thead>
+                <tr>
+                    @*<th>Select</th>*@
+                    <th>
+                        @Html.DisplayNameFor(r => part.PartNo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(r => part.Description)
+                    </th>
+                    <th>Hidden ID Field Header</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model.Parts)
+                {
+                    <tr>
+                        @*<td>@Html.CheckBox(p.ID.ToString(), false, new { id = @p.ID.ToString() })</td>*@
+
+
+                        <td>@Html.DisplayFor(r => p.PartNo)</td>
+                        <td>@Html.DisplayFor(r => p.Description)</td>
+                        <td>@Html.DisplayFor(r => p.ID)</td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+    <div>
+        @Html.ActionLink("Back to Tablet", "Details", "Tablets", new { id = Model.TabletID }, new { @class = "btn btn-sm btn-outline-primary" }) |
+        @Html.ActionLink("Back to Tablet List", "Index", "Tablets", null, new { @class = "btn btn-sm btn-outline-primary" })
+
+    </div>
 
 </div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        var selectedParts;
+        //use an array of selected part objects.
+        var parts = new Array();
+        //use array of IDs to check whether the ID was already selected.
+        var partIDs = new Array();
+        $(document).ready(
+            function () {
+                var tableParts = $("#parts").DataTable(
+                    {
+                        dom: "frtipB",
+                        buttons: [
+                            {
+                                text: "Add Parts to Order",
+                                action: function () {
+
+                                    selectedParts = tableParts.rows({ selected: true }).data();
+                                    if (selectedParts.length > 0) {
+
+
+                                        for (var row = 0; row < selectedParts.length; row++) {
+                                            if (($.inArray(selectedParts[row][2], partIDs) == -1)) {
+                                                partIDs.push(selectedParts[row][2]);
+                                                parts.push({ ID: selectedParts[row][2], PartNo: selectedParts[row][01], Description: selectedParts[row][1] });
+                                            }
+                                            //var checkBoxPartsSelected = $(this).children('td')
+                                            //    .find("input[type='checkbox']")
+                                            //checkBoxPartsSelected.prop('checked', false);
+                                        }
+                                        //assigning parts array to a hidden field to return back to controller and add records to PartOrders.
+
+                                        for (var i = 0; i < partIDs.length; i++) {
+
+                                            var newName = "OrderedPartIDs[" + i + "]";
+                                            var newID = "OrderedPartIDs_" + i + "_";
+
+                                            $('#OrderedPartIDs').clone().prop({
+                                                id: newID,
+                                                name: newName
+                                            }).val(partIDs[i]).appendTo('.hiddenPartIDs');
+
+                                            console.log(newName);
+                                            console.log(newID);
+
+                                        }
+                                        $('#OrderedPartIDs').remove();
+                                        //this line will clear ordered parts table and repopulate it using array
+                                        $("#addedOrderedParts").find("tr").remove();
+                                        var html = "";
+                                        parts.forEach(function (value) {
+                                            //console.log(value.Description);
+                                            html += "<tr>";
+                                            html += "<td>" + value.Description + "</td><td>No</td><td>" + getToday() + "</td>";
+                                            //html += "<td><input type=\"button\" value=\"Remove\" class = \"btn btn-secondary\" onClick=\"$(this).closest('tr').remove();\"/></td>"
+                                            //html += "<td><input type=\"button\" value=\"Remove\" class = \"btn btn-secondary\" onClick=\"function() {$(this).closest('tr').remove();\"}/></td>";
+                                            html += "<td><a href=\"" + value.ID + "\" class = \"btn btn-sm btn-secondary\">Remove</a></td>"
+                                            html += "</tr>";
+                                        })
+                                        //console.log(html);
+                                        $("#addedOrderedParts").append(html);
+
+                                        //var greenRows = tableParts.rows('.selected')
+                                        //    .nodes()
+                                        //    .to$().removeClass('text-success');
+                                        tableParts.rows({ selected: true }).deselect();
+                                    }
+                                }
+                            }
+                        ],
+                        select: { style: 'multi' },
+                        "columnDefs": [
+                            //{
+                            //    "targets": [0],
+                            //    "orderable": false
+                            //},
+                            {
+                                "targets": [2],
+                                "visible": false,
+                                "searchable": false
+                            },
+                        ],
+                        "scrollY": "200px",
+                        "scrollCollapse": true,
+                        "paging": false,
+                        "info": true
+                    }
+                );
+
+                $("#addedOrderedParts").on('click', 'tr a', function (e) {
+                    e.preventDefault();
+                    //console.log($(this).attr("href"));
+
+                    var removedPartID = $(this).attr("href");
+                    partIDs.splice($.inArray(removedPartID, partIDs), 1);
+
+
+                    for (var i = 0; i < parts.length; i++) {
+                        if (parts[i].ID = removedPartID) {
+                            parts.splice(i, 1);
+                        }
+                    }
+                    $(this).parents('tr').remove();
+
+                });
+                $('#parts input:checkbox').click(function () {
+                    //if ($(this).closest('tr').hasClass('text-success')) {
+                    //    $(this).prop('checked', true);
+                    //}
+                    //else {
+                    //    $(this).prop('checked', false);
+                    //}
+
+                });
+
+                $('#parts tbody').on('click', 'tr', function () {
+                    //$(this).toggleClass('text-success');
+                    //var checkBoxPartsSelected = $(this).children('td')
+                    //    .find("input[type='checkbox']")
+
+                    //checkBoxPartsSelected.prop('checked', !checkBoxPartsSelected.prop('checked'));
+                    //console.log($(this).children(':checkbox').prop('checked', true));
+                });
+
+                $("#IsBoxRequested").click(function () {
+                    var checkBox = $("#IsBoxRequested");
+                    var timeBox = $("#BoxRequestedOn");
+                    setTime(checkBox, timeBox);
+                });
+                $("#IsShipped").click(function () {
+                    var checkBox = $("#IsShipped");
+                    var timeBox = $("#ShippedOn");
+                    setTime(checkBox, timeBox);
+                });
+                $("#IsUnitReturned").click(function () {
+                    var checkBox = $("#IsUnitReturned");
+                    var timeBox = $("#ReturnedOn");
+                    setTime(checkBox, timeBox);
+                });
+                $("#IsComplete").click(function () {
+                    var checkBox = $("#IsComplete");
+                    var timeBox = $("#RepairClosed");
+                    setTime(checkBox, timeBox);
+                });
+            }
+        );
+
+        function setTime(checkbox, timebox) {
+            if (checkbox.prop('checked') == true) {
+                timebox.val(getToday());
+            }
+            else {
+                timebox.val(null);
+            }
+        }
+
+        function getToday() {
+            var now = new Date();
+            var day = ("0" + now.getDate()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+            return today = now.getFullYear() + "-" + (month) + "-" + (day);
+        }
+
+        function OnSuccess(response) {
+            var message = "PartNo: " + response.PartNo;
+            message += "\ndescription: " + response.Description;
+            alert(message);
+        }
+    </script>
+}
+

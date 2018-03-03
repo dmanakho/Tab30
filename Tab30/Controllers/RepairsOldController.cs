@@ -67,7 +67,7 @@ namespace Tab30.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Save([Bind(Include = "ID,RepairType,VendorCaseNo,RepairDescription,Comment,IsComplete,RepairClosed,IsBoxRequested,BoxRequestedOn,IsShipped,ShippedOn,ReturnedOn,TabletID,TechID")] TabletRepairViewModel tabletRepair)
+        public ActionResult Save(TabletRepairViewModel tabletRepair)
         {
             if (ModelState.IsValid)
             {
