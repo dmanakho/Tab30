@@ -20,6 +20,8 @@ namespace Tab30.ViewModels
             Parts = db.Parts.OrderBy(p => p.Description).ToList();
             PartOrders = new List<PartOrder>();
             //ProblemAreas = db.ProblemAreas.OrderBy(p => p.ProblemDescription).ToList();
+
+            Problems = new MultiSelectList(db.ProblemAreas, "ID", "ProblemDescription");
         }
         
         [DisplayName("Vendor Case#"), StringLength(50)]
@@ -81,12 +83,21 @@ namespace Tab30.ViewModels
 
         public int RepairTypeID { get; set; }
 
-        public SelectList RepairTypes { get; set; }
+        //public SelectList RepairTypes { get; set; }
+        public IEnumerable<SelectListItem> RepairTypes { get; set; }
         //I set line below for the drop down box.
         //found a better solution here : https://stackoverflow.com/questions/11509831/values-of-dropdown-lists-are-not-passed-back-to-the-controller
         //public IList<RepairType> RepairTypes { get; set; }
 
-        public IList<AssignedProblemAreas> Problems { get; set; }
+        //I'd like to display problems in multi-select listbox with Select2 JS library applied. added MultiSelect property to generate list of 
+        //problem areas
+        //public IList<AssignedProblemAreas> Problems { get; set; }
+
+        [DisplayName("Problems")]
+        public IList<int> AssignedProblems { get; set; }
+       
+        //public MultiSelectList ProblemAreaList { get; set; }
+        public IEnumerable<SelectListItem> Problems { get; set; }
 
         public static implicit operator TabletRepairViewModel(Repair repair)
         {

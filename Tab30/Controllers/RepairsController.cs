@@ -70,24 +70,24 @@ namespace Tab30.Controllers
                 repair.IsComplete = tabletRepair.IsComplete;
                 repair.TechID = 2; //this is temporary until Auth and Oauth is implemented;
 
-                if (tabletRepair.Problems != null)
-                {
-                    foreach (var problem in tabletRepair.Problems)
-                    {
-                        if (problem.Assigned)
-                        {
-                            var problemArea = new ProblemArea { ID = problem.ProblemAreaID };
+                //if (tabletRepair.Problems != null)
+                //{
+                //    foreach (var problem in tabletRepair.Problems)
+                //    {
+                //        if (problem.Assigned)
+                //        {
+                //            var problemArea = new ProblemArea { ID = problem.ProblemAreaID };
 
-                            db.ProblemAreas.Attach(problemArea);
-                            repair.ProblemAreas.Add(problemArea);
-                        }
-                    }
-                }
+                //            db.ProblemAreas.Attach(problemArea);
+                //            repair.ProblemAreas.Add(problemArea);
+                //        }
+                //    }
+                //}
                 db.Repairs.Add(repair);
                 db.SaveChanges();
                 return RedirectToAction("Details", "Tablets", new { id = repair.TabletID });
             }
-            tabletRepair.Problems = GetAssignedProblemsList();
+            //tabletRepair.Problems = GetAssignedProblemsList();
             return View(tabletRepair);
         }
         // POST: Repairs/Create
@@ -208,7 +208,7 @@ namespace Tab30.Controllers
             //    }
             //        );
             //}
-            tabletRepair.Problems = GetAssignedProblemsList();
+            //tabletRepair.Problems = GetAssignedProblemsList();
             return tabletRepair;
         }
 

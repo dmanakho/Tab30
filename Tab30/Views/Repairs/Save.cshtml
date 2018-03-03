@@ -11,13 +11,15 @@
 
 <div class="row">
     <div class="col-5">
-        @using (Html.BeginForm())
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "repairForm" }))
         {
 
 
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
+            @Html.HiddenFor(m => m.TechID)
+            @Html.HiddenFor(m => m.TechName)
+            @Html.HiddenFor(m=>m.TabletID)
             @*@Html.Partial("SaveNew", @Model)*@
 
             <div class="form-row">
@@ -37,17 +39,28 @@
                             @*@Html.LabelFor(model => model.RepairTypes, htmlAttributes: new { @class = "control-label" })
                                 @Html.DropDownListFor(m => m.RepairTypeID, new SelectList(Model.RepairTypes, "ID", "RepairTypeDescription"), "--select--", new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.RepairTypeID, "", new { @class = "text-danger" })*@
-                            @Html.DropDownListFor(m => m.RepairTypeID, Model.RepairTypes, "---select--", new { @class = "form-control" })
+                            @Html.LabelFor(model => model.RepairTypes, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(m => m.RepairTypeID, Model.RepairTypes, "---select--", new { @class = "form-control select2-multiple col-12" })
                             @Html.ValidationMessageFor(model => model.RepairTypeID, "", new { @class = "text-danger" })
                         </div>
                     </div>
 
                     @*The form-group below uses Editor Template.*@
 
+                    @*<div class="form-group">
+                            @Html.DisplayNameFor(m => m.Problems)
+                            @Html.EditorFor(m => m.Problems)
+                        </div>*@
+
                     <div class="form-group">
                         @Html.DisplayNameFor(m => m.Problems)
-                        @Html.EditorFor(m => m.Problems)
                     </div>
+                    <div>
+                        @Html.ListBoxFor(m => m.AssignedProblems, Model.Problems, new { @class = "select2-multiple form-control col-12", multiple = "multiple" })
+                        @Html.ValidationMessageFor(m => m.AssignedProblems, "", new { @class = "text-danger" })
+
+                    </div>
+
 
                     <div class="form-group">
                         @Html.LabelFor(model => model.RepairDescription, htmlAttributes: new { @class = "control-label" })
@@ -259,21 +272,21 @@
                                         }
                                         //assigning parts array to a hidden field to return back to controller and add records to PartOrders.
 
-                                        for (var i = 0; i < partIDs.length; i++) {
+                                        //for (var i = 0; i < partIDs.length; i++) {
 
-                                            var newName = "OrderedPartIDs[" + i + "]";
-                                            var newID = "OrderedPartIDs_" + i + "_";
+                                        //    var newName = "OrderedPartIDs[" + i + "]";
+                                        //    var newID = "OrderedPartIDs_" + i + "_";
 
-                                            $('#OrderedPartIDs').clone().prop({
-                                                id: newID,
-                                                name: newName
-                                            }).val(partIDs[i]).appendTo('.hiddenPartIDs');
+                                        //    $('#OrderedPartIDs').clone().prop({
+                                        //        id: newID,
+                                        //        name: newName
+                                        //    }).val(partIDs[i]).appendTo('.hiddenPartIDs');
 
-                                            console.log(newName);
-                                            console.log(newID);
+                                        //    console.log(newName);
+                                        //    console.log(newID);
 
-                                        }
-                                        $('#OrderedPartIDs').remove();
+                                        //}
+                                        //$('#OrderedPartIDs').remove();
                                         //this line will clear ordered parts table and repopulate it using array
                                         $("#addedOrderedParts").find("tr").remove();
                                         var html = "";
@@ -371,6 +384,27 @@
                     var timeBox = $("#RepairClosed");
                     setTime(checkBox, timeBox);
                 });
+                $("#repairForm").submit(function () {
+                    for (var i = 0; i < partIDs.length; i++) {
+
+                        var newName = "OrderedPartIDs[" + i + "]";
+                        var newID = "OrderedPartIDs_" + i + "_";
+
+                        $('#OrderedPartIDs').clone().prop({
+                            id: newID,
+                            name: newName
+                        }).val(partIDs[i]).appendTo('.hiddenPartIDs');
+
+                        console.log(newName);
+                        console.log(newID);
+
+                    }
+                    $('#OrderedPartIDs').remove();
+                    alert("removed Ordered Pars IDs");
+                    return true;
+
+                })
+                $(".select2-multiple").select2();
             }
         );
 

@@ -24,6 +24,9 @@ namespace Tab30
             "~/Scripts/DataTables/Select/js/dataTables.select.js"
             ));
 
+            bundles.Add(new ScriptBundle("~/bundles/select2").Include(
+                "~/Scripts/select2.js"
+                ));
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
@@ -45,6 +48,7 @@ namespace Tab30
                       "~/Content/DataTables/css/buttons.bootstrap4.css",
                       "~/Content/DataTables/Select/css/select.dataTables.css",
                       "~/Content/DataTables/Select/css/select.bootstrap4.css",
+                      "~/Content/css/select2.css",
                       "~/Content/site.css"));
         }
     }
