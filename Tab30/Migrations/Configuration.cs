@@ -20,6 +20,15 @@ namespace Tab30.Migrations
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
+            var locations = new List<Location>
+            {
+                new Location{ShortDescription="US",LongDescription="Upper School"},
+                new Location{ShortDescription="MS",LongDescription="Middle School"},
+                new Location{ShortDescription="AD",LongDescription="Administration Building"},
+                new Location{ShortDescription="SEA",LongDescription="Sports and Education Annex"}
+            };
+            locations.ForEach(t => context.Locations.AddOrUpdate(i => i.ShortDescription, t));
+            context.SaveChanges();
 
             var tablets = new List<Tablet>
             {
@@ -172,15 +181,7 @@ namespace Tab30.Migrations
             tablets.ForEach(t => context.Tablets.AddOrUpdate(i => i.TabletName, t));
             context.SaveChanges();
 
-            var locations = new List<Location>
-            {
-                new Location{ShortDescription="US",LongDescription="Upper School"},
-                new Location{ShortDescription="MS",LongDescription="Middle School"},
-                new Location{ShortDescription="AD",LongDescription="Administration Building"},
-                new Location{ShortDescription="SEA",LongDescription="Sports and Education Annex"}
-            };
-            locations.ForEach(t => context.Locations.AddOrUpdate(i => i.ShortDescription, t));
-            context.SaveChanges();
+
 
             var users = new List<User>
             {
@@ -229,7 +230,7 @@ namespace Tab30.Migrations
                 new Part{PartNo="00HW027",Description="Yoga 260 Battery", RefundRate = 0},
                 new Part{PartNo="00UP940",Description="ThinkPad Yoga Display", RefundRate = 0}
             };
-            parts.ForEach(t => context.Parts.AddOrUpdate(i => i.PartNo));
+            parts.ForEach(t => context.Parts.AddOrUpdate(i => i.PartNo, t));
             //parts.ForEach(t => context.Parts.Add(t));
             context.SaveChanges();
 
@@ -247,7 +248,7 @@ namespace Tab30.Migrations
 
             };
             //problems.ForEach(t => context.ProblemAreas.Add(t));
-            problems.ForEach(t => context.ProblemAreas.AddOrUpdate(p=>p.ProblemDescription));
+            problems.ForEach(t => context.ProblemAreas.AddOrUpdate(p=>p.ProblemDescription,t));
             context.SaveChanges();
 
             var repairTypes = new List<RepairType>
@@ -259,7 +260,18 @@ namespace Tab30.Migrations
                 new RepairType{RepairTypeDescription = "Declined"}
             };
             //repairTypes.ForEach(t => context.RepairTypes.Add(t));
-            repairTypes.ForEach(t => context.RepairTypes.AddOrUpdate(p => p.RepairTypeDescription));
+            repairTypes.ForEach(t => context.RepairTypes.AddOrUpdate(p => p.RepairTypeDescription,t));
+            context.SaveChanges();
+
+            var teches = new List<Tech>
+            {
+                new Tech{FirstName="Kevin", LastName ="Rokuskie",UserName = "kevin_rokuskie"},
+                new Tech{FirstName="Rick", LastName ="Harris",UserName = "rick_harris"},
+                new Tech{FirstName="Dmitry", LastName ="Manakhov",UserName = "dmitry_manakhov"},
+                new Tech{FirstName="Eric", LastName ="Moore",UserName = "eric_moore"},
+            };
+            //repairTypes.ForEach(t => context.RepairTypes.Add(t));
+            teches.ForEach(t => context.Teches.AddOrUpdate(p => p.UserName, t));
             context.SaveChanges();
         }
     }
