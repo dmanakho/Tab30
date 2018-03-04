@@ -4,6 +4,9 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using Tab30.Models;
+using System.Data.Entity.ModelConfiguration.Conventions;
+using System.Data.Entity.ModelConfiguration.Configuration;
+using System.Data.Entity.ModelConfiguration;
 
 namespace Tab30.DAL
 {
@@ -26,14 +29,19 @@ namespace Tab30.DAL
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+
             modelBuilder.Entity<Repair>()
-                .HasMany<ProblemArea>(p => p.ProblemAreas)
+                .HasMany(p => p.ProblemAreas)
                 .WithMany(r => r.Repairs)
-                .Map(rp => {
+                .Map(rp =>
+                {
                     rp.MapLeftKey("RepairID");
                     rp.MapRightKey("ProblemAreaID");
                     rp.ToTable("RepairProblemAreas");
                 });
+                
 
         }
 

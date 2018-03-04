@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -14,6 +15,7 @@ namespace Tab30.Models
         [DisplayName("Tablet Name")]
         [StringLength(50,ErrorMessage = "Tablet Name can't exceed 50 characters", MinimumLength = 8)]
         [Required]
+        [Index(IsUnique = true)]
         public string TabletName { get; set; }
 
         [DisplayFormat(NullDisplayText = "N/A")]
@@ -27,11 +29,13 @@ namespace Tab30.Models
         [DisplayName("Serial Number")]
         [StringLength(20)]
         [Required]
+        [Index(IsUnique = true)]
         public string SerialNo { get; set; }
 
         [DisplayFormat(NullDisplayText = "N/A")]
         [DisplayName("Asset Tag")]
         [StringLength(20)]
+        [Index(IsUnique = true)]
         public string AssetTag { get; set; }
 
         [DisplayName("Warranty Expiration")]

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -24,6 +25,7 @@ namespace Tab30.Models
         [DisplayName("User Name")]
         [StringLength(20, ErrorMessage = "First Name can't exceed 20 characters")]
         [Required]
+        [Index(IsUnique = true)]
         public string UserName { get; set; }
 
         [DisplayName("Technician:")]

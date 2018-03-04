@@ -36,8 +36,8 @@ namespace Tab30.ViewModels
         [DataType(DataType.MultilineText)]
         public string RepairDescription { get; set; }
 
-        [DataType(DataType.MultilineText)]
-        public string Comment { get; set; }
+        //[DataType(DataType.MultilineText)]
+        //public string Comment { get; set; }
 
         #region Boolean and DataTime Fields
 
@@ -114,7 +114,7 @@ namespace Tab30.ViewModels
             {
                 VendorCaseNo = repair.VendorCaseNo,
                 RepairDescription = repair.RepairDescription,
-                Comment = repair.Comment,
+                //Comment = repair.Comment,
                 IsComplete = repair.IsComplete,
                 RepairClosed = repair.RepairClosed,
                 IsBoxRequested = repair.IsBoxRequested,
@@ -137,7 +137,7 @@ namespace Tab30.ViewModels
             {
                 VendorCaseNo = repairTablet.VendorCaseNo,
                 RepairDescription = repairTablet.RepairDescription,
-                Comment = repairTablet.Comment,
+                //Comment = repairTablet.Comment,
                 IsComplete = repairTablet.IsComplete,
                 RepairClosed = repairTablet.RepairClosed,
                 IsBoxRequested = repairTablet.IsBoxRequested,
