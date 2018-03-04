@@ -42,28 +42,28 @@ namespace Tab30.Models
 
         [DisplayName("Closed On")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true, NullDisplayText = "N/A")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, NullDisplayText = "N/A")]
         public DateTime? RepairClosed { get; set; }
 
         public bool IsBoxRequested { get; set; } = false;
 
         [DisplayName("Requested On")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? BoxRequestedOn { get; set; }
 
         public bool IsShipped { get; set; } = false;
 
         [DisplayName("Shipped Out On")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? ShippedOn { get; set; }
 
         public bool IsUnitReturned { get; set; } = false;
 
         [DisplayName("Unit Returned On")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? ReturnedOn { get; set; }
 
         [Required]

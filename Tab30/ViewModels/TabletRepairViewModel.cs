@@ -17,8 +17,8 @@ namespace Tab30.ViewModels
         public TabletRepairViewModel()
         {
             //used in a drop down box to populate repair types in the view.
-            RepairTypes = new SelectList(db.RepairTypes.OrderBy(p => p.RepairTypeDescription), "ID", "RepairTypeDescription");
-            
+            RepairTypes = new SelectList(db.RepairTypes.OrderBy(p => p.RepairTypeDescription).ToList(), "ID", "RepairTypeDescription");
+
             //used to populate parts table in the View
             Parts = db.Parts.OrderBy(p => p.Description).ToList();
 
@@ -27,6 +27,8 @@ namespace Tab30.ViewModels
 
             //PartOrders = new List<PartOrder>();
         }
+
+        public int ID { get; set; }
 
         [DisplayName("Vendor Case#"), StringLength(50)]
         public string VendorCaseNo { get; set; }
@@ -41,12 +43,17 @@ namespace Tab30.ViewModels
 
         #region Boolean and DataTime Fields
 
+        [DisplayName("Created On")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
+        public DateTime RepairCreated { get; set; }
+
         [DisplayName("Closed")]
         public bool IsComplete { get; set; } = false;
 
         [DisplayName("Closed On")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true, NullDisplayText = "N/A")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, NullDisplayText = "N/A")]
         public DateTime? RepairClosed { get; set; }
 
         [DisplayName("Box Requested")]
@@ -54,7 +61,7 @@ namespace Tab30.ViewModels
 
         [DisplayName("Requested On")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? BoxRequestedOn { get; set; }
 
         [DisplayName("Shipped Out")]
@@ -62,7 +69,7 @@ namespace Tab30.ViewModels
 
         [DisplayName("Shipped Out On")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? ShippedOn { get; set; }
 
         [DisplayName("Unit Returned")]
@@ -70,7 +77,7 @@ namespace Tab30.ViewModels
 
         [DisplayName("Returned On")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? ReturnedOn { get; set; }
         #endregion 
 
@@ -82,7 +89,7 @@ namespace Tab30.ViewModels
         public int TechID { get; set; }
         public string TechName { get; set; }
 
-       // public List<PartOrder> PartOrders { get; set; }
+        // public List<PartOrder> PartOrders { get; set; }
 
         public List<int> OrderedPartIDs { get; set; }
 
@@ -112,10 +119,11 @@ namespace Tab30.ViewModels
         {
             return new TabletRepairViewModel
             {
+                ID = repair.ID,
                 VendorCaseNo = repair.VendorCaseNo,
                 RepairDescription = repair.RepairDescription,
-                //Comment = repair.Comment,
                 IsComplete = repair.IsComplete,
+                RepairCreated =repair.RepairCreated,
                 RepairClosed = repair.RepairClosed,
                 IsBoxRequested = repair.IsBoxRequested,
                 BoxRequestedOn = repair.BoxRequestedOn,
@@ -126,7 +134,9 @@ namespace Tab30.ViewModels
                 TechID = repair.TechID,
                 //PartOrders = repair.PartOrders.ToList(),
                 IsUnitReturned = repair.IsUnitReturned,
-                RepairTypeID = repair.RepairTypeID
+                RepairTypeID = repair.RepairTypeID,
+                TechName = repair.Tech.FullName,
+                TabletName = repair.Tablet.TabletName,
 
             };
         }
@@ -135,10 +145,12 @@ namespace Tab30.ViewModels
         {
             return new Repair
             {
+                ID = repairTablet.ID,
                 VendorCaseNo = repairTablet.VendorCaseNo,
                 RepairDescription = repairTablet.RepairDescription,
                 //Comment = repairTablet.Comment,
                 IsComplete = repairTablet.IsComplete,
+                RepairCreated = repairTablet.RepairCreated,
                 RepairClosed = repairTablet.RepairClosed,
                 IsBoxRequested = repairTablet.IsBoxRequested,
                 BoxRequestedOn = repairTablet.BoxRequestedOn,

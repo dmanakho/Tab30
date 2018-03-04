@@ -135,10 +135,14 @@ namespace Tab30.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.RepairTypeID = new SelectList(db.RepairTypes, "ID", "RepairTypeDescription", repair.RepairTypeID);
-            ViewBag.TabletID = new SelectList(db.Tablets, "ID", "TabletName", repair.TabletID);
-            ViewBag.TechID = new SelectList(db.Teches, "ID", "FirstName", repair.TechID);
-            return View(repair);
+            TabletRepairViewModel tabletRepair = repair;
+            //tabletRepair.TechName = db.Teches.Find(repair.TechID).FullName;
+            //tabletRepair.TabletName = db.Tablets.Find(repair.TabletID).TabletName;
+            //ViewBag.RepairTypeID = new SelectList(db.RepairTypes, "ID", "RepairTypeDescription", repair.RepairTypeID);
+            //ViewBag.TabletID = new SelectList(db.Tablets, "ID", "TabletName", repair.TabletID);
+            //ViewBag.TechID = new SelectList(db.Teches, "ID", "FirstName", repair.TechID);
+
+            return View(tabletRepair);
         }
 
         // POST: Repairs/Edit/5
@@ -146,18 +150,18 @@ namespace Tab30.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,VendorCaseNo,RepairDescription,Comment,IsComplete,RepairCreated,UpdatedOn,RepairClosed,IsBoxRequested,BoxRequestedOn,IsShipped,ShippedOn,IsUnitReturned,ReturnedOn,TabletID,RepairTypeID,TechID")] Repair repair)
+        public ActionResult Edit(TabletRepairViewModel tabletRepair)
         {
             if (ModelState.IsValid)
             {
+                Repair repair = tabletRepair;
+                repair.UpdatedOn = DateTime.Now;
                 db.Entry(repair).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.RepairTypeID = new SelectList(db.RepairTypes, "ID", "RepairTypeDescription", repair.RepairTypeID);
-            ViewBag.TabletID = new SelectList(db.Tablets, "ID", "TabletName", repair.TabletID);
-            ViewBag.TechID = new SelectList(db.Teches, "ID", "FirstName", repair.TechID);
-            return View(repair);
+
+            return View(tabletRepair);
         }
 
         // GET: Repairs/Delete/5
@@ -210,36 +214,7 @@ namespace Tab30.Controllers
                 TechName = tech.FullName,
 
             };
-            //var assignedProblems = new List<AssignedProblemAreas>();
-            //foreach (var problemArea in db.ProblemAreas)
-            //{
-            //    assignedProblems.Add(new AssignedProblemAreas
-            //    {
-            //        ProblemAreaID = problemArea.ID,
-            //        ProblemDescription = problemArea.ProblemDescription,
-            //        Assigned = false
-            //    }
-            //        );
-            //}
-            //tabletRepair.Problems = GetAssignedProblemsList();
             return tabletRepair;
-        }
-
-        [NonAction]
-        private List<AssignedProblemAreas> GetAssignedProblemsList()
-        {
-            var assignedProblems = new List<AssignedProblemAreas>();
-            foreach (var problemArea in db.ProblemAreas)
-            {
-                assignedProblems.Add(new AssignedProblemAreas
-                {
-                    ProblemAreaID = problemArea.ID,
-                    ProblemDescription = problemArea.ProblemDescription,
-                    Assigned = false
-                }
-                    );
-            }
-            return assignedProblems;
         }
     }
 }
