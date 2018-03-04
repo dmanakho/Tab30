@@ -208,6 +208,10 @@
     <Compile Include="Migrations\201803041801472_InitialCreate.Designer.cs">
       <DependentUpon>201803041801472_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803041938363_VendorCaseNumberisRequiredFieldNow.cs" />
+    <Compile Include="Migrations\201803041938363_VendorCaseNumberisRequiredFieldNow.Designer.cs">
+      <DependentUpon>201803041938363_VendorCaseNumberisRequiredFieldNow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Part.cs" />
@@ -672,6 +676,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201803041801472_InitialCreate.resx">
       <DependentUpon>201803041801472_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803041938363_VendorCaseNumberisRequiredFieldNow.resx">
+      <DependentUpon>201803041938363_VendorCaseNumberisRequiredFieldNow.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

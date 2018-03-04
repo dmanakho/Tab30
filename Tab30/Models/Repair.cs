@@ -16,6 +16,7 @@ namespace Tab30.Models
 
         [DisplayName("Vendor Case#"), StringLength(50)]
         [Index(IsUnique = true)]
+        [Required]
         public string VendorCaseNo { get; set; }
 
         [Required]

@@ -46,6 +46,28 @@ namespace Tab30.Controllers
             ViewBag.TechID = new SelectList(db.Teches, "ID", "FirstName");
             return View();
         }
+        // POST: Repairs/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public string Create([Bind(Include = "ID,VendorCaseNo,RepairDescription,Comment,IsComplete,RepairCreated,UpdatedOn,RepairClosed,IsBoxRequested,BoxRequestedOn,IsShipped,ShippedOn,IsUnitReturned,ReturnedOn,TabletID,RepairTypeID,TechID")] Repair repair)
+        {
+            //if (ModelState.IsValid)
+            //{
+            //    db.Repairs.Add(repair);
+            //    db.SaveChanges();
+            //    return RedirectToAction("Index");
+            //}
+
+            //ViewBag.RepairTypeID = new SelectList(db.RepairTypes, "ID", "RepairTypeDescription", repair.RepairTypeID);
+            //ViewBag.TabletID = new SelectList(db.Tablets, "ID", "TabletName", repair.TabletID);
+            //ViewBag.TechID = new SelectList(db.Teches, "ID", "FirstName", repair.TechID);
+            //return View(repair);
+            return "Not Implemented";
+        }
+
+
         public ActionResult Save(int? tabletID)
         {
             if (!tabletID.HasValue)
@@ -53,7 +75,7 @@ namespace Tab30.Controllers
                 //redirect to the tablet list if this page was accessed by accident without providing a valid tablet ID
                 return RedirectToAction("Index", "Tablets");
             }
-            var tabletRepair = GetTabletRepairVM(tabletID.Value);
+            var tabletRepair = BuildTabletRepairViewModel(tabletID.Value);
 
             return View(tabletRepair);
         }
@@ -70,20 +92,9 @@ namespace Tab30.Controllers
                 repair.IsComplete = tabletRepair.IsComplete;
                 repair.TechID = 2; //this is temporary until Auth and Oauth is implemented;
 
-                //the  block below adds problem areas to our repair. It's a many to many relation ship with problemareas entity
-
-                //if (tabletRepair.AssignedProblems != null)
-                //{
-                //    foreach (var problem in tabletRepair.AssignedProblems)
-                //    {
-                //        var problemArea = new ProblemArea { ID = problem };
-                //        db.ProblemAreas.Attach(problemArea);
-                //        repair.ProblemAreas.Add(problemArea);
-                //    }
-                //}
-
                 //the line below is from: https://www.thereformedprogrammer.net/updating-a-many-to-many-relationship-in-entity-framework/
                 //also need to work to update this code to work with EDIT action. See article above.
+                //this only works with EF configured many-to-many relationship. It will not work with custom join table with payload.
 
                 repair.ProblemAreas = db.ProblemAreas.Where(p=>tabletRepair.AssignedProblems.Contains(p.ID)).ToList();
                
@@ -92,28 +103,10 @@ namespace Tab30.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Details", "Tablets", new { id = repair.TabletID });
             }
-            //tabletRepair.Problems = GetAssignedProblemsList();
+            
             return View(tabletRepair);
         }
-        // POST: Repairs/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,VendorCaseNo,RepairDescription,Comment,IsComplete,RepairCreated,UpdatedOn,RepairClosed,IsBoxRequested,BoxRequestedOn,IsShipped,ShippedOn,IsUnitReturned,ReturnedOn,TabletID,RepairTypeID,TechID")] Repair repair)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Repairs.Add(repair);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
-            ViewBag.RepairTypeID = new SelectList(db.RepairTypes, "ID", "RepairTypeDescription", repair.RepairTypeID);
-            ViewBag.TabletID = new SelectList(db.Tablets, "ID", "TabletName", repair.TabletID);
-            ViewBag.TechID = new SelectList(db.Teches, "ID", "FirstName", repair.TechID);
-            return View(repair);
-        }
 
         // GET: Repairs/Edit/5
         public ActionResult Edit(int? id)
@@ -188,7 +181,7 @@ namespace Tab30.Controllers
         }
 
         [NonAction]
-        private TabletRepairViewModel GetTabletRepairVM(int tabletID)
+        private TabletRepairViewModel BuildTabletRepairViewModel(int tabletID)
         {
             var tablet = db.Tablets.Find(tabletID);
             var tech = db.Teches.Find(2); //magic number but will be replaces with Tech's info later;

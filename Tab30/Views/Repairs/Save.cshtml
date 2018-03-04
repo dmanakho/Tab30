@@ -35,22 +35,11 @@
 
                     <div class="form-row">
                         <div class="form-group col-12">
-                            @*Getting error message when form is posted Model.RepairTypes the name Model does not exist in the current context*@
-                            @*@Html.LabelFor(model => model.RepairTypes, htmlAttributes: new { @class = "control-label" })
-                                @Html.DropDownListFor(m => m.RepairTypeID, new SelectList(Model.RepairTypes, "ID", "RepairTypeDescription"), "--select--", new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.RepairTypeID, "", new { @class = "text-danger" })*@
                             @Html.LabelFor(model => model.RepairTypes, htmlAttributes: new { @class = "control-label" })
                             @Html.DropDownListFor(m => m.RepairTypeID, Model.RepairTypes, "---select--", new { @class = "form-control select2-multiple col-12" })
                             @Html.ValidationMessageFor(model => model.RepairTypeID, "", new { @class = "text-danger" })
                         </div>
                     </div>
-
-                    @*The form-group below uses Editor Template.*@
-
-                    @*<div class="form-group">
-                            @Html.DisplayNameFor(m => m.Problems)
-                            @Html.EditorFor(m => m.Problems)
-                        </div>*@
 
                     <div class="form-group">
                         @Html.DisplayNameFor(m => m.Problems)
@@ -69,14 +58,6 @@
                         @Html.ValidationMessageFor(model => model.RepairDescription, "", new { @class = "text-danger" })
 
                     </div>
-
-                    @*<div class="form-group">
-                        @Html.LabelFor(model => model.Comment, htmlAttributes: new { @class = "control-label" })
-                        <div class="">
-                            @Html.EditorFor(model => model.Comment, new { htmlAttributes = new { @class = "form-control col-12" } })
-                            @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
-                        </div>
-                    </div>*@
 
                 </div>
                 <div class="col-6">
@@ -142,14 +123,6 @@
             </div>
             <div class="form-group hiddenPartIDs">
                 @Html.HiddenFor(p => p.OrderedPartIDs)
-
-                @*@{
-                        for (int i = 0; i < Model.OrderedPartIDs.Count; i++)
-                        {
-                            @Html.HiddenFor(p => p.OrderedPartIDs[i])
-                        }
-                    }*@
-                @*@Html.HiddenFor(po=>po.PartOrders)*@
             </div>
             <div class="form-group">
                 <div class="">
@@ -183,6 +156,9 @@
                     <th>
 
                     </th>
+                    <th>
+
+                    </th>
                 </tr>
             </thead>
             <tbody id="addedOrderedParts"></tbody>
@@ -199,7 +175,9 @@
         <table id="parts" class="table">
             <thead>
                 <tr>
-                    @*<th>Select</th>*@
+                    @*I used checkboxes in original version to select parts. Left it here if i ever need to come back
+                        Also see the line below @Html.CheckBox.
+                        <th>Select</th>*@
                     <th>
                         @Html.DisplayNameFor(r => part.PartNo)
                     </th>
@@ -242,6 +220,7 @@
         var parts = new Array();
         //use array of IDs to check whether the ID was already selected.
         var partIDs = new Array();
+        
         $(document).ready(
             function () {
                 var tableParts = $("#parts").DataTable(
@@ -251,55 +230,29 @@
                             {
                                 text: "Add Parts to Order",
                                 action: function () {
-
                                     selectedParts = tableParts.rows({ selected: true }).data();
                                     if (selectedParts.length > 0) {
-
-
                                         for (var row = 0; row < selectedParts.length; row++) {
                                             if (($.inArray(selectedParts[row][2], partIDs) == -1)) {
                                                 partIDs.push(selectedParts[row][2]);
-                                                parts.push({ ID: selectedParts[row][2], PartNo: selectedParts[row][01], Description: selectedParts[row][1] });
+                                                parts.push({ ID: selectedParts[row][2], PartNo: selectedParts[row][0], Description: selectedParts[row][1] });
                                             }
-                                            //var checkBoxPartsSelected = $(this).children('td')
-                                            //    .find("input[type='checkbox']")
-                                            //checkBoxPartsSelected.prop('checked', false);
                                         }
-                                        //assigning parts array to a hidden field to return back to controller and add records to PartOrders.
-
-                                        //for (var i = 0; i < partIDs.length; i++) {
-
-                                        //    var newName = "OrderedPartIDs[" + i + "]";
-                                        //    var newID = "OrderedPartIDs_" + i + "_";
-
-                                        //    $('#OrderedPartIDs').clone().prop({
-                                        //        id: newID,
-                                        //        name: newName
-                                        //    }).val(partIDs[i]).appendTo('.hiddenPartIDs');
-
-                                        //    console.log(newName);
-                                        //    console.log(newID);
-
-                                        //}
-                                        //$('#OrderedPartIDs').remove();
+                                        console.log(partIDs);
                                         //this line will clear ordered parts table and repopulate it using array
+                                        //each time when we click "Add parts to order" button.
                                         $("#addedOrderedParts").find("tr").remove();
                                         var html = "";
                                         parts.forEach(function (value) {
                                             //console.log(value.Description);
                                             html += "<tr>";
                                             html += "<td>" + value.Description + "</td><td>No</td><td>" + getToday() + "</td>";
-                                            //html += "<td><input type=\"button\" value=\"Remove\" class = \"btn btn-secondary\" onClick=\"$(this).closest('tr').remove();\"/></td>"
-                                            //html += "<td><input type=\"button\" value=\"Remove\" class = \"btn btn-secondary\" onClick=\"function() {$(this).closest('tr').remove();\"}/></td>";
+                                            html += "<td>" + value.ID + "</td>";
                                             html += "<td><a href=\"" + value.ID + "\" class = \"btn btn-sm btn-secondary\">Remove</a></td>"
                                             html += "</tr>";
                                         })
                                         //console.log(html);
                                         $("#addedOrderedParts").append(html);
-
-                                        //var greenRows = tableParts.rows('.selected')
-                                        //    .nodes()
-                                        //    .to$().removeClass('text-success');
                                         tableParts.rows({ selected: true }).deselect();
                                     }
                                 }
@@ -307,13 +260,9 @@
                         ],
                         select: { style: 'multi' },
                         "columnDefs": [
-                            //{
-                            //    "targets": [0],
-                            //    "orderable": false
-                            //},
                             {
                                 "targets": [2],
-                                "visible": false,
+                                "visible": true,
                                 "searchable": false
                             },
                         ],
@@ -330,33 +279,27 @@
 
                     var removedPartID = $(this).attr("href");
                     partIDs.splice($.inArray(removedPartID, partIDs), 1);
+                    
+                    console.log(partIDs);
+                    console.log(parts);
 
-
-                    for (var i = 0; i < parts.length; i++) {
-                        if (parts[i].ID = removedPartID) {
-                            parts.splice(i, 1);
-                        }
-                    }
+                    //found the snippet below at: https://stackoverflow.com/questions/15287865/remove-array-element-based-on-object-property
+                    // this helps to remove an ordered part from the array of objects when remove button is pressed
+                    parts = parts.filter(function (obj) {
+                        return obj.ID !== removedPartID;
+                    });
+                    //console.log("After:");
+                    //console.log(parts);
+                    //for (var i = 0; i < parts.length; i++) {
+                    //    if (parts[i].ID == removedPartID) {
+                    //        console.log("InsideIF:" + i);
+                    //        console.log(parts[i]);
+                    //        parts.splice(i, 1);
+                    //        console.log(parts[i]);
+                    //    }
+                    //}
                     $(this).parents('tr').remove();
 
-                });
-                $('#parts input:checkbox').click(function () {
-                    //if ($(this).closest('tr').hasClass('text-success')) {
-                    //    $(this).prop('checked', true);
-                    //}
-                    //else {
-                    //    $(this).prop('checked', false);
-                    //}
-
-                });
-
-                $('#parts tbody').on('click', 'tr', function () {
-                    //$(this).toggleClass('text-success');
-                    //var checkBoxPartsSelected = $(this).children('td')
-                    //    .find("input[type='checkbox']")
-
-                    //checkBoxPartsSelected.prop('checked', !checkBoxPartsSelected.prop('checked'));
-                    //console.log($(this).children(':checkbox').prop('checked', true));
                 });
 
                 $("#IsBoxRequested").click(function () {
@@ -390,12 +333,11 @@
                             name: newName
                         }).val(partIDs[i]).appendTo('.hiddenPartIDs');
 
-                        console.log(newName);
-                        console.log(newID);
+                        //console.log(newName);
+                        //console.log(newID);
 
                     }
                     $('#OrderedPartIDs').remove();
-                    alert("removed Ordered Pars IDs");
                     return true;
 
                 })
