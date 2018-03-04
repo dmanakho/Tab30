@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -96,14 +97,28 @@ namespace Tab30.Controllers
                 //also need to work to update this code to work with EDIT action. See article above.
                 //this only works with EF configured many-to-many relationship. It will not work with custom join table with payload.
 
-                repair.ProblemAreas = db.ProblemAreas.Where(p=>tabletRepair.AssignedProblems.Contains(p.ID)).ToList();
-               
+                repair.ProblemAreas = db.ProblemAreas.Where(p => tabletRepair.AssignedProblems.Contains(p.ID)).ToList();
                 db.Repairs.Add(repair);
-
                 db.SaveChanges();
+
+                if (tabletRepair.OrderedPartIDs.Any())
+                {
+                    List<PartOrder> partOrders = new List<PartOrder>();
+                    foreach (var part in tabletRepair.OrderedPartIDs)
+                    {
+                        partOrders.Add(new PartOrder()
+                        {
+                            OrderedOn = DateTime.Now,
+                            PartID = part,
+                            RepairID = repair.ID,
+                            IsPartReceived = false
+                        });
+                    }
+                    db.PartOrders.AddRange(partOrders);
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Details", "Tablets", new { id = repair.TabletID });
             }
-            
             return View(tabletRepair);
         }
 
@@ -185,7 +200,7 @@ namespace Tab30.Controllers
         {
             var tablet = db.Tablets.Find(tabletID);
             var tech = db.Teches.Find(2); //magic number but will be replaces with Tech's info later;
-            
+
 
             var tabletRepair = new TabletRepairViewModel()
             {
@@ -193,7 +208,7 @@ namespace Tab30.Controllers
                 TabletName = tablet.TabletName,
                 TechID = 2, //Kevin
                 TechName = tech.FullName,
-                 
+
             };
             //var assignedProblems = new List<AssignedProblemAreas>();
             //foreach (var problemArea in db.ProblemAreas)

@@ -212,6 +212,14 @@
     <Compile Include="Migrations\201803041938363_VendorCaseNumberisRequiredFieldNow.Designer.cs">
       <DependentUpon>201803041938363_VendorCaseNumberisRequiredFieldNow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803042033543_MadeDateTimeFieldsNullableinPartORderTable.cs" />
+    <Compile Include="Migrations\201803042033543_MadeDateTimeFieldsNullableinPartORderTable.Designer.cs">
+      <DependentUpon>201803042033543_MadeDateTimeFieldsNullableinPartORderTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803042037203_RemovedNullablefromPartReceivedBoolean.cs" />
+    <Compile Include="Migrations\201803042037203_RemovedNullablefromPartReceivedBoolean.Designer.cs">
+      <DependentUpon>201803042037203_RemovedNullablefromPartReceivedBoolean.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Part.cs" />
@@ -679,6 +687,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803041938363_VendorCaseNumberisRequiredFieldNow.resx">
       <DependentUpon>201803041938363_VendorCaseNumberisRequiredFieldNow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803042033543_MadeDateTimeFieldsNullableinPartORderTable.resx">
+      <DependentUpon>201803042033543_MadeDateTimeFieldsNullableinPartORderTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803042037203_RemovedNullablefromPartReceivedBoolean.resx">
+      <DependentUpon>201803042037203_RemovedNullablefromPartReceivedBoolean.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

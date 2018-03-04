@@ -18,12 +18,12 @@ namespace Tab30.Models
         public DateTime OrderedOn { get; set; }
 
         [DisplayName("Part Received")]
-        public bool? IsPartReceived { get; set; } = false;
+        public bool IsPartReceived { get; set; } = false;
 
         [DisplayName("Received On")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        public DateTime ReceivedOn { get; set; }
+        public DateTime? ReceivedOn { get; set; }
 
         [ForeignKey("Repair")]
         public int RepairID { get; set; }

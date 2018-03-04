@@ -109,7 +109,7 @@ namespace Tab30.Controllers
                 db.Entry(tablet).State = EntityState.Modified;
                 db.Entry(tablet).Property("CreatedOn").IsModified = false;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = tablet.ID });
             }
            
             return View(tablet);

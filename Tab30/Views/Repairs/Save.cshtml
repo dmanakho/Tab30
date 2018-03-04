@@ -156,9 +156,6 @@
                     <th>
 
                     </th>
-                    <th>
-
-                    </th>
                 </tr>
             </thead>
             <tbody id="addedOrderedParts"></tbody>
@@ -247,7 +244,7 @@
                                             //console.log(value.Description);
                                             html += "<tr>";
                                             html += "<td>" + value.Description + "</td><td>No</td><td>" + getToday() + "</td>";
-                                            html += "<td>" + value.ID + "</td>";
+                                           // html += "<td>" + value.ID + "</td>";
                                             html += "<td><a href=\"" + value.ID + "\" class = \"btn btn-sm btn-secondary\">Remove</a></td>"
                                             html += "</tr>";
                                         })
@@ -262,7 +259,7 @@
                         "columnDefs": [
                             {
                                 "targets": [2],
-                                "visible": true,
+                                "visible": false,
                                 "searchable": false
                             },
                         ],
