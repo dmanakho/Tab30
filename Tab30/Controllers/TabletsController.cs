@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Tab30.DAL;
 using Tab30.Models;
+using Tab30.ViewModels;
 
 namespace Tab30.Controllers
 {
@@ -18,7 +19,7 @@ namespace Tab30.Controllers
         // GET: Tablets
         public ActionResult Index()
         {
-            var tablets = db.Tablets.Include(t => t.Location).Include(t => t.User).Include(t=>t.Repairs);
+            var tablets = db.Tablets.Include(t => t.Location).Include(t => t.User).Include(t => t.Repairs).OrderBy(t => t.TabletName);
             return View(tablets.ToList());
         }
 
@@ -27,23 +28,29 @@ namespace Tab30.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", "Tablets");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var tablet = db.Tablets.Single(t => t.ID == id);
+            var tablet = db.Tablets.FirstOrDefault(t => t.ID == id);
+
             if (tablet == null)
             {
                 return HttpNotFound();
             }
+
+            tablet.Repairs = db.Repairs.Where(t => t.TabletID == id).
+                Include(t=>t.RepairType).
+                Include(t => t.ProblemAreas).
+                ToList();
+
             return View(tablet);
         }
 
         // GET: Tablets/Create
         public ActionResult Create()
         {
-            
-            ViewBag.LocationID = new SelectList(db.Locations.OrderBy(d=>d.ShortDescription), "ID", "ShortDescription");
-            ViewBag.UserID = new SelectList(db.Users.OrderBy(d=>d.FirstName).ThenBy(d=>d.LastName), "ID", "FullName");
-            return View();
+            var tabletViewModel = new TabletViewModel(db);
+            return View(tabletViewModel);
         }
 
         // POST: Tablets/Create
@@ -51,8 +58,12 @@ namespace Tab30.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,TabletName,Make,Model,SerialNo,AssetTag,WarrantyExpiresOn,ADPEnabled,LocationID,UserID")] Tablet tablet)
+        public ActionResult Create(TabletViewModel tabletViewModel)
         {
+            //implicit conversion using implicit operator defined in TabletViewModel Class
+
+            Tablet tablet = tabletViewModel;
+
             if (ModelState.IsValid)
             {
                 tablet.CreatedOn = DateTime.Now;
@@ -61,10 +72,7 @@ namespace Tab30.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            ViewBag.LocationID = new SelectList(db.Locations, "ID", "ShortDescription", tablet.LocationID);
-            ViewBag.UserID = new SelectList(db.Users, "ID", "FullName", tablet.UserID);
-            return View(tablet);
+            return View(tabletViewModel);
         }
 
         // GET: Tablets/Edit/5
@@ -72,16 +80,19 @@ namespace Tab30.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", "Tablets");
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Tablet tablet = db.Tablets.Find(id);
-            if (tablet == null)
+            TabletViewModel tabletViewModel = db.Tablets.Find(id);
+
+            if (tabletViewModel == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.LocationID = new SelectList(db.Locations, "ID", "ShortDescription", tablet.LocationID);
-            ViewBag.UserID = new SelectList(db.Users, "ID", "FullName", tablet.UserID);
-            return View(tablet);
+            tabletViewModel.Locations = new SelectList(db.Locations.OrderBy(p => p.ShortDescription), "ID", "ShortDescription");
+            tabletViewModel.Users = new SelectList(db.Users.ToList().OrderBy(t => t.FullName), "ID", "FullName");
+
+            return View(tabletViewModel);
         }
 
         // POST: Tablets/Edit/5
@@ -89,8 +100,9 @@ namespace Tab30.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,TabletName,Make,Model,SerialNo,AssetTag,WarrantyExpiresOn,ADPEnabled,LocationID,UserID")] Tablet tablet)
+        public ActionResult Edit(TabletViewModel tabletViewModel)
         {
+            Tablet tablet = tabletViewModel;
             if (ModelState.IsValid)
             {
                 tablet.UpdatedOn = DateTime.Now;
@@ -99,8 +111,7 @@ namespace Tab30.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.LocationID = new SelectList(db.Locations, "ID", "ShortDescription", tablet.LocationID);
-            ViewBag.UserID = new SelectList(db.Users, "ID", "FullName", tablet.UserID);
+           
             return View(tablet);
         }
 

@@ -12,7 +12,7 @@ namespace Tab30.Models
         public int ID { get; set; }
 
         [DisplayName("Tablet Name")]
-        [StringLength(50,ErrorMessage = "Tablet Name can't exceed 20 characters", MinimumLength = 8)]
+        [StringLength(50,ErrorMessage = "Tablet Name can't exceed 50 characters", MinimumLength = 8)]
         [Required]
         public string TabletName { get; set; }
 

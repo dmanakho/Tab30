@@ -19,7 +19,7 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             @Html.HiddenFor(m => m.TechID)
             @Html.HiddenFor(m => m.TechName)
-            @Html.HiddenFor(m=>m.TabletID)
+            @Html.HiddenFor(m => m.TabletID)
             @*@Html.Partial("SaveNew", @Model)*@
 
             <div class="form-row">
@@ -161,38 +161,33 @@
 
     <div class="col-7">
 
-        @{ var partOrders = new Tab30.Models.PartOrder();}
+        @{
+            //Need to find a better solution that this.
+            var partOrders = new Tab30.Models.PartOrder();
+        }
 
         <h5 class="text-primary">Parts Ordered:</h5>
-        @if (Model.PartOrders == null)
-        {
+        <table id="partsOrders" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(r => partOrders.Part.Description)
 
-            <p>Clean record!</p>
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(r => partOrders.IsPartReceived)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(r => partOrders.OrderedOn)
+                    </th>
+                    <th>
 
-        }
-        else
-        {
-            <table id="partsOrders" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(r => partOrders.Part.Description)
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="addedOrderedParts"></tbody>
+        </table>
 
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(r => partOrders.IsPartReceived)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(r => partOrders.OrderedOn)
-                        </th>
-                        <th>
-
-                        </th>
-                    </tr>
-                </thead>
-                <tbody id="addedOrderedParts"></tbody>
-            </table>
-        }
 
         @{
             //this line is used to make HTML.DisplayFor to pull property names from the model.

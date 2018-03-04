@@ -12,7 +12,7 @@
         <span class="text-primary">@Html.DisplayFor(model => model.TabletName)</span>
         <span class="text-muted text-lowercase">
             (@Html.DisplayNameFor(model => model.CreatedOn)  @Html.DisplayFor(model => model.CreatedOn);
-            @Html.DisplayNameFor(model => model.UpdatedOn) @Html.DisplayFor(model => model.UpdatedOn))
+            @Html.DisplayNameFor(model => model.UpdatedOn) @Html.DisplayFor(model => model.UpdatedOn) )
         </span>
     </h4>
     <hr />
@@ -103,11 +103,6 @@
             <dd>
                 @Html.DisplayFor(model => model.User.FullName)
             </dd>
-            @*  <dd>
-                    @Html.DisplayFor(model => model.ADPEnabled)
-                </dd>
-            *@
-
         </dl>
 
     </div>
@@ -123,38 +118,52 @@
     </h4>
 </div>
 
-@{ var repair = Model.Repairs.FirstOrDefault(); }
+@{
+    // can you find a better solution
+    var r = Model.Repairs.FirstOrDefault();
+}
 
 <table class="table table-condensed table-striped">
     <tr>
-        <th> @Html.DisplayNameFor(r => repair.ID)</th>
-        <th> @Html.DisplayNameFor(r => repair.RepairDescription)</th>
-        <th> @Html.DisplayNameFor(r => repair.RepairType)</th>
-        <th> @Html.DisplayNameFor(r => repair.IsComplete)</th>
-        <th> @Html.DisplayNameFor(r => repair.RepairCreated)</th>
-        <th> @Html.DisplayNameFor(r => repair.RepairClosed)</th>
+        <th> @Html.DisplayNameFor(m => r.ID)</th>
+        <th> @Html.DisplayNameFor(m => r.VendorCaseNo)</th>
+        <th> @Html.DisplayNameFor(m => r.ProblemAreas)</th>
+        <th> @Html.DisplayNameFor(m => r.RepairDescription)</th>
+        <th> @Html.DisplayNameFor(m => r.RepairType)</th>
+        <th> @Html.DisplayNameFor(m => r.RepairCreated)</th>
+        <th> @Html.DisplayNameFor(m => r.RepairClosed)</th>
     </tr>
-    @foreach (var item in Model.Repairs)
+    @foreach (var repair in Model.Repairs)
     {
         <tr>
             <td>
-                @Html.ActionLink(@Html.DisplayFor(r => item.ID).ToString(), "Details", "Repairs", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-primary" })
+                @Html.ActionLink(@Html.DisplayFor(m => repair.ID).ToString(), "Details", "Repairs", new { id = repair.ID }, new { @class = "btn btn-sm btn-outline-primary" })
             </td>
             <td>
-                @Html.DisplayFor(r => item.RepairDescription)
+                @Html.DisplayFor(m => repair.VendorCaseNo)
 
             </td>
             <td>
-                @Html.DisplayFor(r => item.RepairType)
+                <ul class="list-unstyled">
+                    @foreach (var item in repair.ProblemAreas)
+                    {
+                        <li>@Html.DisplayFor(m => item.ProblemDescription)</li>
+                    }
+                </ul>
             </td>
             <td>
-                @Html.DisplayFor(r => item.IsComplete)
+                @Html.DisplayFor(m => repair.RepairDescription)
+
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RepairCreated)
+                @Html.DisplayFor(m => repair.RepairType.RepairTypeDescription)
+            </td>
+
+            <td>
+                @Html.DisplayFor(m => repair.RepairCreated)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.RepairClosed)
+                @Html.DisplayFor(m => repair.RepairClosed)
             </td>
         </tr>
     }

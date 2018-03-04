@@ -1,15 +1,10 @@
-﻿@model Tab30.Models.Tablet
+﻿@model Tab30.ViewModels.TabletViewModel
 
 @{
     ViewBag.Title = "Edit Tablet";
 }
 
 <h2 class="my-5">Edit Tablet</h2>
-
-
-
-
-
 
 @using (Html.BeginForm())
 {
@@ -20,7 +15,7 @@
             <h4>Tablet: <span class="text-primary">@Html.DisplayFor(model => model.TabletName)</span></h4>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.HiddenFor(model => model.ID)
+            @Html.HiddenFor(m => m.ID)
             <div class="row">
                 <div class="col-6">
                     <div class="form-group">
@@ -68,38 +63,25 @@
                         @Html.LabelFor(model => model.WarrantyExpiresOn, htmlAttributes: new { @class = "control-label " })
                         <div class="">
                             @Html.EditorFor(model => model.WarrantyExpiresOn, new { htmlAttributes = new { @class = "form-control" } })
-                            
+
                             @Html.ValidationMessageFor(model => model.WarrantyExpiresOn, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    @*
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.ADPEnabled, htmlAttributes: new { @class = "control-label " })
-                            <div class="">
-                                <div class="checkbox">
-                                    @Html.EditorFor(model => model.ADPEnabled)
-                                    @Html.ValidationMessageFor(model => model.ADPEnabled, "", new { @class = "text-danger" })
-                                </div>
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.ADPEnabled)
+                                @Html.LabelFor(model => model.ADPEnabled, htmlAttributes: new { @class = "control-label col-md-6" })
+                                @Html.ValidationMessageFor(model => model.ADPEnabled, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                    *@
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.ADPEnabled, htmlAttributes: new { @class = "control-label" })
-
-                        <div class="form-group">
-                            @Html.RadioButtonFor(model => model.ADPEnabled, "true", new { id = "Yes" })
-                            @Html.Label("Yes", "Yes")
-
-                            @Html.RadioButtonFor(model => model.ADPEnabled, "false", new { id = "No" })
-                            @Html.Label("No", "No")
-
-
-                        </div>
                     </div>
+
                     <div class="form-group">
                         @Html.LabelFor(model => model.LocationID, "Location:", htmlAttributes: new { @class = "control-label" })
                         <div class="">
-                            @Html.DropDownList("LocationID", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.DropDownListFor(m => m.LocationID, Model.Locations, "--select--", new { @class = "form-control select2-multiple  col-md-12" })
                             @Html.ValidationMessageFor(model => model.LocationID, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -107,7 +89,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.UserID, "Assigned User:", htmlAttributes: new { @class = "control-label" })
                         <div class="">
-                            @Html.DropDownList("UserID", null, htmlAttributes: new { @class = "form-control" })
+                            @Html.DropDownListFor(m => m.UserID, Model.Users, "--select--", new { @class = "form-control select2-multiple  col-md-12" })
                             @Html.ValidationMessageFor(model => model.UserID, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -129,4 +111,11 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+
+        $(document).ready(function () {
+            $(".select2-multiple").select2();
+        });
+
+    </script>
 }

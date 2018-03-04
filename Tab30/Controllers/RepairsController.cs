@@ -70,20 +70,25 @@ namespace Tab30.Controllers
                 repair.IsComplete = tabletRepair.IsComplete;
                 repair.TechID = 2; //this is temporary until Auth and Oauth is implemented;
 
-                //if (tabletRepair.Problems != null)
-                //{
-                //    foreach (var problem in tabletRepair.Problems)
-                //    {
-                //        if (problem.Assigned)
-                //        {
-                //            var problemArea = new ProblemArea { ID = problem.ProblemAreaID };
+                //the  block below adds problem areas to our repair. It's a many to many relation ship with problemareas entity
 
-                //            db.ProblemAreas.Attach(problemArea);
-                //            repair.ProblemAreas.Add(problemArea);
-                //        }
+                //if (tabletRepair.AssignedProblems != null)
+                //{
+                //    foreach (var problem in tabletRepair.AssignedProblems)
+                //    {
+                //        var problemArea = new ProblemArea { ID = problem };
+                //        db.ProblemAreas.Attach(problemArea);
+                //        repair.ProblemAreas.Add(problemArea);
                 //    }
                 //}
+
+                //the line below is from: https://www.thereformedprogrammer.net/updating-a-many-to-many-relationship-in-entity-framework/
+                //also need to work to update this code to work with EDIT action. See article above.
+
+                repair.ProblemAreas = db.ProblemAreas.Where(p=>tabletRepair.AssignedProblems.Contains(p.ID)).ToList();
+               
                 db.Repairs.Add(repair);
+
                 db.SaveChanges();
                 return RedirectToAction("Details", "Tablets", new { id = repair.TabletID });
             }

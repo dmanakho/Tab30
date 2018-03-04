@@ -367,6 +367,7 @@
     <Compile Include="ViewModels\AssignedProblemAreas.cs" />
     <Compile Include="ViewModels\TabletAssignments.cs" />
     <Compile Include="ViewModels\TabletRepairViewModel.cs" />
+    <Compile Include="ViewModels\TabletViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-spacelab.css" />

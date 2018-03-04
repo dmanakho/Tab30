@@ -16,14 +16,18 @@ namespace Tab30.ViewModels
 
         public TabletRepairViewModel()
         {
-            RepairTypes = new SelectList(db.RepairTypes, "ID", "RepairTypeDescription");
+            //used in a drop down box to populate repair types in the view.
+            RepairTypes = new SelectList(db.RepairTypes.OrderBy(p => p.RepairTypeDescription), "ID", "RepairTypeDescription");
+            
+            //used to populate parts table in the View
             Parts = db.Parts.OrderBy(p => p.Description).ToList();
-            PartOrders = new List<PartOrder>();
-            //ProblemAreas = db.ProblemAreas.OrderBy(p => p.ProblemDescription).ToList();
 
-            Problems = new MultiSelectList(db.ProblemAreas, "ID", "ProblemDescription");
+            //used to populate problem areas in the view
+            Problems = new MultiSelectList(db.ProblemAreas.OrderBy(p => p.ProblemDescription), "ID", "ProblemDescription");
+
+            //PartOrders = new List<PartOrder>();
         }
-        
+
         [DisplayName("Vendor Case#"), StringLength(50)]
         public string VendorCaseNo { get; set; }
 
@@ -34,6 +38,8 @@ namespace Tab30.ViewModels
 
         [DataType(DataType.MultilineText)]
         public string Comment { get; set; }
+
+        #region Boolean and DataTime Fields
 
         [DisplayName("Closed")]
         public bool IsComplete { get; set; } = false;
@@ -66,6 +72,7 @@ namespace Tab30.ViewModels
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         public DateTime? ReturnedOn { get; set; }
+        #endregion 
 
         [Required]
         public int TabletID { get; set; }
@@ -75,16 +82,18 @@ namespace Tab30.ViewModels
         public int TechID { get; set; }
         public string TechName { get; set; }
 
-        public List<PartOrder> PartOrders { get; set; }
+       // public List<PartOrder> PartOrders { get; set; }
 
         public List<int> OrderedPartIDs { get; set; }
 
         public List<Part> Parts { get; set; }
 
+        [DisplayName("Repair Type: ")]
         public int RepairTypeID { get; set; }
 
-        //public SelectList RepairTypes { get; set; }
+
         public IEnumerable<SelectListItem> RepairTypes { get; set; }
+
         //I set line below for the drop down box.
         //found a better solution here : https://stackoverflow.com/questions/11509831/values-of-dropdown-lists-are-not-passed-back-to-the-controller
         //public IList<RepairType> RepairTypes { get; set; }
@@ -95,7 +104,7 @@ namespace Tab30.ViewModels
 
         [DisplayName("Problems")]
         public IList<int> AssignedProblems { get; set; }
-       
+
         //public MultiSelectList ProblemAreaList { get; set; }
         public IEnumerable<SelectListItem> Problems { get; set; }
 
@@ -115,10 +124,10 @@ namespace Tab30.ViewModels
                 ReturnedOn = repair.ReturnedOn,
                 TabletID = repair.TabletID,
                 TechID = repair.TechID,
-                PartOrders = repair.PartOrders.ToList(),
+                //PartOrders = repair.PartOrders.ToList(),
                 IsUnitReturned = repair.IsUnitReturned,
                 RepairTypeID = repair.RepairTypeID
-                
+
             };
         }
 
@@ -138,7 +147,7 @@ namespace Tab30.ViewModels
                 ReturnedOn = repairTablet.ReturnedOn,
                 TabletID = repairTablet.TabletID,
                 TechID = repairTablet.TechID,
-                PartOrders = repairTablet.PartOrders,
+                //PartOrders = repairTablet.PartOrders,
                 IsUnitReturned = repairTablet.IsUnitReturned,
                 RepairTypeID = repairTablet.RepairTypeID
             };
