@@ -26,7 +26,8 @@ namespace Tab30.ViewModels
             Problems = new MultiSelectList(db.ProblemAreas.OrderBy(p => p.ProblemDescription), "ID", "ProblemDescription", this.AssignedProblems);
 
             OrderedPartsSelectList = new MultiSelectList(db.Parts.OrderBy(p => p.Description), "ID", "Description", this.OrderedPartIDs);
-            
+
+            OrderedPartIDs = new List<int>();
         }
 
         public int ID { get; set; }
