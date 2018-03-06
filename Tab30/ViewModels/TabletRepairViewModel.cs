@@ -23,9 +23,10 @@ namespace Tab30.ViewModels
             Parts = db.Parts.OrderBy(p => p.Description).ToList();
 
             //used to populate problem areas in the view
-            Problems = new MultiSelectList(db.ProblemAreas.OrderBy(p => p.ProblemDescription), "ID", "ProblemDescription");
+            Problems = new MultiSelectList(db.ProblemAreas.OrderBy(p => p.ProblemDescription), "ID", "ProblemDescription", this.AssignedProblems);
 
-            //PartOrders = new List<PartOrder>();
+            OrderedPartsSelectList = new MultiSelectList(db.Parts.OrderBy(p => p.Description), "ID", "Description", this.OrderedPartIDs);
+            
         }
 
         public int ID { get; set; }
@@ -91,14 +92,15 @@ namespace Tab30.ViewModels
 
         // public List<PartOrder> PartOrders { get; set; }
 
+        [DisplayName("Parts Ordered: ")]
         public List<int> OrderedPartIDs { get; set; }
+        public IEnumerable<Part> OrderedParts { get; set; }
+        public IEnumerable<SelectListItem> OrderedPartsSelectList { get; set; }
 
         public List<Part> Parts { get; set; }
 
         [DisplayName("Repair Type: ")]
         public int RepairTypeID { get; set; }
-
-
         public IEnumerable<SelectListItem> RepairTypes { get; set; }
 
         //I set line below for the drop down box.
@@ -111,9 +113,11 @@ namespace Tab30.ViewModels
 
         [DisplayName("Problems")]
         public IList<int> AssignedProblems { get; set; }
-
-        //public MultiSelectList ProblemAreaList { get; set; }
+       
         public IEnumerable<SelectListItem> Problems { get; set; }
+
+        public IList<PartOrder> PartOrders { get; set; }
+
 
         public static implicit operator TabletRepairViewModel(Repair repair)
         {
@@ -123,7 +127,7 @@ namespace Tab30.ViewModels
                 VendorCaseNo = repair.VendorCaseNo,
                 RepairDescription = repair.RepairDescription,
                 IsComplete = repair.IsComplete,
-                RepairCreated =repair.RepairCreated,
+                RepairCreated = repair.RepairCreated,
                 RepairClosed = repair.RepairClosed,
                 IsBoxRequested = repair.IsBoxRequested,
                 BoxRequestedOn = repair.BoxRequestedOn,
@@ -137,7 +141,10 @@ namespace Tab30.ViewModels
                 RepairTypeID = repair.RepairTypeID,
                 TechName = repair.Tech.FullName,
                 TabletName = repair.Tablet.TabletName,
-
+                AssignedProblems = repair.ProblemAreas.Select(n => n.ID).ToList(),
+                OrderedPartIDs = repair.PartOrders.Select(d => d.PartID).ToList(),
+                OrderedParts = repair.PartOrders.Select(d => d.Part).ToList(),
+                PartOrders = repair.PartOrders.ToList()
             };
         }
 
@@ -149,8 +156,8 @@ namespace Tab30.ViewModels
                 VendorCaseNo = repairTablet.VendorCaseNo,
                 RepairDescription = repairTablet.RepairDescription,
                 //Comment = repairTablet.Comment,
-                IsComplete = repairTablet.IsComplete,
                 RepairCreated = repairTablet.RepairCreated,
+                IsComplete = repairTablet.IsComplete,
                 RepairClosed = repairTablet.RepairClosed,
                 IsBoxRequested = repairTablet.IsBoxRequested,
                 BoxRequestedOn = repairTablet.BoxRequestedOn,

@@ -16,7 +16,7 @@ namespace Tab30.Models
 
         [DisplayName("Vendor Case#"), StringLength(50)]
         [Index(IsUnique = true)]
-        [Required]
+        [Required(ErrorMessage ="Vendor Case Number is Required and it must be unique")]
         public string VendorCaseNo { get; set; }
 
         [Required]

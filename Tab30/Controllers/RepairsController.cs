@@ -130,17 +130,19 @@ namespace Tab30.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Repair repair = db.Repairs.Find(id);
+            Repair repair = db.Repairs.Include(r => r.PartOrders).FirstOrDefault(r=>r.ID == id);
             if (repair == null)
             {
                 return HttpNotFound();
             }
             TabletRepairViewModel tabletRepair = repair;
-            //tabletRepair.TechName = db.Teches.Find(repair.TechID).FullName;
-            //tabletRepair.TabletName = db.Tablets.Find(repair.TabletID).TabletName;
-            //ViewBag.RepairTypeID = new SelectList(db.RepairTypes, "ID", "RepairTypeDescription", repair.RepairTypeID);
-            //ViewBag.TabletID = new SelectList(db.Tablets, "ID", "TabletName", repair.TabletID);
-            //ViewBag.TechID = new SelectList(db.Teches, "ID", "FirstName", repair.TechID);
+            repair.UpdatedOn = DateTime.Now;
+
+            //var orderedParts = repair.PartOrders.Select(d => d.PartID).ToList();
+
+            //lines below will exclude property that you don't want to commit to database.
+            //db.Entry(tablet).State = EntityState.Modified;
+            //db.Entry(tablet).Property("CreatedOn").IsModified = false;
 
             return View(tabletRepair);
         }
@@ -156,6 +158,7 @@ namespace Tab30.Controllers
             {
                 Repair repair = tabletRepair;
                 repair.UpdatedOn = DateTime.Now;
+
                 db.Entry(repair).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
