@@ -12,7 +12,7 @@ namespace Tab30.Models
         public int ID { get; set; }
 
         [Required, StringLength(75), DisplayName("Problem Description#")]
-        public string RepairTypeDescription { get; set; }
+        public string Description { get; set; }
 
         //many-to-one to Repairs
         public virtual ICollection<Repair> Repairs { get; set; }

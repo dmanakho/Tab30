@@ -17,13 +17,13 @@ namespace Tab30.ViewModels
         public TabletRepairViewModel()
         {
             //used in a drop down box to populate repair types in the view.
-            RepairTypes = new SelectList(db.RepairTypes.OrderBy(p => p.RepairTypeDescription).ToList(), "ID", "RepairTypeDescription");
+            RepairTypes = new SelectList(db.RepairTypes.OrderBy(p => p.Description).ToList(), "ID", "Description");
 
             //used to populate parts table in the View
             Parts = db.Parts.OrderBy(p => p.Description).ToList();
 
             //used to populate problem areas in the view
-            Problems = new MultiSelectList(db.ProblemAreas.OrderBy(p => p.ProblemDescription), "ID", "ProblemDescription", this.AssignedProblems);
+            Problems = new MultiSelectList(db.ProblemAreas.OrderBy(p => p.Description), "ID", "Description", this.AssignedProblems);
 
             OrderedPartsSelectList = new MultiSelectList(db.Parts.OrderBy(p => p.Description), "ID", "Description", this.OrderedPartIDs);
 
@@ -38,7 +38,7 @@ namespace Tab30.ViewModels
         [Required]
         [DisplayName("Description"), StringLength(250)]
         [DataType(DataType.MultilineText)]
-        public string RepairDescription { get; set; }
+        public string Description { get; set; }
 
         //[DataType(DataType.MultilineText)]
         //public string Comment { get; set; }
@@ -48,15 +48,15 @@ namespace Tab30.ViewModels
         [DisplayName("Created On")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        public DateTime RepairCreated { get; set; }
+        public DateTime CreatedOn { get; set; }
 
         [DisplayName("Closed")]
-        public bool IsComplete { get; set; } = false;
+        public bool IsClosed { get; set; } = false;
 
         [DisplayName("Closed On")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, NullDisplayText = "N/A")]
-        public DateTime? RepairClosed { get; set; }
+        public DateTime? ClosedOn { get; set; }
 
         [DisplayName("Box Requested")]
         public bool IsBoxRequested { get; set; } = false;
@@ -126,10 +126,10 @@ namespace Tab30.ViewModels
             {
                 ID = repair.ID,
                 VendorCaseNo = repair.VendorCaseNo,
-                RepairDescription = repair.RepairDescription,
-                IsComplete = repair.IsComplete,
-                RepairCreated = repair.RepairCreated,
-                RepairClosed = repair.RepairClosed,
+                Description = repair.Description,
+                IsClosed = repair.IsClosed,
+                CreatedOn = repair.CreatedOn,
+                ClosedOn = repair.ClosedOn,
                 IsBoxRequested = repair.IsBoxRequested,
                 BoxRequestedOn = repair.BoxRequestedOn,
                 IsShipped = repair.IsShipped,
@@ -155,11 +155,11 @@ namespace Tab30.ViewModels
             {
                 ID = repairTablet.ID,
                 VendorCaseNo = repairTablet.VendorCaseNo,
-                RepairDescription = repairTablet.RepairDescription,
+                Description = repairTablet.Description,
                 //Comment = repairTablet.Comment,
-                RepairCreated = repairTablet.RepairCreated,
-                IsComplete = repairTablet.IsComplete,
-                RepairClosed = repairTablet.RepairClosed,
+                CreatedOn = repairTablet.CreatedOn,
+                IsClosed = repairTablet.IsClosed,
+                ClosedOn = repairTablet.ClosedOn,
                 IsBoxRequested = repairTablet.IsBoxRequested,
                 BoxRequestedOn = repairTablet.BoxRequestedOn,
                 IsShipped = repairTablet.IsShipped,

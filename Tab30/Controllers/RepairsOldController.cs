@@ -74,8 +74,8 @@ namespace Tab30.Controllers
                 Repair repair = tabletRepair; //implicit conversion with the help of implicit operator in TabletRepairviewModels class
 
                 repair.UpdatedOn = DateTime.Now;
-                repair.RepairCreated = DateTime.Now;
-                repair.IsComplete = tabletRepair.IsComplete;
+                repair.CreatedOn = DateTime.Now;
+                repair.IsClosed = tabletRepair.IsClosed;
                 repair.TechID = 2; //this is temporary until Auth and Oauth is implemented;
                 db.Repairs.Add(repair);
                 db.SaveChanges();
@@ -104,8 +104,8 @@ namespace Tab30.Controllers
             if (ModelState.IsValid)
             {
                 repair.UpdatedOn = DateTime.Now;
-                repair.RepairCreated = DateTime.Now;
-                repair.IsComplete = false;
+                repair.CreatedOn = DateTime.Now;
+                repair.IsClosed = false;
                 db.Repairs.Add(repair);
                 db.SaveChanges();
                 return RedirectToAction("Index");

@@ -21,18 +21,18 @@ namespace Tab30.Models
 
         [Required]
         [DisplayName("Description"), StringLength(250)]
-        public string RepairDescription { get; set; }
+        public string Description { get; set; }
 
         //[DataType(DataType.MultilineText)]
         //public string Comment { get; set; }
 
         [DisplayName("Closed")]
-        public bool IsComplete { get; set; } = false;
+        public bool IsClosed { get; set; } = false;
 
         [DisplayName("Created On")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        public DateTime RepairCreated { get; set; }
+        public DateTime CreatedOn { get; set; }
 
         [DisplayName("Updated On")]
         [DataType(DataType.Date)]
@@ -43,7 +43,7 @@ namespace Tab30.Models
         [DisplayName("Closed On")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true, NullDisplayText = "N/A")]
-        public DateTime? RepairClosed { get; set; }
+        public DateTime? ClosedOn { get; set; }
 
         public bool IsBoxRequested { get; set; } = false;
 

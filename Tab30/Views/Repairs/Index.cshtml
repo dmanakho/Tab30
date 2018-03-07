@@ -1,83 +1,118 @@
 ﻿@model IEnumerable<Tab30.Models.Repair>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Repairs";
 }
 
-<h2>Index</h2>
+<div class="row">
+    <div class="my-5 offset-sm-1 col-sm-1">
+        <h2 class="text-primary">Repairs</h2>
+    </div>
+</div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Tablet.TabletName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RepairType.RepairTypeDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Tech.FullName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.VendorCaseNo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RepairDescription)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsComplete)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RepairCreated)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.UpdatedOn)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RepairClosed)
-        </th>
- 
-        <th></th>
-    </tr>
+<table class="table table-striped table-light" cellpadding="2" id="repairs">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Tablet.TabletName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RepairType.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tech.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VendorCaseNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsClosed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClosedOn)
+            </th>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tablet.TabletName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RepairType.RepairTypeDescription)
-        </td>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tablet.TabletName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RepairType.Description)
+                </td>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Tech.FullName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.VendorCaseNo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RepairDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsComplete)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RepairCreated)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UpdatedOn)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RepairClosed)
-        </td>
-         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
-        </td>
-    </tr>
-}
-
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tech.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VendorCaseNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsClosed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedOn)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClosedOn)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-primary" })  |
+                    @*@Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-primary" }) |*@
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-primary" })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            $("#repairs").DataTable(
+                {
+                    // "dom": 'lfBpt<pi>',
+                    "dom":
+                    "<'row'<'col-sm-2 text-primary'l><'col-sm-2 text-primary'f><'col-sm-3 text-center'B><'col-sm-5'p>>" +
+                    "<'row'<'col-sm-12'tr>>" +
+                    "<'row'<'col-sm-7 text-success'i><'col-sm-5'p>>",
+                    buttons: [
+                        'copy',
+                        'excel',
+                        'pdf'
+                    ],
+                    "columnDefs": [
+                        { "orderable": false, "targets": 9 }
+                    ],
+                    "pagingType": "full_numbers",
+                    "order": [] 
+
+                });
+
+            $(".select2-multiple").select2();
+        });
+    </script>
+}
+

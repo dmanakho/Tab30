@@ -220,6 +220,14 @@
     <Compile Include="Migrations\201803042037203_RemovedNullablefromPartReceivedBoolean.Designer.cs">
       <DependentUpon>201803042037203_RemovedNullablefromPartReceivedBoolean.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803070316340_RenamedModelFieldstoSimplyDescription.cs" />
+    <Compile Include="Migrations\201803070316340_RenamedModelFieldstoSimplyDescription.Designer.cs">
+      <DependentUpon>201803070316340_RenamedModelFieldstoSimplyDescription.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803070333375_RenamedDatTimeFieldsClosedOnStartedOnandIsClosedField.cs" />
+    <Compile Include="Migrations\201803070333375_RenamedDatTimeFieldsClosedOnStartedOnandIsClosedField.Designer.cs">
+      <DependentUpon>201803070333375_RenamedDatTimeFieldsClosedOnStartedOnandIsClosedField.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Part.cs" />
@@ -693,6 +701,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803042037203_RemovedNullablefromPartReceivedBoolean.resx">
       <DependentUpon>201803042037203_RemovedNullablefromPartReceivedBoolean.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803070316340_RenamedModelFieldstoSimplyDescription.resx">
+      <DependentUpon>201803070316340_RenamedModelFieldstoSimplyDescription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803070333375_RenamedDatTimeFieldsClosedOnStartedOnandIsClosedField.resx">
+      <DependentUpon>201803070333375_RenamedDatTimeFieldsClosedOnStartedOnandIsClosedField.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

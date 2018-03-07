@@ -125,45 +125,40 @@
 
 <table class="table table-condensed table-striped">
     <tr>
-        <th> @Html.DisplayNameFor(m => r.ID)</th>
         <th> @Html.DisplayNameFor(m => r.VendorCaseNo)</th>
         <th> @Html.DisplayNameFor(m => r.ProblemAreas)</th>
-        <th> @Html.DisplayNameFor(m => r.RepairDescription)</th>
+        <th> @Html.DisplayNameFor(m => r.Description)</th>
         <th> @Html.DisplayNameFor(m => r.RepairType)</th>
-        <th> @Html.DisplayNameFor(m => r.RepairCreated)</th>
-        <th> @Html.DisplayNameFor(m => r.RepairClosed)</th>
+        <th> @Html.DisplayNameFor(m => r.CreatedOn)</th>
+        <th> @Html.DisplayNameFor(m => r.ClosedOn)</th>
     </tr>
     @foreach (var repair in Model.Repairs)
     {
         <tr>
             <td>
-                @Html.ActionLink(@Html.DisplayFor(m => repair.ID).ToString(), "Details", "Repairs", new { id = repair.ID }, new { @class = "btn btn-sm btn-outline-primary" })
-            </td>
-            <td>
-                @Html.DisplayFor(m => repair.VendorCaseNo)
-
+                @Html.ActionLink(@Html.DisplayFor(m => repair.VendorCaseNo).ToString(), "Edit", "Repairs", new { id = repair.ID }, new { @class = "btn btn-sm btn-outline-primary" })
             </td>
             <td>
                 <ul class="list-unstyled">
                     @foreach (var item in repair.ProblemAreas)
                     {
-                        <li>@Html.DisplayFor(m => item.ProblemDescription)</li>
+                        <li>@Html.DisplayFor(m => item.Description)</li>
                     }
                 </ul>
             </td>
             <td>
-                @Html.DisplayFor(m => repair.RepairDescription)
+                @Html.DisplayFor(m => repair.Description)
 
             </td>
             <td>
-                @Html.DisplayFor(m => repair.RepairType.RepairTypeDescription)
+                @Html.DisplayFor(m => repair.RepairType.Description)
             </td>
 
             <td>
-                @Html.DisplayFor(m => repair.RepairCreated)
+                @Html.DisplayFor(m => repair.CreatedOn)
             </td>
             <td>
-                @Html.DisplayFor(m => repair.RepairClosed)
+                @Html.DisplayFor(m => repair.ClosedOn)
             </td>
         </tr>
     }

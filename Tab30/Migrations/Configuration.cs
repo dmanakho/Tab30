@@ -233,31 +233,31 @@ namespace Tab30.Migrations
 
             var problems = new List<ProblemArea>
                         {
-                            new ProblemArea{ProblemDescription = "Display"},
-                            new ProblemArea{ProblemDescription = "Keyboard"},
-                            new ProblemArea{ProblemDescription = "TrackPoint/TrackPad"},
-                            new ProblemArea{ProblemDescription = "Touch Screen"},
-                            new ProblemArea{ProblemDescription = "Keyboard Bezel"},
-                            new ProblemArea{ProblemDescription = "Bottom Cover"},
-                            new ProblemArea{ProblemDescription = "Display Cover"},
-                            new ProblemArea{ProblemDescription = "Motherboard"},
-                            new ProblemArea{ProblemDescription = "Stylus Input"}
+                            new ProblemArea{Description = "Display"},
+                            new ProblemArea{Description = "Keyboard"},
+                            new ProblemArea{Description = "TrackPoint/TrackPad"},
+                            new ProblemArea{Description = "Touch Screen"},
+                            new ProblemArea{Description = "Keyboard Bezel"},
+                            new ProblemArea{Description = "Bottom Cover"},
+                            new ProblemArea{Description = "Display Cover"},
+                            new ProblemArea{Description = "Motherboard"},
+                            new ProblemArea{Description = "Stylus Input"}
 
                         };
             //problems.ForEach(t => context.ProblemAreas.Add(t));
-            problems.ForEach(t => context.ProblemAreas.AddOrUpdate(p => p.ProblemDescription, t));
+            problems.ForEach(t => context.ProblemAreas.AddOrUpdate(p => p.Description, t));
             context.SaveChanges();
 
             var repairTypes = new List<RepairType>
                         {
-                            new RepairType{RepairTypeDescription = "Warranty"},
-                            new RepairType{RepairTypeDescription = "Out of Warranty"},
-                            new RepairType{RepairTypeDescription = "ADP"},
-                            new RepairType{RepairTypeDescription = "Not Covered"},
-                            new RepairType{RepairTypeDescription = "Declined"}
+                            new RepairType{Description = "Warranty"},
+                            new RepairType{Description = "Out of Warranty"},
+                            new RepairType{Description = "ADP"},
+                            new RepairType{Description = "Not Covered"},
+                            new RepairType{Description = "Declined"}
                         };
             //repairTypes.ForEach(t => context.RepairTypes.Add(t));
-            repairTypes.ForEach(t => context.RepairTypes.AddOrUpdate(p => p.RepairTypeDescription, t));
+            repairTypes.ForEach(t => context.RepairTypes.AddOrUpdate(p => p.Description, t));
             context.SaveChanges();
 
             var teches = new List<Tech>

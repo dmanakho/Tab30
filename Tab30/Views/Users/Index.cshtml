@@ -10,11 +10,14 @@
     ViewBag.Title = "Users";
 }
 
-<h2>Users</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<div class="row">
+    <div class="my-5 offset-sm-1 col-sm-1">
+        <h2 class="text-primary">Users</h2>
+    </div>
+    <div>
+        @Html.ActionLink("Create New", "Create", "Users", null, new { @class = "col-12 my-5 btn btn-outline-primary" })
+    </div>
+</div>
 
 @using (Html.BeginForm("Index", "Users", FormMethod.Get))
 {

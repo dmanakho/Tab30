@@ -20,7 +20,7 @@ namespace Tab30.Controllers
         // GET: Repairs
         public ActionResult Index()
         {
-            var repairs = db.Repairs.Include(r => r.RepairType).Include(r => r.Tablet).Include(r => r.Tech);
+            var repairs = db.Repairs.OrderByDescending(p => p.CreatedOn).Include(r => r.RepairType).Include(r => r.Tablet).Include(r => r.Tech);
             return View(repairs.ToList());
         }
 
@@ -42,7 +42,7 @@ namespace Tab30.Controllers
         // GET: Repairs/Create
         public ActionResult Create()
         {
-            ViewBag.RepairTypeID = new SelectList(db.RepairTypes, "ID", "RepairTypeDescription");
+            ViewBag.RepairTypeID = new SelectList(db.RepairTypes, "ID", "Description");
             ViewBag.TabletID = new SelectList(db.Tablets, "ID", "TabletName");
             ViewBag.TechID = new SelectList(db.Teches, "ID", "FirstName");
             return View();
@@ -52,7 +52,7 @@ namespace Tab30.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public string Create([Bind(Include = "ID,VendorCaseNo,RepairDescription,Comment,IsComplete,RepairCreated,UpdatedOn,RepairClosed,IsBoxRequested,BoxRequestedOn,IsShipped,ShippedOn,IsUnitReturned,ReturnedOn,TabletID,RepairTypeID,TechID")] Repair repair)
+        public string Create([Bind(Include = "ID,VendorCaseNo,Description,Comment,IsComplete,RepairCreated,UpdatedOn,RepairClosed,IsBoxRequested,BoxRequestedOn,IsShipped,ShippedOn,IsUnitReturned,ReturnedOn,TabletID,RepairTypeID,TechID")] Repair repair)
         {
             //if (ModelState.IsValid)
             //{
@@ -89,8 +89,8 @@ namespace Tab30.Controllers
                 Repair repair = tabletRepair; //implicit conversion with the help of implicit operator in TabletRepairviewModels class
 
                 repair.UpdatedOn = DateTime.Now;
-                repair.RepairCreated = DateTime.Now;
-                repair.IsComplete = tabletRepair.IsComplete;
+                repair.CreatedOn = DateTime.Now;
+                repair.IsClosed = tabletRepair.IsClosed;
                 repair.TechID = 2; //this is temporary until Auth and Oauth is implemented;
 
                 //the line below is from: https://www.thereformedprogrammer.net/updating-a-many-to-many-relationship-in-entity-framework/
