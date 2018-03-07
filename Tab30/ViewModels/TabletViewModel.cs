@@ -56,7 +56,14 @@ namespace Tab30.ViewModels
         public bool ADPEnabled { get; set; }
 
         [DisplayName("Out of Circulation")]
-        public bool OutOfCirculation { get; set; } = false;
+        public bool IsOutOfCirculation { get; set; } = false;
+
+        [DisplayName("Created On")]
+        public DateTime CreatedOn { get; set; }
+
+        [DisplayName("Updated On")]
+        public DateTime UpdatedOn { get; set; }
+
 
         [DisplayFormat(NullDisplayText = "N/A")]
         public int? LocationID { get; set; }
@@ -67,6 +74,10 @@ namespace Tab30.ViewModels
         public int? UserID { get; set; }
 
         public IEnumerable<SelectListItem> Users { get; set; }
+
+        public ICollection<Repair> Repairs { get; set; }
+        public User User { get; set; }
+        public Location Location { get; set; }
 
         public static implicit operator TabletViewModel(Tablet tablet)
         {
@@ -79,10 +90,16 @@ namespace Tab30.ViewModels
                 AssetTag = tablet.AssetTag,
                 ADPEnabled = tablet.ADPEnabled.HasValue ? (bool)tablet.ADPEnabled : false,
                 LocationID = tablet.LocationID,
-                OutOfCirculation = tablet.OutOfCirculation.HasValue? (bool) tablet.OutOfCirculation: false,
+                IsOutOfCirculation = tablet.OutOfCirculation.HasValue? (bool) tablet.OutOfCirculation: false,
                 SerialNo = tablet.SerialNo,
                 UserID = tablet.UserID,
-                WarrantyExpiresOn = tablet.WarrantyExpiresOn
+                WarrantyExpiresOn = tablet.WarrantyExpiresOn,
+                CreatedOn = tablet.CreatedOn,
+                UpdatedOn = tablet.UpdatedOn,
+                Repairs = tablet.Repairs,
+                User = tablet.User,
+                Location = tablet.Location
+                
             };
         }
 
@@ -97,7 +114,7 @@ namespace Tab30.ViewModels
                 AssetTag = tabletViewModel.AssetTag,
                 ADPEnabled = tabletViewModel.ADPEnabled,
                 LocationID = tabletViewModel.LocationID,
-                OutOfCirculation = tabletViewModel.OutOfCirculation,
+                OutOfCirculation = tabletViewModel.IsOutOfCirculation,
                 SerialNo = tabletViewModel.SerialNo,
                 UserID = tabletViewModel.UserID,
                 WarrantyExpiresOn = tabletViewModel.WarrantyExpiresOn

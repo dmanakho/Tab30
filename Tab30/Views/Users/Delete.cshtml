@@ -1,72 +1,83 @@
 ﻿@model Tab30.Models.User
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = $"Delete {Model.FullName}";
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>User</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ClassOf)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ClassOf)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedOn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedOn)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdatedOn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UpdatedOn)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+<div class="container">
+    <div class="row">
+        <div class="my-5 col-4">
+            <h4>Deleting: <span class="text-danger">@Html.DisplayFor(model => model.FullName)</span></h4>
+            <h5 class="text-danger">Are you sure?</h5>
         </div>
-    }
+        <div class="my-5 col-8 text-muted text-lowercase">
+            (@Html.DisplayNameFor(model => model.CreatedOn)  @Html.DisplayFor(model => model.CreatedOn);
+            @Html.DisplayNameFor(model => model.UpdatedOn) @Html.DisplayFor(model => model.UpdatedOn))
+        </div>
+    </div>
+
+    <hr />
+
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.FirstName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LastName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UserName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UserName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ClassOf)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ClassOf)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreatedOn)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UpdatedOn)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UpdatedOn)
+            </dd>
+
+        </dl>
+
+<div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-danger" /> |
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-outline-primary" })
+            </div>
+        }
+    </div>
+
 </div>

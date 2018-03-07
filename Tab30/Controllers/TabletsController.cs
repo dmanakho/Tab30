@@ -31,18 +31,12 @@ namespace Tab30.Controllers
                 return RedirectToAction("Index", "Tablets");
                 //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var tablet = db.Tablets.FirstOrDefault(t => t.ID == id);
+            TabletViewModel tablet = db.Tablets.Where(t=>t.ID==id).Include(t=>t.Repairs).Include(t=>t.User).Include(t=>t.Location).SingleOrDefault();
 
             if (tablet == null)
             {
                 return HttpNotFound();
             }
-
-            tablet.Repairs = db.Repairs.Where(t => t.TabletID == id).
-                Include(t=>t.RepairType).
-                Include(t => t.ProblemAreas).
-                ToList();
-
             return View(tablet);
         }
 

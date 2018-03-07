@@ -1,19 +1,20 @@
 ﻿@model Tab30.Models.User
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = $"Details - {Model.FullName}";
 }
-
-<h2>User Details</h2>
-
-<div>
-    <h4>
-        <span class="text-primary">@Html.DisplayFor(model => model.FullName)</span>
-        <span class="text-muted text-lowercase">
+<div class="container">
+    <div class="row">
+        <div class="my-5 col-4">
+            <h4>Details For: <span class="text-primary">@Html.DisplayFor(model => model.FullName)</span></h4>
+        </div>
+        <div class="my-5 col-8 text-muted text-lowercase">
             (@Html.DisplayNameFor(model => model.CreatedOn)  @Html.DisplayFor(model => model.CreatedOn);
             @Html.DisplayNameFor(model => model.UpdatedOn) @Html.DisplayFor(model => model.UpdatedOn))
-        </span>
-    </h4>
+        </div>
+    </div>
+
+
     <hr />
     <div class="row">
         <dl class="dl-horizontal col-6">
@@ -71,9 +72,9 @@
             </tr>
         }
     </table>
-
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-primary" }) |
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-outline-primary" })
+    </p>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class="btn btn-primary"}) |
-    @Html.ActionLink("Back to List", "Index", null, new { @class="btn btn-outline-primary"})
-</p>
+

@@ -1,40 +1,48 @@
 ﻿@model Tab30.Models.Location
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = $"Deleting Location - {Model.ShortDescription}";
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Location</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ShortDescription)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ShortDescription)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LongDescription)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LongDescription)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+<div class="container">
+    <div class="row">
+        <div class="my-5 col-4">
+            <h4>Deleting: <span class="text-danger">@Html.DisplayFor(model => model.LongDescription)</span></h4>
+            <h5 class="text-danger">Are you sure?</h5>
         </div>
-    }
+    </div>
+
+    <div>
+
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ShortDescription)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ShortDescription)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.LongDescription)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.LongDescription)
+            </dd>
+
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+        <div>
+            <input type="submit" value="Delete" class="btn btn-danger" /> |
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-outline-primary" })
+        </div>
+        }
+    </div>
+
 </div>

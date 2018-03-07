@@ -1,4 +1,4 @@
-﻿@model Tab30.Models.Tablet
+﻿@model Tab30.ViewModels.TabletViewModel
 
 @{
     ViewBag.Title = "Tablet Details";
@@ -74,21 +74,16 @@
                 @Html.DisplayNameFor(model => model.ADPEnabled)
             </dt>
             <dd>
-                @{
-                    string yesNo;
-                    if (Model.ADPEnabled.HasValue)
-                    {
-                        yesNo = (Model.ADPEnabled == true ? "Yes" : "No");
-                    }
-                    else
-                    {
-                        yesNo = "No";
-                    }
-                }
-                <text>@yesNo</text>
+
+                @(Model.ADPEnabled == true ? "Yes" : "No")
             </dd>
 
-
+            <dt>
+                @Html.DisplayNameFor(model => model.IsOutOfCirculation)
+            </dt>
+            <dd>
+                @(Model.IsOutOfCirculation == true ? "Yes" : "No")
+            </dd>
             <dt>
                 @Html.DisplayNameFor(model => model.Location.ShortDescription)
             </dt>

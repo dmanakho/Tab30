@@ -21,6 +21,14 @@ namespace Tab30.Models
         [DisplayName("Estimated Labor Refund"), DataType(DataType.Currency)]
         public decimal? RefundRate { get; set; } = 0;
 
+        public string Summary
+        {
+            get {
+                return $"{Description} - {PartNo}";
+            }
+
+        }
+
         public virtual ICollection<PartOrder> PartOrders { get; set; }
     }
 }

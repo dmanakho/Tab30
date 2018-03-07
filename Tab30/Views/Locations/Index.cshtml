@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         <div class="my-5 col-4">
-            <h2 class="text-primary">Tablets</h2>
+            <h2 class="text-primary">Locations</h2>
         </div>
         <div class="my-5 col-8">
             @Html.ActionLink("Create New", "Create", "Locations", null, new { @class = "btn btn-outline-primary" })
@@ -36,7 +36,7 @@
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-primary" })  |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-primary" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-danger" })
                 </td>
             </tr>
         }

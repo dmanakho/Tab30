@@ -10,6 +10,10 @@ namespace Tab30.Models
 {
     public class Tablet
     {
+        public Tablet()
+        {
+            Repairs = new HashSet<Repair>();
+        }
         public int ID { get; set; }
 
         [DisplayName("Tablet Name")]
