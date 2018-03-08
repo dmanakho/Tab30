@@ -1,143 +1,84 @@
 ﻿@model Tab30.Models.Repair
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = $"Deleting Repair {Model.VendorCaseNo}";
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Repair</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.RepairType.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.RepairType.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Tablet.TabletName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Tablet.TabletName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Tech.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Tech.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.VendorCaseNo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.VendorCaseNo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IsClosed)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsClosed)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedOn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedOn)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.UpdatedOn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.UpdatedOn)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ClosedOn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ClosedOn)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsBoxRequested)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsBoxRequested)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.BoxRequestedOn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.BoxRequestedOn)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsShipped)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsShipped)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ShippedOn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ShippedOn)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IsUnitReturned)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IsUnitReturned)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ReturnedOn)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ReturnedOn)
-        </dd>
-
-    </dl>
-
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+<div class="container">
+    <div class="row">
+        <div class="my-5 col-10">
+            <p class="text-danger">@ViewBag.ErrorMessage</p>
+            <h4>Deleting: <span class="text-danger">@Html.DisplayFor(model => model.VendorCaseNo)</span></h4>
+            <h5 class="text-danger">Are you sure?</h5>
         </div>
-    }
+    </div>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.RepairType.Description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.RepairType.Description)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Tablet.TabletName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Tablet.TabletName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Tech.FullName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Tech.FullName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.VendorCaseNo)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.VendorCaseNo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.IsClosed)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IsClosed)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.CreatedOn)
+            </dd>
+        </dl>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Delete" class="btn btn-danger" /> |
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-outline-primary" })
+            </div>
+        }
+    </div>
 </div>

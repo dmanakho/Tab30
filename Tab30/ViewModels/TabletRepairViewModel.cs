@@ -16,18 +16,28 @@ namespace Tab30.ViewModels
 
         public TabletRepairViewModel()
         {
+            Tablet = db.Tablets.Find(TabletID);
+            TechID = 2; //Kevin - magic number. In the future to be replaced with ASP.Identity info.
+            TechName = db.Teches.Find(TechID).FullName;
             //used in a drop down box to populate repair types in the view.
-            RepairTypes = new SelectList(db.RepairTypes.OrderBy(p => p.Description).ToList(), "ID", "Description");
+            RepairTypesDropDownList = new SelectList(db.RepairTypes.OrderBy(p => p.Description).ToList(), "ID", "Description");
+
+            //used to populate problem areas in the view
+            ProblemsDropDownList = new MultiSelectList(db.ProblemAreas.OrderBy(p => p.Description), "ID", "Description", AssignedProblems);
 
             //used to populate parts table in the View
             Parts = db.Parts.OrderBy(p => p.Description).ToList();
 
-            //used to populate problem areas in the view
-            Problems = new MultiSelectList(db.ProblemAreas.OrderBy(p => p.Description), "ID", "Description", this.AssignedProblems);
+            //not sure - i forgot what this is for.
+            OrderedPartsDropDownList = new MultiSelectList(db.Parts.OrderBy(p => p.Description), "ID", "Description", OrderedPartIDs);
 
-            OrderedPartsSelectList = new MultiSelectList(db.Parts.OrderBy(p => p.Description), "ID", "Description", this.OrderedPartIDs);
-
+            //list of Ints to store actually ordered part IDs.
             OrderedPartIDs = new List<int>();
+        }
+ 
+        public TabletRepairViewModel(int? tabletID = null) :this()
+        {
+                Tablet = db.Tablets.Find(tabletID);
         }
 
         public int ID { get; set; }
@@ -40,8 +50,6 @@ namespace Tab30.ViewModels
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
-        //[DataType(DataType.MultilineText)]
-        //public string Comment { get; set; }
 
         #region Boolean and DataTime Fields
 
@@ -83,9 +91,11 @@ namespace Tab30.ViewModels
         public DateTime? ReturnedOn { get; set; }
         #endregion 
 
+        
+        public Tablet Tablet { get; set; }
         [Required]
         public int TabletID { get; set; }
-        public string TabletName { get; set; }
+        //public string TabletName { get; set; }
 
         [Required]
         public int TechID { get; set; }
@@ -96,13 +106,13 @@ namespace Tab30.ViewModels
         [DisplayName("Parts Ordered: ")]
         public List<int> OrderedPartIDs { get; set; }
         public IEnumerable<Part> OrderedParts { get; set; }
-        public IEnumerable<SelectListItem> OrderedPartsSelectList { get; set; }
+        public IEnumerable<SelectListItem> OrderedPartsDropDownList { get; set; }
 
         public List<Part> Parts { get; set; }
 
         [DisplayName("Repair Type: ")]
         public int RepairTypeID { get; set; }
-        public IEnumerable<SelectListItem> RepairTypes { get; set; }
+        public IEnumerable<SelectListItem> RepairTypesDropDownList { get; set; }
 
         //I set line below for the drop down box.
         //found a better solution here : https://stackoverflow.com/questions/11509831/values-of-dropdown-lists-are-not-passed-back-to-the-controller
@@ -115,10 +125,11 @@ namespace Tab30.ViewModels
         [DisplayName("Problems")]
         public IList<int> AssignedProblems { get; set; }
        
-        public IEnumerable<SelectListItem> Problems { get; set; }
+        public IEnumerable<SelectListItem> ProblemsDropDownList { get; set; }
 
         public IList<PartOrder> PartOrders { get; set; }
 
+        public ICollection<ProblemArea> ProblemAreas { get; set; }
 
         public static implicit operator TabletRepairViewModel(Repair repair)
         {
@@ -135,17 +146,18 @@ namespace Tab30.ViewModels
                 IsShipped = repair.IsShipped,
                 ShippedOn = repair.ShippedOn,
                 ReturnedOn = repair.ReturnedOn,
+                Tablet = repair.Tablet,
                 TabletID = repair.TabletID,
                 TechID = repair.TechID,
                 //PartOrders = repair.PartOrders.ToList(),
                 IsUnitReturned = repair.IsUnitReturned,
                 RepairTypeID = repair.RepairTypeID,
                 TechName = repair.Tech.FullName,
-                TabletName = repair.Tablet.TabletName,
                 AssignedProblems = repair.ProblemAreas.Select(n => n.ID).ToList(),
                 OrderedPartIDs = repair.PartOrders.Select(d => d.PartID).ToList(),
                 OrderedParts = repair.PartOrders.Select(d => d.Part).ToList(),
-                PartOrders = repair.PartOrders.ToList()
+                PartOrders = repair.PartOrders.ToList(),
+                ProblemAreas = repair.ProblemAreas
             };
         }
 
@@ -165,11 +177,14 @@ namespace Tab30.ViewModels
                 IsShipped = repairTablet.IsShipped,
                 ShippedOn = repairTablet.ShippedOn,
                 ReturnedOn = repairTablet.ReturnedOn,
+                Tablet = repairTablet.Tablet,
                 TabletID = repairTablet.TabletID,
                 TechID = repairTablet.TechID,
                 //PartOrders = repairTablet.PartOrders,
                 IsUnitReturned = repairTablet.IsUnitReturned,
-                RepairTypeID = repairTablet.RepairTypeID
+                RepairTypeID = repairTablet.RepairTypeID,
+                ProblemAreas = repairTablet.ProblemAreas
+                
             };
         }
     }

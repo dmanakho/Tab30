@@ -91,11 +91,15 @@ namespace Tab30.Controllers
         }
 
         // GET: Parts/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id, string errorMessage = "", bool? saveChangesError = false)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewBag.ErrorMessage = "Delete Failed: " + errorMessage;
             }
             Part part = db.Parts.Find(id);
             if (part == null)
@@ -110,9 +114,16 @@ namespace Tab30.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Part part = db.Parts.Find(id);
-            db.Parts.Remove(part);
-            db.SaveChanges();
+            try
+            {
+                Part part = db.Parts.Find(id);
+                db.Parts.Remove(part);
+                db.SaveChanges();
+            }
+            catch (DataException dex)
+            {
+                return RedirectToAction("Delete", new { id, errorMessage = dex.InnerException.InnerException.Message, saveChangesError = true });
+            }
             return RedirectToAction("Index");
         }
 

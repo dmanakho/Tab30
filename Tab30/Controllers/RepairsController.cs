@@ -42,9 +42,7 @@ namespace Tab30.Controllers
         // GET: Repairs/Create
         public ActionResult Create()
         {
-            ViewBag.RepairTypeID = new SelectList(db.RepairTypes, "ID", "Description");
-            ViewBag.TabletID = new SelectList(db.Tablets, "ID", "TabletName");
-            ViewBag.TechID = new SelectList(db.Teches, "ID", "FirstName");
+
             return View();
         }
         // POST: Repairs/Create
@@ -76,10 +74,12 @@ namespace Tab30.Controllers
                 //redirect to the tablet list if this page was accessed by accident without providing a valid tablet ID
                 return RedirectToAction("Index", "Tablets");
             }
-            var tabletRepair = BuildTabletRepairViewModel(tabletID.Value);
+            var tabletRepair = new TabletRepairViewModel(tabletID.Value);
 
             return View(tabletRepair);
         }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Save(TabletRepairViewModel tabletRepair)
@@ -90,18 +90,20 @@ namespace Tab30.Controllers
 
                 repair.UpdatedOn = DateTime.Now;
                 repair.CreatedOn = DateTime.Now;
-                repair.IsClosed = tabletRepair.IsClosed;
-                repair.TechID = 2; //this is temporary until Auth and Oauth is implemented;
+                //repair.IsClosed = tabletRepair.IsClosed;
+                //repair.TechID = 2; //this is temporary until Auth and Oauth is implemented;
 
                 //the line below is from: https://www.thereformedprogrammer.net/updating-a-many-to-many-relationship-in-entity-framework/
                 //also need to work to update this code to work with EDIT action. See article above.
                 //this only works with EF configured many-to-many relationship. It will not work with custom join table with payload.
 
                 repair.ProblemAreas = db.ProblemAreas.Where(p => tabletRepair.AssignedProblems.Contains(p.ID)).ToList();
+
                 db.Repairs.Add(repair);
                 db.SaveChanges();
 
-                if (tabletRepair.OrderedPartIDs.Any())
+                //lines below populat ordered parts.
+                if (tabletRepair.OrderedPartIDs != null)
                 {
                     List<PartOrder> partOrders = new List<PartOrder>();
                     foreach (var part in tabletRepair.OrderedPartIDs)
@@ -130,19 +132,12 @@ namespace Tab30.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Repair repair = db.Repairs.Include(r => r.PartOrders).FirstOrDefault(r=>r.ID == id);
+            Repair repair = db.Repairs.Include(r => r.PartOrders).Include(r=>r.ProblemAreas).Include(r=>r.Tablet).FirstOrDefault(r=>r.ID == id);
             if (repair == null)
             {
                 return HttpNotFound();
             }
             TabletRepairViewModel tabletRepair = repair;
-            repair.UpdatedOn = DateTime.Now;
-
-            //var orderedParts = repair.PartOrders.Select(d => d.PartID).ToList();
-
-            //lines below will exclude property that you don't want to commit to database.
-            //db.Entry(tablet).State = EntityState.Modified;
-            //db.Entry(tablet).Property("CreatedOn").IsModified = false;
 
             return View(tabletRepair);
         }
@@ -158,8 +153,24 @@ namespace Tab30.Controllers
             {
                 Repair repair = tabletRepair;
                 repair.UpdatedOn = DateTime.Now;
+                //db.Entry(repair).Collection(p => p.ProblemAreas).Load();
+                var problemsToAdd = db.ProblemAreas.Where(p => tabletRepair.AssignedProblems.Contains(p.ID)).ToList();
+
+                repair.ProblemAreas = new HashSet<ProblemArea>();
 
                 db.Entry(repair).State = EntityState.Modified;
+                db.Entry(repair).Collection(p => p.ProblemAreas).Load();
+
+                repair.ProblemAreas = db.ProblemAreas.Where(p => tabletRepair.AssignedProblems.Contains(p.ID)).ToList();
+                
+                //foreach (var p in problemsToAdd)
+                //{
+                //    //db.ProblemAreas.Attach(p);
+                //   repair.ProblemAreas.Add(p);
+                //}
+                //problemsToAdd.ForEach(p => repair.ProblemAreas.Add(p));
+                
+               
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -168,11 +179,15 @@ namespace Tab30.Controllers
         }
 
         // GET: Repairs/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id, string errorMessage = "", bool? saveChangesError = false)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewBag.ErrorMessage = "Delete Failed: " + errorMessage;
             }
             Repair repair = db.Repairs.Find(id);
             if (repair == null)
@@ -187,9 +202,17 @@ namespace Tab30.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Repair repair = db.Repairs.Find(id);
-            db.Repairs.Remove(repair);
-            db.SaveChanges();
+            try
+            {
+                Repair repair = db.Repairs.Find(id);
+                db.Repairs.Remove(repair);
+                db.SaveChanges();
+            }
+            catch (DataException dex)
+            {
+                return RedirectToAction("Delete", new { id, errorMessage = dex.InnerException.InnerException.Message, saveChangesError = true });
+            }
+
             return RedirectToAction("Index");
         }
 
@@ -211,8 +234,8 @@ namespace Tab30.Controllers
 
             var tabletRepair = new TabletRepairViewModel()
             {
-                TabletID = tablet.ID,
-                TabletName = tablet.TabletName,
+                //TabletID = tablet.ID,
+                //TabletName = tablet.TabletName,
                 TechID = 2, //Kevin
                 TechName = tech.FullName,
 

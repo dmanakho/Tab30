@@ -19,7 +19,7 @@ namespace Tab30.Controllers
         // GET: Tablets
         public ActionResult Index()
         {
-            var tablets = db.Tablets.Include(t => t.Location).Include(t => t.User).Include(t => t.Repairs).OrderBy(t => t.TabletName);
+            var tablets = db.Tablets.Include(t => t.Location).Include(t => t.User).OrderBy(t => t.TabletName);
             return View(tablets.ToList());
         }
 

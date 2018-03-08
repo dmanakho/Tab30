@@ -91,11 +91,15 @@ namespace Tab30.Controllers
         }
 
         // GET: Locations/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int? id, string errorMessage = "", bool? saveChangesError=false)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewBag.ErrorMessage = "Delete Failed: " + errorMessage;
             }
             Location location = db.Locations.Find(id);
             if (location == null)
@@ -110,10 +114,19 @@ namespace Tab30.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Location location = db.Locations.Find(id);
-            db.Locations.Remove(location);
-            db.SaveChanges();
+            try
+            {
+                Location location = db.Locations.Find(id);
+                db.Locations.Remove(location);
+                db.SaveChanges();
+                
+            }
+            catch (DataException dex)
+            {
+                return RedirectToAction("Delete", new { id, errorMessage = dex.InnerException.InnerException.Message, saveChangesError = true });
+            }
             return RedirectToAction("Index");
+
         }
 
         protected override void Dispose(bool disposing)

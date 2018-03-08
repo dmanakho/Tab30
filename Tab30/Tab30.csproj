@@ -175,8 +175,8 @@
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
-    <Reference Include="X.PagedList, Version=7.2.2.0, Culture=neutral, PublicKeyToken=00b6c4f97602e5e8, processorArchitecture=MSIL">
-      <HintPath>..\packages\X.PagedList.7.2.2\lib\net461\X.PagedList.dll</HintPath>
+    <Reference Include="X.PagedList, Version=7.2.4.0, Culture=neutral, PublicKeyToken=00b6c4f97602e5e8, processorArchitecture=MSIL">
+      <HintPath>..\packages\X.PagedList.7.2.4\lib\net461\X.PagedList.dll</HintPath>
     </Reference>
     <Reference Include="X.PagedList.Mvc, Version=7.2.0.0, Culture=neutral, PublicKeyToken=c6e0b5b21f916f4f, processorArchitecture=MSIL">
       <HintPath>..\packages\X.PagedList.Mvc.7.2.0\lib\net452\X.PagedList.Mvc.dll</HintPath>

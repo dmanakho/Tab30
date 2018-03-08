@@ -57,10 +57,10 @@ namespace Tab30.Controllers
             var tech = db.Teches.Find(2); //magic number but will be replaces with Tech's info later;
             var tabletRepair = new TabletRepairViewModel
             {
-                TabletID = tablet.ID,
-                TabletName = tablet.TabletName,
-                TechID = 2, //Kevin
-                TechName = tech.FullName
+                //TabletID = tablet.ID,
+                //TabletName = tablet.TabletName,
+                //TechID = 2, //Kevin
+                //TechName = tech.FullName
             };
             
             return View(tabletRepair);

@@ -10,7 +10,8 @@ namespace Tab30.Models
     {
         public Repair()
         {
-            ProblemAreas = new List<ProblemArea>();
+            ProblemAreas = new HashSet<ProblemArea>();
+            PartOrders = new HashSet<PartOrder>();
         }
         public int ID { get; set; }
 
@@ -23,9 +24,8 @@ namespace Tab30.Models
         [DisplayName("Description"), StringLength(250)]
         public string Description { get; set; }
 
-        //[DataType(DataType.MultilineText)]
-        //public string Comment { get; set; }
-
+        
+        #region Boolean and DataTime Fields
         [DisplayName("Closed")]
         public bool IsClosed { get; set; } = false;
 
@@ -65,6 +65,7 @@ namespace Tab30.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? ReturnedOn { get; set; }
+        #endregion
 
         [Required]
         public int TabletID { get; set; }

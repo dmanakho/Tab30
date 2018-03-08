@@ -32,15 +32,8 @@
                 @Html.DisplayNameFor(model => model.IsClosed)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedOn)
+                @Html.DisplayNameFor(model => model.CreatedOn)|@Html.DisplayNameFor(model => model.UpdatedOn)|@Html.DisplayNameFor(model => model.ClosedOn)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UpdatedOn)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClosedOn)
-            </th>
-
             <th></th>
         </tr>
     </thead>
@@ -64,22 +57,16 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
-                <td>
+                <td class="text-center">
                     @Html.DisplayFor(modelItem => item.IsClosed)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CreatedOn)
+                    @Html.DisplayFor(modelItem => item.CreatedOn) | @Html.DisplayFor(modelItem => item.UpdatedOn) | @Html.DisplayFor(modelItem => item.ClosedOn)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UpdatedOn)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ClosedOn)
-                </td>
-                <td>
+                <td class="text-center">
                     @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-primary" })  |
                     @*@Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-primary" }) |*@
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-primary" })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-danger" })
                 </td>
             </tr>
         }
@@ -98,16 +85,43 @@
                     "<'row'<'col-sm-2 text-primary'l><'col-sm-2 text-primary'f><'col-sm-3 text-center'B><'col-sm-5'p>>" +
                     "<'row'<'col-sm-12'tr>>" +
                     "<'row'<'col-sm-7 text-success'i><'col-sm-5'p>>",
+                    "autoWidth": false,
                     buttons: [
                         'copy',
                         'excel',
                         'pdf'
                     ],
                     "columnDefs": [
-                        { "orderable": false, "targets": 9 }
+                        {
+                            "orderable": false, "targets": 7
+                        },
+                        {
+                            "width": "12%", "targets": 0,
+
+                        },
+                        {
+                            "width": "5%", "targets": 1,
+
+                        },
+                        {
+                            "width": "15%", "targets": 2,
+
+                        },
+                        {
+                            "width": "30%", "targets": 4
+                        },
+                        {
+                            "width": "3%", "targets": 5
+                        },
+                        {
+                            "width": "17%", "targets": 6
+                        },
+                        {
+                            "width": "10%", "targets": 7
+                        },
                     ],
                     "pagingType": "full_numbers",
-                    "order": [] 
+                    "order": []
 
                 });
 
