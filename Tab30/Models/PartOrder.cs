@@ -14,7 +14,7 @@ namespace Tab30.Models
 
         [DisplayName("Ordered On")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime OrderedOn { get; set; }
 
         [DisplayName("Part Received")]
@@ -22,7 +22,7 @@ namespace Tab30.Models
 
         [DisplayName("Received On")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? ReceivedOn { get; set; }
 
         [ForeignKey("Repair")]

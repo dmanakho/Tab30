@@ -153,23 +153,22 @@ namespace Tab30.Controllers
             {
                 Repair repair = tabletRepair;
                 repair.UpdatedOn = DateTime.Now;
-                //db.Entry(repair).Collection(p => p.ProblemAreas).Load();
-                var problemsToAdd = db.ProblemAreas.Where(p => tabletRepair.AssignedProblems.Contains(p.ID)).ToList();
-
+                
+//                var problemsToAdd = db.ProblemAreas.Where(p => tabletRepair.AssignedProblems.Contains(p.ID)).ToList();
                 repair.ProblemAreas = new HashSet<ProblemArea>();
-
                 db.Entry(repair).State = EntityState.Modified;
                 db.Entry(repair).Collection(p => p.ProblemAreas).Load();
-
-                repair.ProblemAreas = db.ProblemAreas.Where(p => tabletRepair.AssignedProblems.Contains(p.ID)).ToList();
-                
-                //foreach (var p in problemsToAdd)
+                //foreach (var partOrder in tabletRepair.PartOrders)
                 //{
-                //    //db.ProblemAreas.Attach(p);
-                //   repair.ProblemAreas.Add(p);
+                //    db.PartOrders.Attach(partOrder);
                 //}
-                //problemsToAdd.ForEach(p => repair.ProblemAreas.Add(p));
-                
+                db.Entry(repair).Collection(p => p.PartOrders).Load();
+                foreach (var partOrder in repair.PartOrders)
+                {
+                    partOrder.IsPartReceived = tabletRepair.PartOrders.Where(p => p.ID == partOrder.ID).Select(p => p.IsPartReceived).SingleOrDefault();
+                    partOrder.ReceivedOn = tabletRepair.PartOrders.Where(p => p.ID == partOrder.ID).Select(p => p.ReceivedOn).SingleOrDefault();
+                }
+                repair.ProblemAreas = db.ProblemAreas.Where(p => tabletRepair.AssignedProblems.Contains(p.ID)).ToList();
                
                 db.SaveChanges();
                 return RedirectToAction("Index");
