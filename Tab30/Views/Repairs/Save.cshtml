@@ -347,16 +347,20 @@
 
         function getToday() {
             var now = new Date();
+            console.log(now);
             var day = ("0" + now.getDate()).slice(-2);
             var month = ("0" + (now.getMonth() + 1)).slice(-2);
+            var hours = currentTime.getHours();
+            var minutes = currentTime.getMinutes();
             return today = now.getFullYear() + "-" + (month) + "-" + (day);
+            
         }
 
-        function OnSuccess(response) {
-            var message = "PartNo: " + response.PartNo;
-            message += "\ndescription: " + response.Description;
-            alert(message);
-        }
+        //function OnSuccess(response) {
+        //    var message = "PartNo: " + response.PartNo;
+        //    message += "\ndescription: " + response.Description;
+        //    alert(message);
+        //}
     </script>
 }
 

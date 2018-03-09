@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace Tab30.Helpers
+namespace Tab30.Models.Helpers
 {
     public static class HelperMethods
     {

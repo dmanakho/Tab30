@@ -9,6 +9,7 @@ using Tab30.DAL;
 using Tab30.Models;
 
 
+
 namespace Tab30.ViewModels
 {
     public class TabletRepairViewModel : IValidatableObject
@@ -143,19 +144,20 @@ namespace Tab30.ViewModels
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            if (ClosedOn.HasValue && ClosedOn.GetValueOrDefault() <= CreatedOn)
+
+            if (ClosedOn.HasValue && ClosedOn.GetValueOrDefault() <= CreatedOn.Value.AddDays(-1))
             {
                 yield return new ValidationResult("Case closure date can't happen before case create date", new[] { "ClosedOn" });
             }
-            if (ShippedOn.HasValue && ShippedOn.GetValueOrDefault() <= CreatedOn)
+            if (ShippedOn.HasValue && ShippedOn.GetValueOrDefault() <= CreatedOn.Value.AddDays(-1))
             {
                 yield return new ValidationResult("Shipping date can't happen before case create date", new[] { "ShippedOn" });
             }
-            if (BoxRequestedOn.HasValue && BoxRequestedOn.GetValueOrDefault() <= CreatedOn)
+            if (BoxRequestedOn.HasValue && BoxRequestedOn.GetValueOrDefault() <= CreatedOn.Value.AddDays(-1))
             {
                 yield return new ValidationResult("Box request date can't happen before case create date", new[] { "BoxRequestedOn" });
             }
-            if (ReturnedOn.HasValue && ReturnedOn.GetValueOrDefault() <= CreatedOn)
+            if (ReturnedOn.HasValue && ReturnedOn.GetValueOrDefault() <= CreatedOn.Value.AddDays(-1))
             {
                 yield return new ValidationResult("Unit return date can't happen before case create date", new[] { "ReturnedOn" });
             }

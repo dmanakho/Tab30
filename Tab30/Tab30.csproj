@@ -203,7 +203,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations-old\Configuration.cs" />
     <Compile Include="Migrations\201803041801472_InitialCreate.cs" />
     <Compile Include="Migrations\201803041801472_InitialCreate.Designer.cs">
       <DependentUpon>201803041801472_InitialCreate.cs</DependentUpon>
@@ -422,7 +421,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Helpers\HelperMethods.cs" />
+    <Content Include="Models\Helpers\HelperMethods.cs" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
