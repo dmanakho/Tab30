@@ -8,15 +8,16 @@ using System.Web.Mvc;
 using Tab30.DAL;
 using Tab30.Models;
 
+
 namespace Tab30.ViewModels
 {
-    public class TabletRepairViewModel
+    public class TabletRepairViewModel : IValidatableObject
     {
         private TabDBContext db = new TabDBContext();
 
         public TabletRepairViewModel()
         {
-            Tablet = db.Tablets.Find(TabletID);
+
             TechID = 2; //Kevin - magic number. In the future to be replaced with ASP.Identity info.
             TechName = db.Teches.Find(TechID).FullName;
             //used in a drop down box to populate repair types in the view.
@@ -33,11 +34,12 @@ namespace Tab30.ViewModels
 
             //list of Ints to store actually ordered part IDs.
             OrderedPartIDs = new List<int>();
+            PartOrders = new List<PartOrder>();
         }
- 
-        public TabletRepairViewModel(int? tabletID = null) :this()
+
+        public TabletRepairViewModel(int? tabletID = null) : this()
         {
-                Tablet = db.Tablets.Find(tabletID);
+            Tablet = db.Tablets.Find(tabletID);
         }
 
         public int ID { get; set; }
@@ -55,8 +57,14 @@ namespace Tab30.ViewModels
 
         [DisplayName("Created On")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        public DateTime CreatedOn { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? CreatedOn { get; set; }
+
+
+        [DisplayName("Updated On")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? UpdatedOn { get; set; }
 
         [DisplayName("Closed")]
         public bool IsClosed { get; set; } = false;
@@ -89,13 +97,15 @@ namespace Tab30.ViewModels
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? ReturnedOn { get; set; }
-        #endregion 
+        #endregion
 
-        
+        [Timestamp]
+        public Byte[] RowVersion { get; set; } //added for future councurrency check.
+
         public Tablet Tablet { get; set; }
         [Required]
         public int TabletID { get; set; }
-        //public string TabletName { get; set; }
+        public string TabletName { get; set; }
 
         [Required]
         public int TechID { get; set; }
@@ -124,12 +134,32 @@ namespace Tab30.ViewModels
 
         [DisplayName("Problems")]
         public IList<int> AssignedProblems { get; set; }
-       
+
         public IEnumerable<SelectListItem> ProblemsDropDownList { get; set; }
 
-        public IList<PartOrder> PartOrders { get; set; }
+        public List<PartOrder> PartOrders { get; set; }
 
         public ICollection<ProblemArea> ProblemAreas { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (ClosedOn.HasValue && ClosedOn.GetValueOrDefault() <= CreatedOn)
+            {
+                yield return new ValidationResult("Case closure date can't happen before case create date", new[] { "ClosedOn" });
+            }
+            if (ShippedOn.HasValue && ShippedOn.GetValueOrDefault() <= CreatedOn)
+            {
+                yield return new ValidationResult("Shipping date can't happen before case create date", new[] { "ShippedOn" });
+            }
+            if (BoxRequestedOn.HasValue && BoxRequestedOn.GetValueOrDefault() <= CreatedOn)
+            {
+                yield return new ValidationResult("Box request date can't happen before case create date", new[] { "BoxRequestedOn" });
+            }
+            if (ReturnedOn.HasValue && ReturnedOn.GetValueOrDefault() <= CreatedOn)
+            {
+                yield return new ValidationResult("Unit return date can't happen before case create date", new[] { "ReturnedOn" });
+            }
+        }
 
         public static implicit operator TabletRepairViewModel(Repair repair)
         {
@@ -139,13 +169,15 @@ namespace Tab30.ViewModels
                 VendorCaseNo = repair.VendorCaseNo,
                 Description = repair.Description,
                 IsClosed = repair.IsClosed,
-                CreatedOn = repair.CreatedOn,
-                ClosedOn = repair.ClosedOn,
+                CreatedOn = ConvertToLocalTime(repair.CreatedOn),
+                UpdatedOn = ConvertToLocalTime(repair.UpdatedOn),
+                RowVersion = repair.RowVersion,
+                ClosedOn = ConvertToLocalTime(repair.ClosedOn),
                 IsBoxRequested = repair.IsBoxRequested,
-                BoxRequestedOn = repair.BoxRequestedOn,
+                BoxRequestedOn = ConvertToLocalTime(repair.BoxRequestedOn),
                 IsShipped = repair.IsShipped,
                 ShippedOn = repair.ShippedOn,
-                ReturnedOn = repair.ReturnedOn,
+                ReturnedOn = ConvertToLocalTime(repair.ReturnedOn),
                 Tablet = repair.Tablet,
                 TabletID = repair.TabletID,
                 TechID = repair.TechID,
@@ -163,20 +195,18 @@ namespace Tab30.ViewModels
 
         public static implicit operator Repair(TabletRepairViewModel repairTablet)
         {
-            return new Repair
-            {
+            return new Repair{
                 ID = repairTablet.ID,
                 VendorCaseNo = repairTablet.VendorCaseNo,
                 Description = repairTablet.Description,
-                //Comment = repairTablet.Comment,
-                CreatedOn = repairTablet.CreatedOn,
+                RowVersion = repairTablet.RowVersion,
                 IsClosed = repairTablet.IsClosed,
-                ClosedOn = repairTablet.ClosedOn,
+                ClosedOn = ConvertToUTCTime(repairTablet.ClosedOn),
                 IsBoxRequested = repairTablet.IsBoxRequested,
-                BoxRequestedOn = repairTablet.BoxRequestedOn,
+                BoxRequestedOn = ConvertToUTCTime(repairTablet.BoxRequestedOn),
                 IsShipped = repairTablet.IsShipped,
-                ShippedOn = repairTablet.ShippedOn,
-                ReturnedOn = repairTablet.ReturnedOn,
+                ShippedOn = ConvertToUTCTime(repairTablet.ShippedOn),
+                ReturnedOn = ConvertToUTCTime(repairTablet.ReturnedOn),
                 Tablet = repairTablet.Tablet,
                 TabletID = repairTablet.TabletID,
                 TechID = repairTablet.TechID,
@@ -184,8 +214,29 @@ namespace Tab30.ViewModels
                 IsUnitReturned = repairTablet.IsUnitReturned,
                 RepairTypeID = repairTablet.RepairTypeID,
                 ProblemAreas = repairTablet.ProblemAreas
-                
+
             };
+
         }
+
+        private static DateTime? ConvertToUTCTime(DateTime? localTime)
+        {
+            DateTime? _UTCTime = null;
+            if (localTime.HasValue)
+            {
+                _UTCTime = localTime.Value.ToUniversalTime();
+            }
+            return _UTCTime;
+        }
+        private static DateTime? ConvertToLocalTime(DateTime? _UTCTime)
+        {
+            DateTime? _localTime = null;
+            if (_UTCTime.HasValue)
+            {
+                _localTime = _UTCTime.Value.ToLocalTime();
+            }
+            return _localTime;
+        }
+
     }
 }

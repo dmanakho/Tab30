@@ -49,11 +49,30 @@ namespace Tab30.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,ShortDescription,LongDescription")] Location location)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Locations.Add(location);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Locations.Add(location);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+            }
+            catch (DataException dex)
+            {
+                if (dex.InnerException.InnerException.Message.Contains("IX_ShortDescription"))
+                {
+                    ModelState.AddModelError("", "Unable to create. Location with this name already exist.");
+                }
+                else
+                {
+                    ModelState.AddModelError("", $"Error: {dex.InnerException.InnerException.Message}");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Error! {ex.Message}");
             }
 
             return View(location);
@@ -81,17 +100,37 @@ namespace Tab30.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,ShortDescription,LongDescription")] Location location)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(location).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(location).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
+            catch (DataException dex)
+            {
+                if (dex.InnerException.InnerException.Message.Contains("IX_ShortDescription"))
+                {
+                    ModelState.AddModelError("", "Unable to create. Location with this name already exist.");
+                }
+                else
+                {
+                    ModelState.AddModelError("", $"Error: {dex.InnerException.InnerException.Message}");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Error! {ex.Message}");
+            }
+
+
             return View(location);
         }
 
         // GET: Locations/Delete/5
-        public ActionResult Delete(int? id, string errorMessage = "", bool? saveChangesError=false)
+        public ActionResult Delete(int? id, string errorMessage = "", bool? saveChangesError = false)
         {
             if (id == null)
             {
@@ -114,19 +153,25 @@ namespace Tab30.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            Location location = db.Locations.Find(id);
             try
             {
-                Location location = db.Locations.Find(id);
+                db.Entry(location).State = EntityState.Deleted;
                 db.Locations.Remove(location);
                 db.SaveChanges();
-                
             }
             catch (DataException dex)
             {
-                return RedirectToAction("Delete", new { id, errorMessage = dex.InnerException.InnerException.Message, saveChangesError = true });
+                if (dex.InnerException.InnerException.Message.Contains("FK_"))
+                {
+                    ModelState.AddModelError("", "Unable to delete. You cannot delete a location that has tablets associated with it.");
+                }
             }
-            return RedirectToAction("Index");
-
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Error! {ex.Message}");
+            }
+            return View(location);
         }
 
         protected override void Dispose(bool disposing)

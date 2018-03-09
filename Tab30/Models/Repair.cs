@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tab30.Models
 {
-    public class Repair
+    public class Repair : Auditable
     {
         public Repair()
         {
@@ -28,17 +28,6 @@ namespace Tab30.Models
         #region Boolean and DataTime Fields
         [DisplayName("Closed")]
         public bool IsClosed { get; set; } = false;
-
-        [DisplayName("Created On")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        public DateTime CreatedOn { get; set; }
-
-        [DisplayName("Updated On")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        public DateTime UpdatedOn { get; set; }
-
 
         [DisplayName("Closed On")]
         [DataType(DataType.Date)]

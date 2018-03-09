@@ -228,7 +228,17 @@
     <Compile Include="Migrations\201803070333375_RenamedDatTimeFieldsClosedOnStartedOnandIsClosedField.Designer.cs">
       <DependentUpon>201803070333375_RenamedDatTimeFieldsClosedOnStartedOnandIsClosedField.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803082051436_AddedIAuditableandAuditableInheritanceForTabletModel.cs" />
+    <Compile Include="Migrations\201803082051436_AddedIAuditableandAuditableInheritanceForTabletModel.Designer.cs">
+      <DependentUpon>201803082051436_AddedIAuditableandAuditableInheritanceForTabletModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803090313237_InheritedRepairFromAutitableAddedExceptionErrorChecks.cs" />
+    <Compile Include="Migrations\201803090313237_InheritedRepairFromAutitableAddedExceptionErrorChecks.Designer.cs">
+      <DependentUpon>201803090313237_InheritedRepairFromAutitableAddedExceptionErrorChecks.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Auditable.cs" />
+    <Compile Include="Models\IAuditable.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\Part.cs" />
     <Compile Include="Models\PartOrder.cs" />
@@ -412,6 +422,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Helpers\HelperMethods.cs" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -663,6 +674,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
@@ -707,6 +719,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803070333375_RenamedDatTimeFieldsClosedOnStartedOnandIsClosedField.resx">
       <DependentUpon>201803070333375_RenamedDatTimeFieldsClosedOnStartedOnandIsClosedField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803082051436_AddedIAuditableandAuditableInheritanceForTabletModel.resx">
+      <DependentUpon>201803082051436_AddedIAuditableandAuditableInheritanceForTabletModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803090313237_InheritedRepairFromAutitableAddedExceptionErrorChecks.resx">
+      <DependentUpon>201803090313237_InheritedRepairFromAutitableAddedExceptionErrorChecks.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

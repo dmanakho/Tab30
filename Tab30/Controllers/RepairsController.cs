@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
@@ -84,43 +85,56 @@ namespace Tab30.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Save(TabletRepairViewModel tabletRepair)
         {
-            if (ModelState.IsValid)
+            Repair repair = tabletRepair; //implicit conversion with the help of implicit operator in TabletRepairviewModels class
+            try
             {
-                Repair repair = tabletRepair; //implicit conversion with the help of implicit operator in TabletRepairviewModels class
-
-                repair.UpdatedOn = DateTime.Now;
-                repair.CreatedOn = DateTime.Now;
-                //repair.IsClosed = tabletRepair.IsClosed;
-                //repair.TechID = 2; //this is temporary until Auth and Oauth is implemented;
-
-                //the line below is from: https://www.thereformedprogrammer.net/updating-a-many-to-many-relationship-in-entity-framework/
-                //also need to work to update this code to work with EDIT action. See article above.
-                //this only works with EF configured many-to-many relationship. It will not work with custom join table with payload.
-
-                repair.ProblemAreas = db.ProblemAreas.Where(p => tabletRepair.AssignedProblems.Contains(p.ID)).ToList();
-
-                db.Repairs.Add(repair);
-                db.SaveChanges();
-
-                //lines below populat ordered parts.
-                if (tabletRepair.OrderedPartIDs != null)
+                if (ModelState.IsValid)
                 {
-                    List<PartOrder> partOrders = new List<PartOrder>();
-                    foreach (var part in tabletRepair.OrderedPartIDs)
-                    {
-                        partOrders.Add(new PartOrder()
-                        {
-                            OrderedOn = DateTime.Now,
-                            PartID = part,
-                            RepairID = repair.ID,
-                            IsPartReceived = false
-                        });
-                    }
-                    db.PartOrders.AddRange(partOrders);
+                    //the line below is from: https://www.thereformedprogrammer.net/updating-a-many-to-many-relationship-in-entity-framework/
+                    //also need to work to update this code to work with EDIT action. See article above.
+                    //this only works with EF configured many-to-many relationship. It will not work with custom join table with payload.
+
+                    repair.ProblemAreas = db.ProblemAreas.Where(p => tabletRepair.AssignedProblems.Contains(p.ID)).ToList();
+
+                    db.Repairs.Add(repair);
                     db.SaveChanges();
+
+                    //lines below populat ordered parts.
+                    if (tabletRepair.OrderedPartIDs != null)
+                    {
+                        List<PartOrder> partOrders = new List<PartOrder>();
+                        foreach (var part in tabletRepair.OrderedPartIDs)
+                        {
+                            partOrders.Add(new PartOrder()
+                            {
+                                OrderedOn = DateTime.Now,
+                                PartID = part,
+                                RepairID = repair.ID,
+                                IsPartReceived = false
+                            });
+                        }
+                        db.PartOrders.AddRange(partOrders);
+                        db.SaveChanges();
+                    }
+                    return RedirectToAction("Details", "Tablets", new { id = repair.TabletID });
                 }
-                return RedirectToAction("Details", "Tablets", new { id = repair.TabletID });
             }
+            catch (DataException dex)
+            {
+                if (dex.InnerException.InnerException.Message.Contains("IX_VendorCaseNo"))
+                {
+                    ModelState.AddModelError("VendorCaseNo", "Unable to save changes. Vendor Case No. must be unique");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, $"Error occured Copy the error message and send it to Dima</br>: {dex.Message}. + {dex.InnerException.Message} + {dex.InnerException.Message}");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"Error occured Copy the error message and send it to Dima</br>: {ex.Message}. + {ex.InnerException.Message} + {ex.InnerException.Message}");
+            }
+
             return View(tabletRepair);
         }
 
@@ -132,7 +146,7 @@ namespace Tab30.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Repair repair = db.Repairs.Include(r => r.PartOrders).Include(r=>r.ProblemAreas).Include(r=>r.Tablet).FirstOrDefault(r=>r.ID == id);
+            Repair repair = db.Repairs.Include(r => r.PartOrders).Include(r => r.ProblemAreas).Include(r => r.Tablet).FirstOrDefault(r => r.ID == id);
             if (repair == null)
             {
                 return HttpNotFound();
@@ -149,31 +163,51 @@ namespace Tab30.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(TabletRepairViewModel tabletRepair)
         {
-            if (ModelState.IsValid)
+            Repair repair = tabletRepair;
+            try
             {
-                Repair repair = tabletRepair;
-                repair.UpdatedOn = DateTime.Now;
-                
-//                var problemsToAdd = db.ProblemAreas.Where(p => tabletRepair.AssignedProblems.Contains(p.ID)).ToList();
-                repair.ProblemAreas = new HashSet<ProblemArea>();
-                db.Entry(repair).State = EntityState.Modified;
-                db.Entry(repair).Collection(p => p.ProblemAreas).Load();
-                //foreach (var partOrder in tabletRepair.PartOrders)
-                //{
-                //    db.PartOrders.Attach(partOrder);
-                //}
-                db.Entry(repair).Collection(p => p.PartOrders).Load();
-                foreach (var partOrder in repair.PartOrders)
+                if (ModelState.IsValid)
                 {
-                    partOrder.IsPartReceived = tabletRepair.PartOrders.Where(p => p.ID == partOrder.ID).Select(p => p.IsPartReceived).SingleOrDefault();
-                    partOrder.ReceivedOn = tabletRepair.PartOrders.Where(p => p.ID == partOrder.ID).Select(p => p.ReceivedOn).SingleOrDefault();
-                }
-                repair.ProblemAreas = db.ProblemAreas.Where(p => tabletRepair.AssignedProblems.Contains(p.ID)).ToList();
-               
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
+                    //                var problemsToAdd = db.ProblemAreas.Where(p => tabletRepair.AssignedProblems.Contains(p.ID)).ToList();
+                    repair.ProblemAreas = new HashSet<ProblemArea>();
+                    db.Entry(repair).State = EntityState.Modified;
+                    db.Entry(repair).Collection(p => p.ProblemAreas).Load();
+
+                    db.Entry(repair).Collection(p => p.PartOrders).Load();
+                    foreach (var partOrder in repair.PartOrders)
+                    {
+                        partOrder.IsPartReceived = tabletRepair.PartOrders.Where(p => p.ID == partOrder.ID).Select(p => p.IsPartReceived).SingleOrDefault();
+                        partOrder.ReceivedOn = tabletRepair.PartOrders.Where(p => p.ID == partOrder.ID).Select(p => p.ReceivedOn).SingleOrDefault();
+                    }
+                    repair.ProblemAreas = db.ProblemAreas.Where(p => tabletRepair.AssignedProblems.Contains(p.ID)).ToList();
+
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                //This is implemented by a virtue of having "RowVersion" field in our model and database. watch this video for details: https://youtu.be/Gi_kEbc5faQ
+                ModelState.AddModelError(string.Empty, $"The record you were trying to update was modified by another user. Please go back and try again.");
+            }
+            catch (DataException dex)
+            {
+                if (dex.InnerException.InnerException.Message.Contains("IX_VendorCaseNo"))
+                {
+                    ModelState.AddModelError("VendorCaseNo", "Unable to save changes. Vendor Case No. must be unique");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, $"Database Error occured Copy the error message and send it to Dima </br>: {dex.Message}. + {dex.InnerException.Message} + {dex.InnerException.Message}");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"Unexpected error occured. Copy the error message and send it to Dima {ex.Message} | {ex.InnerException.Message}" +
+                    $"{ex.InnerException.InnerException.Message}");
+            }
             return View(tabletRepair);
         }
 
@@ -224,22 +258,22 @@ namespace Tab30.Controllers
             base.Dispose(disposing);
         }
 
-        [NonAction]
-        private TabletRepairViewModel BuildTabletRepairViewModel(int tabletID)
-        {
-            var tablet = db.Tablets.Find(tabletID);
-            var tech = db.Teches.Find(2); //magic number but will be replaces with Tech's info later;
+        //[NonAction]
+        //private TabletRepairViewModel BuildTabletRepairViewModel(int tabletID)
+        //{
+        //    var tablet = db.Tablets.Find(tabletID);
+        //    var tech = db.Teches.Find(2); //magic number but will be replaces with Tech's info later;
 
 
-            var tabletRepair = new TabletRepairViewModel()
-            {
-                //TabletID = tablet.ID,
-                //TabletName = tablet.TabletName,
-                TechID = 2, //Kevin
-                TechName = tech.FullName,
+        //    var tabletRepair = new TabletRepairViewModel()
+        //    {
+        //        //TabletID = tablet.ID,
+        //        //TabletName = tablet.TabletName,
+        //        TechID = 2, //Kevin
+        //        TechName = tech.FullName,
 
-            };
-            return tabletRepair;
-        }
+        //    };
+        //    return tabletRepair;
+        //}
     }
 }

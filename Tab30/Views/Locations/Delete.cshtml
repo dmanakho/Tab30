@@ -7,7 +7,7 @@
 <div class="container">
     <div class="row">
         <div class="my-5 col-4">
-            <p class="text-danger">@ViewBag.ErrorMessage</p>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <h4>Deleting: <span class="text-danger">@Html.DisplayFor(model => model.LongDescription)</span></h4>
             <h5 class="text-danger">Are you sure?</h5>
         </div>

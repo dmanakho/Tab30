@@ -1,10 +1,10 @@
 ﻿@model Tab30.ViewModels.TabletRepairViewModel
 
 @{
-    ViewBag.Title = $"Start Repair - {Model.Tablet.TabletName}";
+    ViewBag.Title = $"Start Repair - {@Model.TabletName}";
 }
 
-<h4 class="my-5"><span class="text-primary">Repair for @Model.Tablet.TabletName </span><span class="text-muted">started on: @DateTime.Now.ToLongDateString()</span></h4>
+<h4 class="my-5"><span class="text-primary">Repair for @Model.TabletName </span><span class="text-muted">started on: @DateTime.Now.ToLongDateString()</span></h4>
 <h6 class="text-primary">Technician: @Model.TechName</h6>
 <hr />
 
@@ -133,12 +133,10 @@
     </div>
 
     <div class="col-7">
-
         @{
             //Need to find a better solution that this.
             var partOrders = new Tab30.Models.PartOrder();
         }
-
         <h5 class="text-primary">Parts Ordered:</h5>
         <table id="partsOrders" class="table table-striped">
             <thead>
@@ -160,8 +158,6 @@
             </thead>
             <tbody id="addedOrderedParts"></tbody>
         </table>
-
-
         @{
             //this line is used to make HTML.DisplayFor to pull property names from the model.
             //if i can find better solution, I'll update this.
@@ -189,8 +185,6 @@
                 {
                     <tr>
                         @*<td>@Html.CheckBox(p.ID.ToString(), false, new { id = @p.ID.ToString() })</td>*@
-
-
                         <td>@Html.DisplayFor(r => p.PartNo)</td>
                         <td>@Html.DisplayFor(r => p.Description)</td>
                         <td>@Html.DisplayFor(r => p.ID)</td>

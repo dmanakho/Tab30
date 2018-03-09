@@ -8,7 +8,7 @@ using System.Web;
 
 namespace Tab30.Models
 {
-    public class Tablet
+    public class Tablet : Auditable
     {
         public Tablet()
         {
@@ -17,7 +17,7 @@ namespace Tab30.Models
         public int ID { get; set; }
 
         [DisplayName("Tablet Name")]
-        [StringLength(50,ErrorMessage = "Tablet Name can't exceed 50 characters", MinimumLength = 8)]
+        [StringLength(50, MinimumLength = 8)]
         [Required]
         [Index(IsUnique = true)]
         public string TabletName { get; set; }
@@ -51,16 +51,6 @@ namespace Tab30.Models
         [DisplayFormat(NullDisplayText = "N/A")]
         public bool? ADPEnabled { get; set; }
 
-        [DisplayName("Created On")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:g}", ApplyFormatInEditMode = true)]
-        public DateTime CreatedOn { get; set; }
-
-        [DisplayName("Updated On")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:g}", ApplyFormatInEditMode = true)]
-        public DateTime UpdatedOn { get; set; }
-
         [DisplayName("Out of Circulation")]
         public bool? OutOfCirculation { get; set; } = false;
 
@@ -75,5 +65,6 @@ namespace Tab30.Models
         public virtual User User { get; set; }
 
         public virtual ICollection<Repair> Repairs { get; set; }
+
     }
 }

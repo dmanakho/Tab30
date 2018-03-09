@@ -10,21 +10,20 @@ using Tab30.Models;
 
 namespace Tab30.ViewModels
 {
-    
-    public class TabletViewModel
+    //TabletViewModel implements IValidatableObject interface to provide with the additional custom validation.
+    public class TabletViewModel: IValidatableObject // validation explained here: https://youtu.be/0NqLCHAuMHE
     {
+        private TabDBContext db = new TabDBContext();
         public TabletViewModel()
-        { }
-        public TabletViewModel(TabDBContext db)
         {
-            Locations = new SelectList(db.Locations.OrderBy(p => p.ShortDescription), "ID", "ShortDescription");
-            Users = new SelectList(db.Users.ToList().OrderBy(t=>t.FullName), "ID", "FullName");
-        }
 
+            Locations = new SelectList(db.Locations.OrderBy(p => p.ShortDescription), "ID", "ShortDescription");
+            Users = new SelectList(db.Users.ToList().OrderBy(t => t.FullName), "ID", "FullName");
+        }
         public int ID { get; set; }
 
         [DisplayName("Tablet Name")]
-        [StringLength(50, ErrorMessage = "Tablet Name can't exceed 50 characters", MinimumLength = 8)]
+        [StringLength(50, MinimumLength = 8)]
         [Required]
         public string TabletName { get; set; }
 
@@ -59,10 +58,14 @@ namespace Tab30.ViewModels
         public bool IsOutOfCirculation { get; set; } = false;
 
         [DisplayName("Created On")]
-        public DateTime CreatedOn { get; set; }
+        public DateTime? CreatedOn { get; set; }
 
         [DisplayName("Updated On")]
-        public DateTime UpdatedOn { get; set; }
+        public DateTime? UpdatedOn { get; set; }
+
+        [ScaffoldColumn(false)]
+        [Timestamp]
+        public Byte[] RowVersion { get; set; } //added for future councurrency check.
 
 
         [DisplayFormat(NullDisplayText = "N/A")]
@@ -79,6 +82,18 @@ namespace Tab30.ViewModels
         public User User { get; set; }
         public Location Location { get; set; }
 
+        //the method below implements IValidatableobject interface and allows for an easy way to provide validations.
+        //see this video for detailed explanation: https://youtu.be/0NqLCHAuMHE
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (WarrantyExpiresOn.HasValue && WarrantyExpiresOn.GetValueOrDefault() < DateTime.Now)
+            {
+                yield return new ValidationResult("Warranty Expiration can't be in the past", new[] { "WarrantyExpiresOn" });
+            }
+            
+        }
+
         public static implicit operator TabletViewModel(Tablet tablet)
         {
             return new TabletViewModel
@@ -90,16 +105,18 @@ namespace Tab30.ViewModels
                 AssetTag = tablet.AssetTag,
                 ADPEnabled = tablet.ADPEnabled.HasValue ? (bool)tablet.ADPEnabled : false,
                 LocationID = tablet.LocationID,
-                IsOutOfCirculation = tablet.OutOfCirculation.HasValue? (bool) tablet.OutOfCirculation: false,
+                IsOutOfCirculation = tablet.OutOfCirculation.HasValue ? (bool)tablet.OutOfCirculation : false,
                 SerialNo = tablet.SerialNo,
                 UserID = tablet.UserID,
                 WarrantyExpiresOn = tablet.WarrantyExpiresOn,
-                CreatedOn = tablet.CreatedOn,
-                UpdatedOn = tablet.UpdatedOn,
+                //converting to local time, since we store these values in UTC time in the database.
+                CreatedOn = ConvertToLocalTime(tablet.CreatedOn),
+                UpdatedOn = ConvertToLocalTime(tablet.UpdatedOn),
                 Repairs = tablet.Repairs,
                 User = tablet.User,
-                Location = tablet.Location
-                
+                Location = tablet.Location,
+                RowVersion = tablet.RowVersion
+
             };
         }
 
@@ -117,8 +134,27 @@ namespace Tab30.ViewModels
                 OutOfCirculation = tabletViewModel.IsOutOfCirculation,
                 SerialNo = tabletViewModel.SerialNo,
                 UserID = tabletViewModel.UserID,
-                WarrantyExpiresOn = tabletViewModel.WarrantyExpiresOn
+                WarrantyExpiresOn = tabletViewModel.WarrantyExpiresOn,
+                RowVersion = tabletViewModel.RowVersion
             };
+        }
+        private static DateTime? ConvertToUTCTime(DateTime? localTime)
+        {
+            DateTime? _UTCTime = null;
+            if (localTime.HasValue)
+            {
+                _UTCTime = localTime.Value.ToUniversalTime();
+            }
+            return _UTCTime;
+        }
+        private static DateTime? ConvertToLocalTime(DateTime? _UTCTime)
+        {
+            DateTime? _localTime = null;
+            if (_UTCTime.HasValue)
+            {
+                _localTime = _UTCTime.Value.ToLocalTime();
+            }
+            return _localTime;
         }
     }
 }

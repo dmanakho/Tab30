@@ -4,7 +4,7 @@
     ViewBag.Title = $"Edit Repair - {Model.VendorCaseNo}";
 }
 
-<h4 class="my-5"><span class="text-primary">Repair for @Model.Tablet.TabletName </span><span class="text-muted">started on: @Model.CreatedOn</span></h4>
+<h4 class="my-5"><span class="text-primary">Repair for @Model.TabletName </span><span class="text-muted">started on: @Model.CreatedOn</span></h4>
 <h6 class="text-primary">Technician: @Model.TechName</h6>
 <hr />
 @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "repairForm" }))
@@ -18,8 +18,9 @@
             @Html.HiddenFor(m => m.TechID)
             @Html.HiddenFor(m => m.TechName)
             @Html.HiddenFor(m => m.TabletID)
-            @*@Html.HiddenFor(m => m.TabletName)*@
+            @Html.HiddenFor(m => m.TabletName)
             @Html.HiddenFor(m => m.CreatedOn)
+            @Html.HiddenFor(m => m.RowVersion)
 
 
             <div class="form-row">
@@ -133,18 +134,11 @@
                 this is my question: https://stackoverflow.com/questions/49121276/how-to-bind-javascript-to-checkboxes-and-datetimepicker-inside-table-created-in?noredirect=1#comment85248442_49121276
             *@
             <h5 class="text-primary">Parts Ordered:</h5>
-            @*<div class="form-row">
-                <div class="form-group col-12">
-                    @Html.ListBoxFor(m => m.OrderedPartIDs, Model.OrderedPartsSelectList, new { @class = "select2-multiple form-control col-12", multiple = "multiple" })
-                    @Html.ValidationMessageFor(m => m.OrderedPartIDs, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
             <table id="partsOrders" class="table table-bordered">
                 <thead>
                     <tr>
                         <th>
                             @Html.DisplayNameFor(r => partOrders.Part.Description)
-
                         </th>
                         <th>
                             @Html.DisplayNameFor(r => partOrders.IsPartReceived)
@@ -160,8 +154,8 @@
                 <tbody>
                     @for (int i = 0; i < Model.PartOrders.Count(); i++)
                     {
-                        @Html.HiddenFor(m=>m.OrderedPartIDs[i])
-                        @Html.HiddenFor(m=>m.PartOrders[i].ID)
+                        @Html.HiddenFor(m => m.OrderedPartIDs[i])
+                        @Html.HiddenFor(m => m.PartOrders[i].ID)
                         <tr>
                             <td>@Html.DisplayFor(m => m.PartOrders[i].Part.Description, new { htmlAttributes = new { @class = "form-control" } })</td>
                             <td class="text-center"><label style="display:block;overflow: hidden; background:rgb(252, 239, 173)">@Html.EditorFor(m => m.PartOrders[i].IsPartReceived, new { htmlAttributes = new { @class = "checkbox isPartReceived" } })</label></td>
