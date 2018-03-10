@@ -276,6 +276,10 @@
     <Compile Include="Migrations\201803090313237_InheritedRepairFromAutitableAddedExceptionErrorChecks.Designer.cs">
       <DependentUpon>201803090313237_InheritedRepairFromAutitableAddedExceptionErrorChecks.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803101816007_removedTechNavigationalPropertyyinRepairModel.cs" />
+    <Compile Include="Migrations\201803101816007_removedTechNavigationalPropertyyinRepairModel.Designer.cs">
+      <DependentUpon>201803101816007_removedTechNavigationalPropertyyinRepairModel.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auditable.cs" />
     <Compile Include="Models\IAuditable.cs" />
@@ -717,6 +721,8 @@
     <Content Include="Views\Claims\Index.cshtml" />
     <Content Include="Views\Account\SignOutCallback.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Repairs\RecentRepairs.cshtml" />
+    <Content Include="Views\Tablets\RecentTablets.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
@@ -770,6 +776,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803090313237_InheritedRepairFromAutitableAddedExceptionErrorChecks.resx">
       <DependentUpon>201803090313237_InheritedRepairFromAutitableAddedExceptionErrorChecks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803101816007_removedTechNavigationalPropertyyinRepairModel.resx">
+      <DependentUpon>201803101816007_removedTechNavigationalPropertyyinRepairModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

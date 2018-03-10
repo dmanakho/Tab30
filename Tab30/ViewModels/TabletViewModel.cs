@@ -58,10 +58,20 @@ namespace Tab30.ViewModels
         public bool IsOutOfCirculation { get; set; } = false;
 
         [DisplayName("Created On")]
+        [DisplayFormat(NullDisplayText = "(not set)")]
         public DateTime? CreatedOn { get; set; }
 
         [DisplayName("Updated On")]
+        [DisplayFormat(NullDisplayText = "(not set)")]
         public DateTime? UpdatedOn { get; set; }
+
+        [DisplayName("Created By:")]
+        [DisplayFormat(NullDisplayText = "(not assigned)")]
+        public string CreatedBy { get; set; }
+
+        [DisplayName("Updated By:")]
+        [DisplayFormat(NullDisplayText = "(not assigned)")]
+        public string UpdatedBy { get; set; }
 
         [ScaffoldColumn(false)]
         [Timestamp]
@@ -112,6 +122,8 @@ namespace Tab30.ViewModels
                 //converting to local time, since we store these values in UTC time in the database.
                 CreatedOn = ConvertToLocalTime(tablet.CreatedOn),
                 UpdatedOn = ConvertToLocalTime(tablet.UpdatedOn),
+                CreatedBy = tablet.CreatedBy,
+                UpdatedBy = tablet.UpdatedBy,
                 Repairs = tablet.Repairs,
                 User = tablet.User,
                 Location = tablet.Location,
@@ -135,6 +147,10 @@ namespace Tab30.ViewModels
                 SerialNo = tabletViewModel.SerialNo,
                 UserID = tabletViewModel.UserID,
                 WarrantyExpiresOn = tabletViewModel.WarrantyExpiresOn,
+                CreatedOn = ConvertToUTCTime(tabletViewModel.CreatedOn),
+                UpdatedOn = ConvertToUTCTime(tabletViewModel.UpdatedOn),
+                CreatedBy = tabletViewModel.CreatedBy,
+                UpdatedBy = tabletViewModel.UpdatedBy,
                 RowVersion = tabletViewModel.RowVersion
             };
         }

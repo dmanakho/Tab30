@@ -14,6 +14,7 @@ using Tab30.ViewModels;
 
 namespace Tab30.Controllers
 {
+    [Authorize]
     public class RepairsController : Controller
     {
         private TabDBContext db = new TabDBContext();
@@ -21,7 +22,7 @@ namespace Tab30.Controllers
         // GET: Repairs
         public ActionResult Index()
         {
-            var repairs = db.Repairs.OrderByDescending(p => p.CreatedOn).Include(r => r.RepairType).Include(r => r.Tablet).Include(r => r.Tech);
+            var repairs = db.Repairs.OrderByDescending(p => p.CreatedOn).Include(r => r.RepairType).Include(r => r.Tablet);
             return View(repairs.ToList());
         }
 
@@ -51,7 +52,7 @@ namespace Tab30.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public string Create([Bind(Include = "ID,VendorCaseNo,Description,Comment,IsComplete,RepairCreated,UpdatedOn,RepairClosed,IsBoxRequested,BoxRequestedOn,IsShipped,ShippedOn,IsUnitReturned,ReturnedOn,TabletID,RepairTypeID,TechID")] Repair repair)
+        public string Create([Bind(Include = "ID,VendorCaseNo,Description,Comment,IsComplete,RepairCreated,UpdatedOn,RepairClosed,IsBoxRequested,BoxRequestedOn,IsShipped,ShippedOn,IsUnitReturned,ReturnedOn,TabletID,RepairTypeID")] Repair repair)
         {
             //if (ModelState.IsValid)
             //{
@@ -127,12 +128,12 @@ namespace Tab30.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, $"Error occured Copy the error message and send it to Dima</br>: {dex.Message}. + {dex.InnerException.Message} + {dex.InnerException.Message}");
+                    ModelState.AddModelError(string.Empty, $"Database Error occured Copy the error message and send it to Dima</br>: {dex.Message}. / {dex.InnerException.Message} / {dex.InnerException.InnerException.Message} ");
                 }
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, $"Error occured Copy the error message and send it to Dima</br>: {ex.Message}. + {ex.InnerException.Message} + {ex.InnerException.Message}");
+                ModelState.AddModelError(string.Empty, $"Error occured Copy the error message and send it to Dima</br>: {ex.Message}. + {ex.InnerException.Message} + {ex.InnerException.InnerException.Message}");
             }
 
             return View(tabletRepair);
@@ -200,12 +201,12 @@ namespace Tab30.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, $"Database Error occured Copy the error message and send it to Dima </br>: {dex.Message}. + {dex.InnerException.Message} + {dex.InnerException.Message}");
+                    ModelState.AddModelError(string.Empty, $"Database Error occured Copy the error message and send it to Dima </br>: {dex.Message}. + {dex.InnerException.Message} + {dex.InnerException.InnerException.Message}");
                 }
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError(string.Empty, $"Unexpected error occured. Copy the error message and send it to Dima {ex.Message} | {ex.InnerException.Message}" +
+                ModelState.AddModelError(string.Empty, $"Unexpected error occured. Copy the error message and send it to Dima {ex.Message} | {ex.InnerException.InnerException.Message}" +
                     $"{ex.InnerException.InnerException.Message}");
             }
             return View(tabletRepair);
@@ -249,6 +250,20 @@ namespace Tab30.Controllers
             return RedirectToAction("Index");
         }
 
+        [ChildActionOnly]
+        public ActionResult RecentRepairs()
+        {
+            var repair = db.Repairs.OrderByDescending(p => p.CreatedOn).Take(10).Include(r => r.RepairType).Include(r => r.Tablet);
+            return PartialView(repair);
+        }
+
+        [ChildActionOnly]
+        public ActionResult YourRecentRepairs(string userName)
+        {
+            var repair = db.Repairs.Where(p=>p.CreatedBy == userName).OrderByDescending(p => p.CreatedOn).Take(10).Include(r => r.RepairType).Include(r => r.Tablet);
+            return PartialView("RecentRepairs",repair);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -258,22 +273,5 @@ namespace Tab30.Controllers
             base.Dispose(disposing);
         }
 
-        //[NonAction]
-        //private TabletRepairViewModel BuildTabletRepairViewModel(int tabletID)
-        //{
-        //    var tablet = db.Tablets.Find(tabletID);
-        //    var tech = db.Teches.Find(2); //magic number but will be replaces with Tech's info later;
-
-
-        //    var tabletRepair = new TabletRepairViewModel()
-        //    {
-        //        //TabletID = tablet.ID,
-        //        //TabletName = tablet.TabletName,
-        //        TechID = 2, //Kevin
-        //        TechName = tech.FullName,
-
-        //    };
-        //    return tabletRepair;
-        //}
     }
 }

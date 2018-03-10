@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Tab30.Models.Repair>
+
+<table class="table table-hover" cellpadding="2" id="repairs">
+    <thead class="thead-light">
+        <tr>
+            <th>
+                Case#
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tablet.TabletName)
+            </th>
+            <th>
+                Problem
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.ActionLink(@Html.DisplayFor(m => item.VendorCaseNo).ToString(), "Edit", "Repairs", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-primary" })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tablet.TabletName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RepairType.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+

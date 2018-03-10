@@ -19,7 +19,7 @@ namespace Tab30.Controllers
         // GET: Repairs
         public ActionResult Index()
         {
-            var repairs = db.Repairs.Include(r => r.Tablet).Include(r => r.Tech) ;
+            var repairs = db.Repairs.Include(r => r.Tablet) ;
             return View(repairs.ToList());
         }
 
@@ -76,7 +76,7 @@ namespace Tab30.Controllers
                 repair.UpdatedOn = DateTime.Now;
                 repair.CreatedOn = DateTime.Now;
                 repair.IsClosed = tabletRepair.IsClosed;
-                repair.TechID = 2; //this is temporary until Auth and Oauth is implemented;
+                //repair.TechID = 2; //this is temporary until Auth and Oauth is implemented;
                 db.Repairs.Add(repair);
                 db.SaveChanges();
                 return RedirectToAction("Details", "Tablets", new { id = repair.TabletID });
@@ -112,7 +112,7 @@ namespace Tab30.Controllers
             }
 
             ViewBag.TabletID = new SelectList(db.Tablets, "ID", "TabletName", repair.TabletID);
-            ViewBag.TechID = new SelectList(db.Teches, "ID", "FirstName", repair.TechID);
+           // ViewBag.TechID = new SelectList(db.Teches, "ID", "FirstName", repair.TechID);
             return View(repair);
         }
 
@@ -128,8 +128,8 @@ namespace Tab30.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.TabletID = new SelectList(db.Tablets, "ID", "TabletName", repair.TabletID);
-            ViewBag.TechID = new SelectList(db.Teches, "ID", "FirstName", repair.TechID);
+            //ViewBag.TabletID = new SelectList(db.Tablets, "ID", "TabletName", repair.TabletID);
+           // ViewBag.TechID = new SelectList(db.Teches, "ID", "FirstName", repair.TechID);
             return View(repair);
         }
 
@@ -146,8 +146,8 @@ namespace Tab30.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.TabletID = new SelectList(db.Tablets, "ID", "TabletName", repair.TabletID);
-            ViewBag.TechID = new SelectList(db.Teches, "ID", "FirstName", repair.TechID);
+           // ViewBag.TabletID = new SelectList(db.Tablets, "ID", "TabletName", repair.TabletID);
+            //ViewBag.TechID = new SelectList(db.Teches, "ID", "FirstName", repair.TechID);
             return View(repair);
         }
 

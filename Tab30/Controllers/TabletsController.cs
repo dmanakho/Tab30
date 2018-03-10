@@ -188,6 +188,13 @@ namespace Tab30.Controllers
             return RedirectToAction("Index");
         }
 
+        [ChildActionOnly]
+        public ActionResult RecentTablets()
+        {
+            var tablet = db.Tablets.OrderByDescending(t => t.UpdatedOn).Take(10).ToList();
+            return PartialView(tablet);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

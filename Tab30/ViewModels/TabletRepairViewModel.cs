@@ -19,8 +19,8 @@ namespace Tab30.ViewModels
         public TabletRepairViewModel()
         {
 
-            TechID = 2; //Kevin - magic number. In the future to be replaced with ASP.Identity info.
-            TechName = db.Teches.Find(TechID).FullName;
+            //TechID = 2; //Kevin - magic number. In the future to be replaced with ASP.Identity info.
+            //TechName = db.Teches.Find(TechID).FullName;
             //used in a drop down box to populate repair types in the view.
             RepairTypesDropDownList = new SelectList(db.RepairTypes.OrderBy(p => p.Description).ToList(), "ID", "Description");
 
@@ -56,16 +56,22 @@ namespace Tab30.ViewModels
 
         #region Boolean and DataTime Fields
 
-        [DisplayName("Created On")]
+        [DisplayName("Created On:")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? CreatedOn { get; set; }
 
 
-        [DisplayName("Updated On")]
+        [DisplayName("Updated On:")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? UpdatedOn { get; set; }
+
+        [DisplayName("Created By:")]
+        public string CreatedBy { get; set; }
+
+        [DisplayName("Updated By:")]
+        public string UpdatedBy { get; set; }
 
         [DisplayName("Closed")]
         public bool IsClosed { get; set; } = false;
@@ -108,9 +114,10 @@ namespace Tab30.ViewModels
         public int TabletID { get; set; }
         public string TabletName { get; set; }
 
-        [Required]
-        public int TechID { get; set; }
-        public string TechName { get; set; }
+        //[Required]
+        //public int TechID { get; set; }
+        //public string TechName { get; set; }
+
 
         // public List<PartOrder> PartOrders { get; set; }
 
@@ -145,19 +152,19 @@ namespace Tab30.ViewModels
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
 
-            if (ClosedOn.HasValue && ClosedOn.GetValueOrDefault() <= CreatedOn.Value.AddDays(-1))
+            if (ClosedOn.HasValue && ClosedOn.GetValueOrDefault() <= (CreatedOn.HasValue ? CreatedOn.Value.AddDays(-1) : DateTime.Now.AddDays(-1)))
             {
                 yield return new ValidationResult("Case closure date can't happen before case create date", new[] { "ClosedOn" });
             }
-            if (ShippedOn.HasValue && ShippedOn.GetValueOrDefault() <= CreatedOn.Value.AddDays(-1))
+            if (ShippedOn.HasValue && ShippedOn.GetValueOrDefault() <= (CreatedOn.HasValue ? CreatedOn.Value.AddDays(-1) : DateTime.Now.AddDays(-1)))
             {
                 yield return new ValidationResult("Shipping date can't happen before case create date", new[] { "ShippedOn" });
             }
-            if (BoxRequestedOn.HasValue && BoxRequestedOn.GetValueOrDefault() <= CreatedOn.Value.AddDays(-1))
+            if (BoxRequestedOn.HasValue && BoxRequestedOn.GetValueOrDefault() <= (CreatedOn.HasValue ? CreatedOn.Value.AddDays(-1) : DateTime.Now.AddDays(-1)))
             {
                 yield return new ValidationResult("Box request date can't happen before case create date", new[] { "BoxRequestedOn" });
             }
-            if (ReturnedOn.HasValue && ReturnedOn.GetValueOrDefault() <= CreatedOn.Value.AddDays(-1))
+            if (ReturnedOn.HasValue && ReturnedOn.GetValueOrDefault() <= (CreatedOn.HasValue ? CreatedOn.Value.AddDays(-1) : DateTime.Now.AddDays(-1)))
             {
                 yield return new ValidationResult("Unit return date can't happen before case create date", new[] { "ReturnedOn" });
             }
@@ -173,6 +180,8 @@ namespace Tab30.ViewModels
                 IsClosed = repair.IsClosed,
                 CreatedOn = ConvertToLocalTime(repair.CreatedOn),
                 UpdatedOn = ConvertToLocalTime(repair.UpdatedOn),
+                CreatedBy = repair.CreatedBy,
+                UpdatedBy = repair.UpdatedBy,
                 RowVersion = repair.RowVersion,
                 ClosedOn = ConvertToLocalTime(repair.ClosedOn),
                 IsBoxRequested = repair.IsBoxRequested,
@@ -182,11 +191,10 @@ namespace Tab30.ViewModels
                 ReturnedOn = ConvertToLocalTime(repair.ReturnedOn),
                 Tablet = repair.Tablet,
                 TabletID = repair.TabletID,
-                TechID = repair.TechID,
+
                 //PartOrders = repair.PartOrders.ToList(),
                 IsUnitReturned = repair.IsUnitReturned,
                 RepairTypeID = repair.RepairTypeID,
-                TechName = repair.Tech.FullName,
                 AssignedProblems = repair.ProblemAreas.Select(n => n.ID).ToList(),
                 OrderedPartIDs = repair.PartOrders.Select(d => d.PartID).ToList(),
                 OrderedParts = repair.PartOrders.Select(d => d.Part).ToList(),
@@ -197,7 +205,8 @@ namespace Tab30.ViewModels
 
         public static implicit operator Repair(TabletRepairViewModel repairTablet)
         {
-            return new Repair{
+            return new Repair
+            {
                 ID = repairTablet.ID,
                 VendorCaseNo = repairTablet.VendorCaseNo,
                 Description = repairTablet.Description,
@@ -211,12 +220,14 @@ namespace Tab30.ViewModels
                 ReturnedOn = ConvertToUTCTime(repairTablet.ReturnedOn),
                 Tablet = repairTablet.Tablet,
                 TabletID = repairTablet.TabletID,
-                TechID = repairTablet.TechID,
                 //PartOrders = repairTablet.PartOrders,
                 IsUnitReturned = repairTablet.IsUnitReturned,
                 RepairTypeID = repairTablet.RepairTypeID,
-                ProblemAreas = repairTablet.ProblemAreas
-
+                ProblemAreas = repairTablet.ProblemAreas,
+                CreatedBy = repairTablet.CreatedBy,
+                UpdatedBy = repairTablet.UpdatedBy,
+                CreatedOn = ConvertToUTCTime(repairTablet.CreatedOn),
+                UpdatedOn = ConvertToUTCTime(repairTablet.UpdatedOn),
             };
 
         }

@@ -5,7 +5,7 @@
 }
 
 <h4 class="my-5"><span class="text-primary">Repair for @Model.TabletName </span><span class="text-muted">started on: @DateTime.Now.ToLongDateString()</span></h4>
-<h6 class="text-primary">Technician: @Model.TechName</h6>
+<h6 class="text-primary">Technician: @User.Identity.Name</h6>
 <hr />
 
 
@@ -17,8 +17,8 @@
 
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.HiddenFor(m => m.TechID)
-            @Html.HiddenFor(m => m.TechName)
+            @*@Html.HiddenFor(m => m.TechID)
+            @Html.HiddenFor(m => m.TechName)*@
             @Html.HiddenFor(m => m.TabletID)
             @*@Html.Partial("SaveNew", @Model)*@
 
@@ -219,7 +219,7 @@
                         dom: "frtipB",
                         buttons: [
                             {
-                                text: "Add Parts to Order",
+                                text: "Add Part(s) to Order",
                                 action: function () {
                                     selectedParts = tableParts.rows({ selected: true }).data();
                                     if (selectedParts.length > 0) {
@@ -350,8 +350,6 @@
             console.log(now);
             var day = ("0" + now.getDate()).slice(-2);
             var month = ("0" + (now.getMonth() + 1)).slice(-2);
-            var hours = currentTime.getHours();
-            var minutes = currentTime.getMinutes();
             return today = now.getFullYear() + "-" + (month) + "-" + (day);
             
         }

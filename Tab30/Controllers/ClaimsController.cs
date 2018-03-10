@@ -30,7 +30,7 @@ namespace Tab30.Controllers
             // TenantId is the unique Tenant Id - which represents an organization in Azure AD
             ViewBag.TenantId = userClaims?.FindFirst("http://schemas.microsoft.com/identity/claims/tenantid")?.Value;
 
-            var cp = System.Web.HttpContext.Current.User;
+            var cp = System.Web.HttpContext.Current.User.Identity.Name;
 
             //var roles = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Value;
 

@@ -32,6 +32,6 @@ namespace Tab30.Models
         [DisplayFormat(NullDisplayText = "(not assigned)")]
         public string FullName { get { return $"{FirstName} {LastName}"; } }
 
-        public virtual ICollection<Repair> Repairs { get; set; }
+        //public virtual ICollection<Repair> Repairs { get; set; }
     }
 }

@@ -82,8 +82,6 @@ namespace Tab30.DAL
             }
             return base.SaveChanges();
         }
-
-
     }
 
 

@@ -64,8 +64,8 @@ namespace Tab30.Models
         public int RepairTypeID { get; set; }
         public virtual RepairType RepairType { get; set; }
 
-        public int TechID { get; set; }
-        public virtual Tech Tech { get; set; }
+        //public int TechID { get; set; }
+        //public virtual Tech Tech { get; set; }
 
         public virtual ICollection<PartOrder> PartOrders { get; set; }
 
