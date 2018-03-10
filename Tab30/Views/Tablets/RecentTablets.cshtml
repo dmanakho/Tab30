@@ -22,7 +22,8 @@
     {
         <tr>
             <td>
-                @Html.ActionLink(@Html.DisplayFor(m => item.TabletName).ToString(), "Details", "Tablets", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-primary" })
+                
+                @Html.ActionLink(@Html.DisplayFor(m => item.TabletName).ToString(), "Details", "Tablets", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-primary", style = "display:block" })
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SerialNo)
