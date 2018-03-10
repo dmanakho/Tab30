@@ -11,8 +11,10 @@ using Tab30.DAL;
 using Tab30.Models;
 using Tab30.ViewModels;
 
+
 namespace Tab30.Controllers
 {
+    [Authorize]
     public class TabletsController : Controller
     {
         private TabDBContext db = new TabDBContext();
