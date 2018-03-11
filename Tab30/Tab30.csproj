@@ -124,8 +124,14 @@
       <HintPath>..\packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
     </Reference>
     <Reference Include="System.IdentityModel" />
+    <Reference Include="System.IdentityModel.Extensions.UsernameTokenHandler, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Extensions.UsernameTokenHandler.1.0.1\lib\net45\System.IdentityModel.Extensions.UsernameTokenHandler.dll</HintPath>
+    </Reference>
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.2.1\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IdentityModel.Tokens.ValidatingIssuerNameRegistry, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.ValidatingIssuerNameRegistry.4.5.1\lib\net45\System.IdentityModel.Tokens.ValidatingIssuerNameRegistry.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
@@ -303,8 +309,8 @@
     <Content Include="Content\bootstrap-spacelab.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\css\select2.css" />
-    <Content Include="Content\css\select2.min.css" />
+    <Content Include="Content\cssselect\select2.css" />
+    <Content Include="Content\cssselect\select2.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap4.css" />
@@ -557,6 +563,20 @@
     <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
+    <Content Include="Scripts\DataTables\Select\appcss\select.bootstrap.css" />
+    <Content Include="Scripts\DataTables\Select\appcss\select.bootstrap.min.css" />
+    <Content Include="Scripts\DataTables\Select\appcss\select.bootstrap4.css" />
+    <Content Include="Scripts\DataTables\Select\appcss\select.bootstrap4.min.css" />
+    <Content Include="Scripts\DataTables\Select\appcss\select.dataTables.css" />
+    <Content Include="Scripts\DataTables\Select\appcss\select.dataTables.min.css" />
+    <Content Include="Scripts\DataTables\Select\appcss\select.foundation.css" />
+    <Content Include="Scripts\DataTables\Select\appcss\select.foundation.min.css" />
+    <Content Include="Scripts\DataTables\Select\appcss\select.jqueryui.css" />
+    <Content Include="Scripts\DataTables\Select\appcss\select.jqueryui.min.css" />
+    <Content Include="Scripts\DataTables\Select\appcss\select.semanticui.css" />
+    <Content Include="Scripts\DataTables\Select\appcss\select.semanticui.min.css" />
+    <Content Include="Scripts\DataTables\Select\appjs\dataTables.select.js" />
+    <Content Include="Scripts\DataTables\Select\appjs\dataTables.select.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -619,6 +639,7 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -727,6 +748,7 @@
   <ItemGroup>
     <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
+    <Folder Include="Content\appcss\" />
     <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>

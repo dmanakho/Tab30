@@ -21,7 +21,7 @@ namespace Tab30
             "~/Scripts/DataTables/pdfmake/pdfmake.js",
             "~/Scripts/DataTables/pdfmake/vfs_fonts.js",
             "~/Scripts/DataTables/buttons.bootstrap4.js",
-            "~/Scripts/DataTables/Select/js/dataTables.select.js"
+            "~/Scripts/DataTables/Select/appjs/dataTables.select.js"
             ));
 
             bundles.Add(new ScriptBundle("~/bundles/select2").Include(
@@ -39,16 +39,16 @@ namespace Tab30
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+            //bundles.Add(new StyleBundle("~/Content/appcss").Include(
+            //          "~/Content/bootstrap.css",
+            //          "~/Content/site.css"));
+            bundles.Add(new StyleBundle("~/Content/appcss").Include(
                       "~/Content/bootstrap-spacelab.css",
                       "~/Content/DataTables/css/dataTables.bootstrap4.css",
                       "~/Content/DataTables/css/buttons.bootstrap4.css",
-                      "~/Content/DataTables/Select/css/select.dataTables.css",
-                      "~/Content/DataTables/Select/css/select.bootstrap4.css",
-                      "~/Content/css/select2.css",
+                      "~/Content/DataTables/Select/appcss/select.dataTables.css",
+                      "~/Content/DataTables/Select/appcss/select.bootstrap4.css",
+                      "~/Content/cssselect/select2.css",
                       "~/Content/site.css"));
         }
     }

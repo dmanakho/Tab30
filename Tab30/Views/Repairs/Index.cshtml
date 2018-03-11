@@ -35,7 +35,6 @@
                 @Html.DisplayNameFor(model => model.CreatedOn)|@Html.DisplayNameFor(model => model.UpdatedOn)|@Html.DisplayNameFor(model => model.ClosedOn)
             </th>
             <th></th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -69,7 +68,6 @@
                     @*@Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-primary" }) |*@
                     @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-danger" })
                 </td>
-                <td>@Html.DisplayFor(modelItem => item.UpdatedOn)</td>
             </tr>
         }
     </tbody>

@@ -32,7 +32,7 @@ namespace Tab30.Controllers
 
             var cp = System.Web.HttpContext.Current.User.Identity.Name;
 
-            //var roles = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Value;
+            var roles = ClaimsPrincipal.Current.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role").Value;
 
 
             var bb = userClaims.Claims.Select(p => p.Properties).ToList();
