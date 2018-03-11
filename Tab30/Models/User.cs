@@ -8,13 +8,19 @@ using System.Web;
 
 namespace Tab30.Models
 {
-    public class User
+    public class User : Auditable
     {
+        public User()
+        {
+            Tablets = new HashSet<Tablet>();
+        }
+
         public int ID { get; set; }
 
         [DisplayName("Import ID")]
         [StringLength(50, ErrorMessage = "Import ID can't exceed 50 characters")]
         [Index(IsUnique = true)]
+        [Required]
         public string ImportID { get; set; }
 
         [DisplayName("First Name")]
@@ -36,16 +42,6 @@ namespace Tab30.Models
         [DisplayName("Class Of")]
         [DisplayFormat(NullDisplayText = "N/A")]
         public int? ClassOf { get; set; }
-
-        [DisplayName("Created On")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:g}", ApplyFormatInEditMode = true)]
-        public DateTime CreatedOn { get; set; }
-
-        [DisplayName("Updated On")]
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:g}", ApplyFormatInEditMode = true)]
-        public DateTime UpdatedOn { get; set; }
 
         [DisplayName("Assigned User:")]
         [DisplayFormat(NullDisplayText = "(not assigned)")]

@@ -286,6 +286,14 @@
     <Compile Include="Migrations\201803101816007_removedTechNavigationalPropertyyinRepairModel.Designer.cs">
       <DependentUpon>201803101816007_removedTechNavigationalPropertyyinRepairModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803112201232_RequiredImportIDfield.cs" />
+    <Compile Include="Migrations\201803112201232_RequiredImportIDfield.Designer.cs">
+      <DependentUpon>201803112201232_RequiredImportIDfield.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803112232400_UserInheritsFromAuditableNow.cs" />
+    <Compile Include="Migrations\201803112232400_UserInheritsFromAuditableNow.Designer.cs">
+      <DependentUpon>201803112232400_UserInheritsFromAuditableNow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auditable.cs" />
     <Compile Include="Models\IAuditable.cs" />
@@ -801,6 +809,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803101816007_removedTechNavigationalPropertyyinRepairModel.resx">
       <DependentUpon>201803101816007_removedTechNavigationalPropertyyinRepairModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803112201232_RequiredImportIDfield.resx">
+      <DependentUpon>201803112201232_RequiredImportIDfield.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803112232400_UserInheritsFromAuditableNow.resx">
+      <DependentUpon>201803112232400_UserInheritsFromAuditableNow.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

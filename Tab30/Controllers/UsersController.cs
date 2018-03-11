@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -69,7 +70,7 @@ namespace Tab30.Controllers
                     users = users.OrderBy(u => u.LastName);
                     break;
             }
-            int pageSize = 3;
+            int pageSize = 10;
             int pageNumber = (page ?? 1);
             var pagedUsers = users.ToPagedList(pageNumber, pageSize);
             
@@ -139,16 +140,37 @@ namespace Tab30.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FirstName,LastName,UserName,ClassOf")] User user)
+        public ActionResult Create([Bind(Include = "FirstName,LastName,UserName,ClassOf,ImportID")] User user)
         {
-            if (ModelState.IsValid)
+            try
             {
-                user.CreatedOn = DateTime.Now;
-                user.UpdatedOn = DateTime.Now;
-                db.Users.Add(user);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Users.Add(user);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
+            catch (DataException dex)
+            {
+                if (dex.InnerException.InnerException.Message.Contains("IX_Import"))
+                {
+                    ModelState.AddModelError("ImportID", "Unable to save changes. ImportID must be unique");
+                }
+                else if (dex.InnerException.InnerException.Message.Contains("IX_UserName"))
+                {
+                    ModelState.AddModelError("UserName", "Unable to save changes. User Name must be unique");
+                }
+                else
+                {
+                    ModelState.AddModelError("", $"DataBase error occured (please copy the error and contact helpdesk)</br>: {dex.Message}. + {dex.InnerException.Message} + {dex.InnerException.Message}");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, $"Error occured Copy the error message and send it to Dima</br>: {ex.Message}. + {ex.InnerException.Message} + {ex.InnerException.InnerException.Message}");
+            }
+
 
             return View(user);
         }
@@ -180,19 +202,38 @@ namespace Tab30.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var userToUpdate = db.Users.Find(id);
-            if (TryUpdateModel(userToUpdate, "", new string[] { "FirstName", "LastName", "UserName", "ClassOf" }))
+            if (TryUpdateModel(userToUpdate, "", new string[]
+            { "FirstName", "LastName", "UserName", "ClassOf", "ImportID", "UpdatedOn", "CreatedOn", "UpdatedBy", "CreatedBy", "RowVersion" }))
             {
                 try
                 {
-                    userToUpdate.UpdatedOn = DateTime.Now;
                     db.SaveChanges();
                     return RedirectToAction("Index");
 
                 }
-                catch (DataException)
+                catch (DbUpdateConcurrencyException)
                 {
-                    ModelState.AddModelError("", "Unable to save changes. Try again, contact helpdesk if problem persists");
-                    //throw;
+                    //This is implemented by a virtue of having "RowVersion" field in our model and database. watch this video for details: https://youtu.be/Gi_kEbc5faQ
+                    ModelState.AddModelError(string.Empty, $"The record you were trying to update was modified by another user. Please go back and try again.");
+                }
+                catch (DataException dex)
+                {
+                    if (dex.InnerException.InnerException.Message.Contains("IX_Import"))
+                    {
+                        ModelState.AddModelError("ImportID", "Unable to save changes. ImportID must be unique");
+                    }
+                    else if (dex.InnerException.InnerException.Message.Contains("IX_UserName"))
+                    {
+                        ModelState.AddModelError("UserName", "Unable to save changes. User Name must be unique");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", $"DataBase error occured (please copy the error and contact helpdesk)</br>: {dex.Message}. + {dex.InnerException.Message} + {dex.InnerException.Message}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, $"Error occured Copy the error message and send it to Dima</br>: {ex.Message}. + {ex.InnerException.Message} + {ex.InnerException.InnerException.Message}");
                 }
             }
             return View(userToUpdate);

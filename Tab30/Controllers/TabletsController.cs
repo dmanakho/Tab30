@@ -84,12 +84,12 @@ namespace Tab30.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", $"Error occured (please copy the error and contact helpdesk)</br>: {dex.Message}. + {dex.InnerException.Message} + {dex.InnerException.Message}");
+                    ModelState.AddModelError("", $" Database error occured (please copy the error and contact helpdesk)</br>: {dex.Message}. + {dex.InnerException.Message} + {dex.InnerException.Message}");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ModelState.AddModelError("", "System freaked out. The record wasn't updated for some bizzare reasons. Please contact someone with knowledge to look at this");
+                ModelState.AddModelError(string.Empty, $"Error occured Copy the error message and send it to Dima</br>: {ex.Message}. + {ex.InnerException.Message} + {ex.InnerException.InnerException.Message}");
             }
             return View(tabletViewModel);
         }
@@ -152,12 +152,12 @@ namespace Tab30.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Something went wrong </br>" + dex.InnerException.InnerException.Message);
+                    ModelState.AddModelError("", "Database error occured. </br>" + dex.InnerException.InnerException.Message);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                ModelState.AddModelError("", "System freaked out. The record wasn't updated for some bizzare reasons. Please contact someone with knowledge to look at this");
+                ModelState.AddModelError(string.Empty, $"Error occured Copy the error message and send it to Dima</br>: {ex.Message}. + {ex.InnerException.Message} + {ex.InnerException.InnerException.Message}");
             }
             return View(tabletViewModel);
         }

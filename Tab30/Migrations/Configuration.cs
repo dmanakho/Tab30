@@ -40,7 +40,6 @@ namespace Tab30.Migrations
                             new Tablet{TabletName = "HE-Allison-McCoppin",AssetTag = "C110698",SerialNo = "5CG71824GR", LocationID= 2, Model = "X3U19AV",Make = "HP EliteBook x360 1030 G2",CreatedOn = DateTime.Now,UpdatedOn = DateTime.Now, WarrantyExpiresOn = DateTime.Today.AddYears(4)},
                             new Tablet{TabletName = "HE-Allyson-Buie",AssetTag = "C110697",SerialNo = "5CG71825DZ", LocationID= 2, Model = "X3U19AV",Make = "HP EliteBook x360 1030 G2",CreatedOn = DateTime.Now,UpdatedOn = DateTime.Now, WarrantyExpiresOn = DateTime.Today.AddYears(4)},
                             new Tablet{TabletName = "HE-Andrew-Chiaraviglio",AssetTag = "C110696",SerialNo = "5CG7182BKF", LocationID= 2, Model = "X3U19AV",Make = "HP EliteBook x360 1030 G2",CreatedOn = DateTime.Now,UpdatedOn = DateTime.Now, WarrantyExpiresOn = DateTime.Today.AddYears(4)},
-                            new Tablet{TabletName = "HE-Barry-Rochelle",AssetTag = "NULL",SerialNo = "NULL", LocationID= 2, Model = "X3U19AV",Make = "HP EliteBook x360 1030 G2",CreatedOn = DateTime.Now,UpdatedOn = DateTime.Now, WarrantyExpiresOn = DateTime.Today.AddYears(4)},
                             new Tablet{TabletName = "HE-Belinda-Blackwood",AssetTag = "C110694",SerialNo = "5CG718240H", LocationID= 2, Model = "X3U19AV",Make = "HP EliteBook x360 1030 G2",CreatedOn = DateTime.Now,UpdatedOn = DateTime.Now, WarrantyExpiresOn = DateTime.Today.AddYears(4)},
                             new Tablet{TabletName = "HE-Betsy-MacDonald",AssetTag = "C110693",SerialNo = "5CG7182043", LocationID= 2, Model = "X3U19AV",Make = "HP EliteBook x360 1030 G2",CreatedOn = DateTime.Now,UpdatedOn = DateTime.Now, WarrantyExpiresOn = DateTime.Today.AddYears(4)},
                             new Tablet{TabletName = "HE-Bill-Velto",AssetTag = "C110692",SerialNo = "5CG7181YMG", LocationID= 2, Model = "X3U19AV",Make = "HP EliteBook x360 1030 G2",CreatedOn = DateTime.Now,UpdatedOn = DateTime.Now, WarrantyExpiresOn = DateTime.Today.AddYears(4)},
@@ -76,7 +75,7 @@ namespace Tab30.Migrations
                             new Tablet{TabletName = "HE-Gray-Rushin",AssetTag = "C110661",SerialNo = "5CG7181Y1P", LocationID= 2, Model = "X3U19AV",Make = "HP EliteBook x360 1030 G2",CreatedOn = DateTime.Now,UpdatedOn = DateTime.Now, WarrantyExpiresOn = DateTime.Today.AddYears(4)},
                             new Tablet{TabletName = "HE-LOANER-7",AssetTag = "C110660",SerialNo = "5CG71824JM", LocationID= 2, Model = "X3U19AV",Make = "HP EliteBook x360 1030 G2",CreatedOn = DateTime.Now,UpdatedOn = DateTime.Now, WarrantyExpiresOn = DateTime.Today.AddYears(4)},
                             new Tablet{TabletName = "HE-Heidi-Maloy",AssetTag = "C110659",SerialNo = "5CG7181Z8D", LocationID= 2, Model = "X3U19AV",Make = "HP EliteBook x360 1030 G2",CreatedOn = DateTime.Now,UpdatedOn = DateTime.Now, WarrantyExpiresOn = DateTime.Today.AddYears(4)},
-                            new Tablet{TabletName = "HE-Jason-Franklin-spilled-liquid-gone",AssetTag = "C110658",SerialNo = "5CG718268L", LocationID= 2, Model = "X3U19AV",Make = "HP EliteBook x360 1030 G2",CreatedOn = DateTime.Now,UpdatedOn = DateTime.Now, WarrantyExpiresOn = DateTime.Today.AddYears(4)},
+                            new Tablet{TabletName = "HE-Jason-Franklin",AssetTag = "C110658",SerialNo = "5CG718268L", LocationID= 2, Model = "X3U19AV",Make = "HP EliteBook x360 1030 G2",CreatedOn = DateTime.Now,UpdatedOn = DateTime.Now, WarrantyExpiresOn = DateTime.Today.AddYears(4)},
                             new Tablet{TabletName = "HE-Jeff-Wacenske",AssetTag = "C110657",SerialNo = "5CG718245F", LocationID= 2, Model = "X3U19AV",Make = "HP EliteBook x360 1030 G2",CreatedOn = DateTime.Now,UpdatedOn = DateTime.Now, WarrantyExpiresOn = DateTime.Today.AddYears(4)},
                             new Tablet{TabletName = "HE-Jess-Garcia",AssetTag = "C110656",SerialNo = "5CG7182445", LocationID= 2, Model = "X3U19AV",Make = "HP EliteBook x360 1030 G2",CreatedOn = DateTime.Now,UpdatedOn = DateTime.Now, WarrantyExpiresOn = DateTime.Today.AddYears(4)},
                             new Tablet{TabletName = "HE-Laura-Price",AssetTag = "C110655",SerialNo = "5CG71824B1", LocationID= 2, Model = "X3U19AV",Make = "HP EliteBook x360 1030 G2",CreatedOn = DateTime.Now,UpdatedOn = DateTime.Now, WarrantyExpiresOn = DateTime.Today.AddYears(4)},
@@ -175,7 +174,7 @@ namespace Tab30.Migrations
                             new Tablet{TabletName = "HE-ROB-ASSADURI",AssetTag = "C110690",SerialNo = "5CG71824FG", LocationID= 2, Model = "X3U19AV",Make = "HP EliteBook x360 1030 G2",CreatedOn = DateTime.Now,UpdatedOn = DateTime.Now, WarrantyExpiresOn = DateTime.Today.AddYears(4)}
 
                         };
-            tablets.ForEach(t => context.Tablets.AddOrUpdate(i => i.TabletName, t));
+            tablets.ForEach(t => context.Tablets.AddOrUpdate(i => i.SerialNo, t));
             context.SaveChanges();
 
 
