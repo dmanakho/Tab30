@@ -5,8 +5,9 @@
             <li class="navbar-text">
                 Hello, @User.Identity.Name!
             </li>
-            <li>
-                @Html.ActionLink("Sign out", "SignOut", "Account")
+            <li class="navbar-text">|</li>
+            <li class="navbar-text">
+                @Html.ActionLink("Sign out", "SignOut", "Account", null, new { @class = "btn btn-warning btn-sm" })
             </li>
         </ul>
     </text>

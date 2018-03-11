@@ -22,7 +22,7 @@ namespace Tab30.Controllers
         // GET: Repairs
         public ActionResult Index()
         {
-            var repairs = db.Repairs.OrderByDescending(p => p.CreatedOn).Include(r => r.RepairType).Include(r => r.Tablet);
+            var repairs = db.Repairs.OrderByDescending(p => p.UpdatedOn).Include(r => r.RepairType).Include(r => r.Tablet);
             return View(repairs.ToList());
         }
 

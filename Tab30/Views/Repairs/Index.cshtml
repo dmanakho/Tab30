@@ -4,8 +4,8 @@
     ViewBag.Title = "Repairs";
 }
 
-<div class="row">
-    <div class="my-5 offset-sm-1 col-sm-1">
+<div class="row my-5">
+    <div class="offset-sm-1 col-sm-1">
         <h2 class="text-primary">Repairs</h2>
     </div>
 </div>
@@ -34,6 +34,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.CreatedOn)|@Html.DisplayNameFor(model => model.UpdatedOn)|@Html.DisplayNameFor(model => model.ClosedOn)
             </th>
+            <th></th>
             <th></th>
         </tr>
     </thead>
@@ -68,6 +69,7 @@
                     @*@Html.ActionLink("Details", "Details", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-primary" }) |*@
                     @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-sm btn-outline-danger" })
                 </td>
+                <td>@Html.DisplayFor(modelItem => item.UpdatedOn)</td>
             </tr>
         }
     </tbody>
@@ -95,6 +97,7 @@
                         {
                             "orderable": false, "targets": 7
                         },
+                       
                         {
                             "width": "12%", "targets": 0,
 

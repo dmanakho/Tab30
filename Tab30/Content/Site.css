@@ -40,3 +40,7 @@ textarea {
     .select2-container .select2-choice .select2-arrow {
         padding-top: 6px;
     }
+
+.displayblock {
+    display: block;
+}
