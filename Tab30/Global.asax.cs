@@ -7,6 +7,8 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Http;
+
 
 namespace Tab30
 {
@@ -20,6 +22,7 @@ namespace Tab30
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
+            GlobalConfiguration.Configure(WebApiConfig.Register);
 
         }
     }

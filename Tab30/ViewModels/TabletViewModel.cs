@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using Tab30.DAL;
 using Tab30.Models;
+using Tab30.Models.Helpers;
+
 
 namespace Tab30.ViewModels
 {
@@ -120,8 +122,8 @@ namespace Tab30.ViewModels
                 UserID = tablet.UserID,
                 WarrantyExpiresOn = tablet.WarrantyExpiresOn,
                 //converting to local time, since we store these values in UTC time in the database.
-                CreatedOn = ConvertToLocalTime(tablet.CreatedOn),
-                UpdatedOn = ConvertToLocalTime(tablet.UpdatedOn),
+                CreatedOn = Helpers.ConvertToLocalTime(tablet.CreatedOn),
+                UpdatedOn = Helpers.ConvertToLocalTime(tablet.UpdatedOn),
                 CreatedBy = tablet.CreatedBy,
                 UpdatedBy = tablet.UpdatedBy,
                 Repairs = tablet.Repairs,
@@ -147,30 +149,12 @@ namespace Tab30.ViewModels
                 SerialNo = tabletViewModel.SerialNo,
                 UserID = tabletViewModel.UserID,
                 WarrantyExpiresOn = tabletViewModel.WarrantyExpiresOn,
-                CreatedOn = ConvertToUTCTime(tabletViewModel.CreatedOn),
-                UpdatedOn = ConvertToUTCTime(tabletViewModel.UpdatedOn),
+                CreatedOn = Helpers.ConvertToUTCTime(tabletViewModel.CreatedOn),
+                UpdatedOn = Helpers.ConvertToUTCTime(tabletViewModel.UpdatedOn),
                 CreatedBy = tabletViewModel.CreatedBy,
                 UpdatedBy = tabletViewModel.UpdatedBy,
                 RowVersion = tabletViewModel.RowVersion
             };
-        }
-        private static DateTime? ConvertToUTCTime(DateTime? localTime)
-        {
-            DateTime? _UTCTime = null;
-            if (localTime.HasValue)
-            {
-                _UTCTime = localTime.Value.ToUniversalTime();
-            }
-            return _UTCTime;
-        }
-        private static DateTime? ConvertToLocalTime(DateTime? _UTCTime)
-        {
-            DateTime? _localTime = null;
-            if (_UTCTime.HasValue)
-            {
-                _localTime = _UTCTime.Value.ToLocalTime();
-            }
-            return _localTime;
         }
     }
 }

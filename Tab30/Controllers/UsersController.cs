@@ -209,7 +209,6 @@ namespace Tab30.Controllers
                 {
                     db.SaveChanges();
                     return RedirectToAction("Index");
-
                 }
                 catch (DbUpdateConcurrencyException)
                 {

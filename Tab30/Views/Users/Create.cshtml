@@ -40,9 +40,13 @@
                 </div>
 
                 <div class="col-6 form-group">
+
                     @Html.LabelFor(model => model.ClassOf, htmlAttributes: new { @class = "control-label" })
-                    @Html.EditorFor(model => model.ClassOf, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.ClassOf, "", new { @class = "text-danger" })
+                    @*@Html.EditorFor(model => model.ClassOf, new { htmlAttributes = new { @class = "form-control" } })*@
+                    <div class="dropdown">
+                        @Html.DropDownListFor(m => m.ClassOf, new SelectList(Helpers.ClassOfList()), "------class of------", new { htmlAttributes = new { @class = "form-control col-6" } })
+                        @Html.ValidationMessageFor(model => model.ClassOf, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
             <div class="row">

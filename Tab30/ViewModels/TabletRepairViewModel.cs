@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Tab30.DAL;
 using Tab30.Models;
+using Tab30.Models.Helpers;
 
 
 
@@ -178,17 +179,17 @@ namespace Tab30.ViewModels
                 VendorCaseNo = repair.VendorCaseNo,
                 Description = repair.Description,
                 IsClosed = repair.IsClosed,
-                CreatedOn = ConvertToLocalTime(repair.CreatedOn),
-                UpdatedOn = ConvertToLocalTime(repair.UpdatedOn),
+                CreatedOn = Helpers.ConvertToLocalTime(repair.CreatedOn),
+                UpdatedOn = Helpers.ConvertToLocalTime(repair.UpdatedOn),
                 CreatedBy = repair.CreatedBy,
                 UpdatedBy = repair.UpdatedBy,
                 RowVersion = repair.RowVersion,
-                ClosedOn = ConvertToLocalTime(repair.ClosedOn),
+                ClosedOn = Helpers.ConvertToLocalTime(repair.ClosedOn),
                 IsBoxRequested = repair.IsBoxRequested,
-                BoxRequestedOn = ConvertToLocalTime(repair.BoxRequestedOn),
+                BoxRequestedOn = Helpers.ConvertToLocalTime(repair.BoxRequestedOn),
                 IsShipped = repair.IsShipped,
                 ShippedOn = repair.ShippedOn,
-                ReturnedOn = ConvertToLocalTime(repair.ReturnedOn),
+                ReturnedOn = Helpers.ConvertToLocalTime(repair.ReturnedOn),
                 Tablet = repair.Tablet,
                 TabletID = repair.TabletID,
 
@@ -212,12 +213,12 @@ namespace Tab30.ViewModels
                 Description = repairTablet.Description,
                 RowVersion = repairTablet.RowVersion,
                 IsClosed = repairTablet.IsClosed,
-                ClosedOn = ConvertToUTCTime(repairTablet.ClosedOn),
+                ClosedOn = Helpers.ConvertToUTCTime(repairTablet.ClosedOn),
                 IsBoxRequested = repairTablet.IsBoxRequested,
-                BoxRequestedOn = ConvertToUTCTime(repairTablet.BoxRequestedOn),
+                BoxRequestedOn = Helpers.ConvertToUTCTime(repairTablet.BoxRequestedOn),
                 IsShipped = repairTablet.IsShipped,
-                ShippedOn = ConvertToUTCTime(repairTablet.ShippedOn),
-                ReturnedOn = ConvertToUTCTime(repairTablet.ReturnedOn),
+                ShippedOn = Helpers.ConvertToUTCTime(repairTablet.ShippedOn),
+                ReturnedOn = Helpers.ConvertToUTCTime(repairTablet.ReturnedOn),
                 Tablet = repairTablet.Tablet,
                 TabletID = repairTablet.TabletID,
                 //PartOrders = repairTablet.PartOrders,
@@ -226,30 +227,10 @@ namespace Tab30.ViewModels
                 ProblemAreas = repairTablet.ProblemAreas,
                 CreatedBy = repairTablet.CreatedBy,
                 UpdatedBy = repairTablet.UpdatedBy,
-                CreatedOn = ConvertToUTCTime(repairTablet.CreatedOn),
-                UpdatedOn = ConvertToUTCTime(repairTablet.UpdatedOn),
+                CreatedOn = Helpers.ConvertToUTCTime(repairTablet.CreatedOn),
+                UpdatedOn = Helpers.ConvertToUTCTime(repairTablet.UpdatedOn),
             };
 
         }
-
-        private static DateTime? ConvertToUTCTime(DateTime? localTime)
-        {
-            DateTime? _UTCTime = null;
-            if (localTime.HasValue)
-            {
-                _UTCTime = localTime.Value.ToUniversalTime();
-            }
-            return _UTCTime;
-        }
-        private static DateTime? ConvertToLocalTime(DateTime? _UTCTime)
-        {
-            DateTime? _localTime = null;
-            if (_UTCTime.HasValue)
-            {
-                _localTime = _UTCTime.Value.ToLocalTime();
-            }
-            return _localTime;
-        }
-
     }
 }
