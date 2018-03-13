@@ -11,7 +11,7 @@ namespace Tab30.Models
     {
         public int ID { get; set; }
 
-        [Required, StringLength(75), DisplayName("Problem Description#")]
+        [Required, StringLength(75), DisplayName("Repair Type")]
         public string Description { get; set; }
 
         //many-to-one to Repairs

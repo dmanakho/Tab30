@@ -67,7 +67,7 @@ namespace Tab30.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", $"Error: {dex.InnerException.InnerException.Message}");
+                    ModelState.AddModelError("", $"Database Error: {dex.InnerException.InnerException.Message}");
                 }
             }
             catch (Exception ex)
@@ -117,7 +117,7 @@ namespace Tab30.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", $"Error: {dex.InnerException.InnerException.Message}");
+                    ModelState.AddModelError("", $"Database Error: {dex.InnerException.InnerException.Message}");
                 }
             }
             catch (Exception ex)

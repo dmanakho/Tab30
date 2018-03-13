@@ -11,6 +11,7 @@ namespace Tab30.Models
     {
         [ScaffoldColumn(false)]
         [StringLength(256)]
+        [DisplayName("Created By")]
         public string CreatedBy { get; set; }
 
         [ScaffoldColumn(false)]
@@ -21,6 +22,7 @@ namespace Tab30.Models
 
         [ScaffoldColumn(false)]
         [StringLength(256)]
+        [DisplayName("Updated By")]
         public string UpdatedBy { get; set; }
 
         [ScaffoldColumn(false)]
@@ -33,6 +35,35 @@ namespace Tab30.Models
         [Timestamp]
         public Byte[] RowVersion { get; set; } //added for future councurrency check.
 
+        public string CreatedByUserName
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(CreatedBy))
+                {
+                    return CreatedBy.Contains("@") ? CreatedBy.Substring(0, CreatedBy.IndexOf('@')) : CreatedBy; ; ;
+                }
+                else
+                {
+                    return CreatedBy;
+                }
 
+            }
+        }
+
+        public string UpdatedByUserName
+        {
+            get
+            {
+                if (!String.IsNullOrEmpty(UpdatedBy))
+                {
+                    return UpdatedBy.Contains("@") ? UpdatedBy.Substring(0, UpdatedBy.IndexOf('@')) : UpdatedBy; ; ;
+                }
+                else
+                {
+                    return UpdatedBy;
+                }
+            }
+        }
     }
 }

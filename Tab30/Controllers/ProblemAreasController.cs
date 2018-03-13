@@ -81,12 +81,31 @@ namespace Tab30.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Description")] ProblemArea problemArea)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Entry(problemArea).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Entry(problemArea).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
+            catch (DataException dex)
+            {
+                if (dex.InnerException.InnerException.Message.Contains("IX_Description"))
+                {
+                    ModelState.AddModelError("", "Unable to create. Location with this name already exist.");
+                }
+                else
+                {
+                    ModelState.AddModelError("", $"Database Error: {dex.InnerException.InnerException.Message}");
+                }
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", $"Error! {ex.Message}");
+            }
+
             return View(problemArea);
         }
 

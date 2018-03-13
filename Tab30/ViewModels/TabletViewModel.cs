@@ -124,8 +124,8 @@ namespace Tab30.ViewModels
                 //converting to local time, since we store these values in UTC time in the database.
                 CreatedOn = Helpers.ConvertToLocalTime(tablet.CreatedOn),
                 UpdatedOn = Helpers.ConvertToLocalTime(tablet.UpdatedOn),
-                CreatedBy = tablet.CreatedBy,
-                UpdatedBy = tablet.UpdatedBy,
+                CreatedBy = tablet.CreatedByUserName,
+                UpdatedBy = tablet.UpdatedByUserName,
                 Repairs = tablet.Repairs,
                 User = tablet.User,
                 Location = tablet.Location,
