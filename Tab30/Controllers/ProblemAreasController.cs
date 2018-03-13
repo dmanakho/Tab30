@@ -18,7 +18,7 @@ namespace Tab30.Controllers
         // GET: ProblemAreas
         public ActionResult Index()
         {
-            return View(db.ProblemAreas.ToList());
+            return View(db.ProblemAreas.OrderBy(d=>d.Description).ToList());
         }
 
         // GET: ProblemAreas/Details/5

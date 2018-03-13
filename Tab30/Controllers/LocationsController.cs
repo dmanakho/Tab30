@@ -18,7 +18,7 @@ namespace Tab30.Controllers
         // GET: Locations
         public ActionResult Index()
         {
-            return View(db.Locations.ToList());
+            return View(db.Locations.OrderBy(o=>o.LongDescription).ToList());
         }
 
         // GET: Locations/Details/5
