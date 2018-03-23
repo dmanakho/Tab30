@@ -305,6 +305,14 @@
     <Compile Include="Migrations\201803112232400_UserInheritsFromAuditableNow.Designer.cs">
       <DependentUpon>201803112232400_UserInheritsFromAuditableNow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803130143510_AddedOutOfCirculationReasonPropertyToTabletModel.cs" />
+    <Compile Include="Migrations\201803130143510_AddedOutOfCirculationReasonPropertyToTabletModel.Designer.cs">
+      <DependentUpon>201803130143510_AddedOutOfCirculationReasonPropertyToTabletModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803130151384_MadeOutOfCirculationReasonNullable.cs" />
+    <Compile Include="Migrations\201803130151384_MadeOutOfCirculationReasonNullable.Designer.cs">
+      <DependentUpon>201803130151384_MadeOutOfCirculationReasonNullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Auditable.cs" />
     <Compile Include="Models\Helpers\Helpers.cs" />
@@ -830,6 +838,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803112232400_UserInheritsFromAuditableNow.resx">
       <DependentUpon>201803112232400_UserInheritsFromAuditableNow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803130143510_AddedOutOfCirculationReasonPropertyToTabletModel.resx">
+      <DependentUpon>201803130143510_AddedOutOfCirculationReasonPropertyToTabletModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803130151384_MadeOutOfCirculationReasonNullable.resx">
+      <DependentUpon>201803130151384_MadeOutOfCirculationReasonNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

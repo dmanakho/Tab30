@@ -13,7 +13,7 @@ using Tab30.Models.Helpers;
 namespace Tab30.ViewModels
 {
     //TabletViewModel implements IValidatableObject interface to provide with the additional custom validation.
-    public class TabletViewModel: IValidatableObject // validation explained here: https://youtu.be/0NqLCHAuMHE
+    public class TabletViewModel : IValidatableObject // validation explained here: https://youtu.be/0NqLCHAuMHE
     {
         private TabDBContext db = new TabDBContext();
         public TabletViewModel()
@@ -59,6 +59,10 @@ namespace Tab30.ViewModels
         [DisplayName("Out of Circulation")]
         public bool IsOutOfCirculation { get; set; } = false;
 
+        [DisplayName("Out of Circulation Reason")]
+        [Range(1, int.MaxValue, ErrorMessage = "Select a correct reason")]
+        public Helpers.OutOfCirculation? OutOfCirculationReason { get; set; }
+
         [DisplayName("Created On")]
         [DisplayFormat(NullDisplayText = "(not set)")]
         public DateTime? CreatedOn { get; set; }
@@ -103,7 +107,7 @@ namespace Tab30.ViewModels
             {
                 yield return new ValidationResult("Warranty Expiration can't be in the past", new[] { "WarrantyExpiresOn" });
             }
-            
+
         }
 
         public static implicit operator TabletViewModel(Tablet tablet)
@@ -118,6 +122,7 @@ namespace Tab30.ViewModels
                 ADPEnabled = tablet.ADPEnabled.HasValue ? (bool)tablet.ADPEnabled : false,
                 LocationID = tablet.LocationID,
                 IsOutOfCirculation = tablet.OutOfCirculation.HasValue ? (bool)tablet.OutOfCirculation : false,
+                OutOfCirculationReason = tablet.OutOfCirculationReason,
                 SerialNo = tablet.SerialNo,
                 UserID = tablet.UserID,
                 WarrantyExpiresOn = tablet.WarrantyExpiresOn,
@@ -146,6 +151,7 @@ namespace Tab30.ViewModels
                 ADPEnabled = tabletViewModel.ADPEnabled,
                 LocationID = tabletViewModel.LocationID,
                 OutOfCirculation = tabletViewModel.IsOutOfCirculation,
+                OutOfCirculationReason = tabletViewModel.OutOfCirculationReason,
                 SerialNo = tabletViewModel.SerialNo,
                 UserID = tabletViewModel.UserID,
                 WarrantyExpiresOn = tabletViewModel.WarrantyExpiresOn,

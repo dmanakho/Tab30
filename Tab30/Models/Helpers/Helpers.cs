@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Web.Mvc;
 
 namespace Tab30.Models.Helpers
@@ -38,6 +39,13 @@ namespace Tab30.Models.Helpers
                 _classOff.Add(_currentYear += i);
             }
             return _classOff;
+        }
+        public enum OutOfCirculation
+        {
+           Destroyed =1,
+           Stolen =2,
+           Lost =3,
+           GoneReasonUnknown =4
         }
     }
 }

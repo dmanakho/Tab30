@@ -88,15 +88,16 @@
 
                         <div class="form-group">
                             <div>
-                                <div class="glyphicon-check">
-                                    @Html.EditorFor(model => model.ADPEnabled)
-                                    @Html.LabelFor(model => model.ADPEnabled, htmlAttributes: new { @class = "control-label col-2" })
-                                    @Html.ValidationMessageFor(model => model.ADPEnabled, "", new { @class = "text-danger" })
+                                @Html.EditorFor(model => model.ADPEnabled)
+                                @Html.LabelFor(model => model.ADPEnabled, htmlAttributes: new { @class = "control-label col-2" })
+                                @Html.ValidationMessageFor(model => model.ADPEnabled, "", new { @class = "text-danger" })
 
-                                    @Html.EditorFor(model => model.IsOutOfCirculation)
-                                    @Html.LabelFor(model => model.IsOutOfCirculation, htmlAttributes: new { @class = "control-label col-6" })
-                                    @Html.ValidationMessageFor(model => model.IsOutOfCirculation, "", new { @class = "text-danger" })
-                                </div>
+                                @Html.EditorFor(model => model.IsOutOfCirculation)
+                                @Html.LabelFor(model => model.IsOutOfCirculation, htmlAttributes: new { @class = "control-label col-4" })
+                                @Html.ValidationMessageFor(model => model.IsOutOfCirculation, "", new { @class = "text-danger" })
+
+                                @Html.EnumDropDownListFor(m => m.OutOfCirculationReason, "--select--", new { id = "OutOfCirculation", @class = "col-4 form-control flow-right", disabled = "disabled" })
+                                @Html.ValidationMessageFor(model => model.OutOfCirculationReason, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
@@ -107,7 +108,6 @@
                                 @Html.ValidationMessageFor(model => model.LocationID, "", new { @class = "text-danger" })
                             </div>
                         </div>
-
                         <div class="form-group">
                             @Html.LabelFor(model => model.UserID, "Assigned User:", htmlAttributes: new { @class = "control-label" })
                             <div class="">
@@ -135,7 +135,19 @@
 
         $(document).ready(function () {
             $(".select2-multiple").select2();
-        });
 
+            $("#IsOutOfCirculation").click(function () {
+                var checkBox = $("#IsOutOfCirculation");
+                var dropDownBox = $("#OutOfCirculation");
+                if (checkBox.prop('checked') == true) {
+                    console.log("checked")
+                    dropDownBox.prop('disabled', false);
+                }
+                else {
+                    dropDownBox.prop('disabled', true);
+                }
+
+            });
+        });
     </script>
 }

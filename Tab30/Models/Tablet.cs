@@ -54,6 +54,9 @@ namespace Tab30.Models
         [DisplayName("Out of Circulation")]
         public bool? OutOfCirculation { get; set; } = false;
 
+        [DisplayName("Out of Circulation Reason")]
+        public Helpers.Helpers.OutOfCirculation? OutOfCirculationReason { get; set; }
+        
         [DisplayFormat(NullDisplayText = "N/A")]
         public int? LocationID { get; set; }
         [DisplayFormat(NullDisplayText = "N/A")]
